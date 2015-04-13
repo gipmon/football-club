@@ -174,7 +174,8 @@ CREATE TABLE futebol.lugar_anual(
   duracao INT NOT NULL,
   valor INT NOT NULL,
   bi INT NOT NULL,
-  PRIMARY KEY(n_lugar, bi, fila, id_seccao)
+  epoca INT NOT NULL,
+  PRIMARY KEY(n_lugar, bi, fila, id_seccao, epoca)
 );
 
 -- LUGAR ANUAL ALTER's
