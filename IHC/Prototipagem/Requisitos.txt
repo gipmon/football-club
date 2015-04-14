@@ -1,0 +1,27 @@
+-- Requisitos funcionais da aplicação
+
+A aplicação deve ser capaz de reconhecer este tipo de entidades:
+ - Uma Pessoa que pode ser Sócios ou Pessoal Interno.
+ - Uma Pessoa é caracterizada por Nome, Data de nascimento, Nacionalidade, B.I., Endereço, NIF e Género.
+ - Um Pessoal Interno tem um sálario e um ID Interno.
+ - Um Sócio tem um Nº Sócio, Quotas em dia, Valor de Quotas
+ - Um Pessoal Interno pode ser um Jogador, Técnicos ou Staff do Clube.
+ - Um Jogador tem um ID Federação, Peso e Altura
+ - Um técnico tem ID Federação e Função
+ - Um Staff de Clube tem um Cargo
+ - Um Escalão pode ter idade máxima e nome.
+ - Um jogador joga num escalão.
+ - Um técnico dirige um escalão.
+ - Um treino é caracterizado por uma Data e Hora.
+ - Um escalão tem treinos.
+ - Um treino pode ser realizado num campo
+ - Um campo tem Local e ID
+ - Um sócio pode ter Lugar Anual
+ - Um Lugar Anual é caracterizado por uma Data de inicio, Duração, Valor e Época
+ - Um lugar anual senta num Lugar.
+ - Um lugar tem nº de lugar e fila e pertence a uma secação.
+ - Uma secação tem um ID de secção e tipo.
+
+Portanto, uma pessoa que gere um clube deve ser capaz de criar um destes tipos de entidade
+para fazer a gestão do seu clube e visualizar estatísticas, notificações e exportar alguns dados
+da aplicação para o exterior em Json.

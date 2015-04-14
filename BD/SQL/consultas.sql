@@ -13,13 +13,16 @@ SELECT COUNT(DISTINCT lugar_anual.bi) AS socios_com_lugar_anual
 FROM futebol.lugar_anual
 
 -- Quantos socios têm quotas em dia e quantos não têm em dia?
-SELECT COUNT(socios.quotas_em_dia==0) AS socios_em_dia, COUNT(socios.quotas_em_dia==1) AS socios_em_divida
-FROM futebol.socios
+SELECT socios_em_dia, socios_em_divida
+FROM ((SELECT COUNT(socios.bi) AS socios_em_dia FROM futebol.socios WHERE socios.quotas_em_dia=1) AS tmp1
+      UNION
+      (SELECT count(socios.bi) AS socios_em_divida FROM futebol.socios WHERE socios.quotas_em_dia=0) AS tmp2
+    ) as tmp
 
 -- Nomes dos socios que não têm as quotas em dia
 SELECT pessoa.nome
 FROM (futebol.socios JOIN futebol.pessoa ON socios.bi=pessoa.bi)
-WHERE socios.quotas_em_dia==1
+WHERE socios.quotas_em_dia=0
 
 -- Quantos funcionarios por departamento?
 SELECT departamento.nome, COUNT(staff_clube.bi) AS funcionarios
