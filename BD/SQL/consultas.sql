@@ -14,10 +14,8 @@ FROM futebol.lugar_anual
 
 -- Quantos socios têm quotas em dia e quantos não têm em dia?
 SELECT socios_em_dia, socios_em_divida
-FROM ((SELECT COUNT(socios.bi) AS socios_em_dia FROM futebol.socios WHERE socios.quotas_em_dia=1) AS tmp1
-      UNION
+FROM (SELECT COUNT(socios.bi) AS socios_em_dia FROM futebol.socios WHERE socios.quotas_em_dia=1) AS tmp1,
       (SELECT count(socios.bi) AS socios_em_divida FROM futebol.socios WHERE socios.quotas_em_dia=0) AS tmp2
-    ) as tmp
 
 -- Nomes dos socios que não têm as quotas em dia
 SELECT pessoa.nome
