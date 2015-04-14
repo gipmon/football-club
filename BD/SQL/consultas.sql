@@ -48,17 +48,17 @@ FROM (futebol.pessoal_interno JOIN futebol.jogador ON pessoal_interno.bi=jogador
 
 -- Jogador mais pesado
 SELECT pessoa.nome
-FROM (pessoa JOIN (futebol.jogador JOIN
+FROM (futebol.pessoa JOIN (futebol.jogador JOIN
   (SELECT MAX(jogador.peso) AS max_peso
    FROM futebol.jogador)
   as tmp ON jogador.peso = tmp.max_peso) ON pessoa.bi = jogador.bi)
 
 -- Jogador mais alto
 SELECT pessoa.nome
-FROM (pessoa JOIN (futebol.jogador JOIN
+FROM (futebol.pessoa JOIN (futebol.jogador JOIN
   (SELECT MAX(jogador.altura) AS max_altura
    FROM futebol.jogador)
-  as tmp ON jogador.peso = tmp.max_altura) ON pessoa.bi = jogador.bi)
+  as tmp ON jogador.altura = tmp.max_altura) ON pessoa.bi = jogador.bi)
 
 -- Salário médio por nacionalidade
 SELECT pessoa.nacionalidade, AVG(pessoal_interno.salario) AS salario_medio
@@ -67,7 +67,7 @@ GROUP BY pessoa.nacionalidade
 
 -- Do staff quem tem o salário mais alto
 SELECT pessoa.nome
-FROM (pessoa JOIN (futebol.jogador JOIN
+FROM (futebol.pessoa JOIN (futebol.pessoal_interno JOIN
   (SELECT MAX(pessoal_interno.salario) AS max_salario
    FROM (futebol.staff_clube JOIN futebol.pessoal_interno ON staff_clube.bi=pessoal_interno.bi))
   as tmp ON pessoal_interno.salario = tmp.max_salario) ON pessoa.bi = pessoal_interno.bi)
@@ -83,10 +83,10 @@ GROUP BY departamento.nome
 
 -- Nº lugares por secção
 SELECT lugar.id_seccao, COUNT(n_lugar)
-FROM lugar
+FROM futebol.lugar
 GROUP BY lugar.id_seccao
 
 -- Nº de lugares anuais opr epoca
 SELECT lugar_anual.epoca, COUNT(n_lugar)
-FROM lugar_anual
+FROM futebol.lugar_anual
 GROUP BY lugar_anual.epoca
