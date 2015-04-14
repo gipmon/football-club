@@ -7,6 +7,7 @@ CREATE TABLE futebol.pessoa(
     endereco VARCHAR(75) NOT NULL,
     data_nasc DATE NOT NULL,
     nif INT UNIQUE NOT NULL,
+	genero VARCHAR(1) NOT NULL CHECK (genero IN('M','F')),
 	nacionalidade VARCHAR(75) NOT NULL
 );
 
@@ -155,7 +156,7 @@ CREATE TABLE futebol.seccao(
 -- LUGAR
 CREATE TABLE futebol.lugar(
     n_lugar INT NOT NULL,
-    fila INT NOT NULL,
+    fila VARCHAR(1) NOT NULL,
     id_seccao INT NOT NULL,
     PRIMARY KEY(n_lugar, fila, id_seccao)
 );
@@ -168,15 +169,17 @@ ON UPDATE CASCADE;
 -- LUGAR ANUAL
 CREATE TABLE futebol.lugar_anual(
   n_lugar INT NOT NULL,
-  fila INT NOT NULL,
+  fila VARCHAR(1) NOT NULL,
   id_seccao INT NOT NULL,
-  data_inscricao DATE NOT NULL,
+  data_inicio DATE NOT NULL,
   duracao INT NOT NULL,
   valor INT NOT NULL,
   bi INT NOT NULL,
   epoca INT NOT NULL,
   PRIMARY KEY(n_lugar, bi, fila, id_seccao, epoca)
 );
+
+
 
 -- LUGAR ANUAL ALTER's
 ALTER TABLE futebol.lugar_anual ADD CONSTRAINT FORLAL
