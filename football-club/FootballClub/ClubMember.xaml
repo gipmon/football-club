@@ -1,34 +1,22 @@
-﻿<Controls:MetroWindow x:Class="FootballClub.ClubMember"
+﻿<Page x:Class="FootballClub.ClubMember"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d"
+        d:DesignHeight="300"
+        d:DesignWidth="300"
         
         Title="Football Club Manager" 
-                      
-        BorderBrush="{DynamicResource AccentColorBrush}"
-        BorderThickness="1"
-
-        WindowStartupLocation="CenterScreen"
-                      
-        Height="450" 
-        Width="725">
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
-            <Button Content="staff" />
-            <Button Content="players" />
-            <Button Content="club members" />
-            <Button Content="practices" />
-            <Button Content="settings" />
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
-    <Grid>
-        <TabControl>
-            <TabItem Header="Manage">
-                <Label Content="Content goes here1..." />
-            </TabItem>
-            <TabItem Header="Stats">
-                <Label Content="Content goes here1..." />
-            </TabItem>
-        </TabControl>
-    </Grid>
-</Controls:MetroWindow>
+        Style="{DynamicResource MetroPage}">
+        <Grid>
+            <TabControl>
+                <TabItem Header="Manage">
+                    <Label Content="Content goes here1..." />
+                </TabItem>
+                <TabItem Header="Stats">
+                    <Label Content="Content goes here1..." />
+                </TabItem>
+            </TabControl>
+        </Grid>
+</Page>

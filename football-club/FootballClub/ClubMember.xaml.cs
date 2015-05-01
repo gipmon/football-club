@@ -20,7 +20,7 @@ namespace FootballClub
     /// <summary>
     /// Interaction logic for ClubMember.xaml
     /// </summary>
-    public partial class ClubMember : MetroWindow
+    public partial class ClubMember : Page
     {
         public ClubMember()
         {
