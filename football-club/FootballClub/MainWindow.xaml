@@ -10,12 +10,30 @@
 
         WindowStartupLocation="CenterScreen"
                       
-        Height="350" 
-        Width="525">
+        Height="450" 
+        Width="625">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Content="settings" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-    
+    <Grid>
+        <TabControl>
+            <TabItem Header="Club Staff">
+                <Label Content="Content goes here1..." />
+            </TabItem>
+            <TabItem Header="Players">
+                <Label Content="Content goes here1..." />
+            </TabItem>
+            <TabItem Header="Club Member">
+                <Label Content="Content goes here2..." />
+            </TabItem>
+            <TabItem Header="Annual Seat">
+                <Label Content="Content goes here3..." />
+            </TabItem>
+            <TabItem Header="Team Practice">
+                <Label Content="Content goes here4..." />
+            </TabItem>
+        </TabControl>
+    </Grid>
 </Controls:MetroWindow>
