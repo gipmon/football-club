@@ -14,14 +14,14 @@
         Width="725">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button Content="staff" />
-            <Button Content="players" />
-            <Button Content="club members" Click="Button_ClubMember" />
-            <Button Content="practices" />
-            <Button Content="settings" />
+            <Button Content="staff" Name="staff" />
+            <Button Content="players" Name="players" />
+            <Button Content="club members" Name="club_members" Click="Button_ClubMember" />
+            <Button Content="practices" Name="practices" />
+            <Button Content="settings" Name="settings" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Grid>
-        <Frame x:Name="Frame1"></Frame>
+        <Frame x:Name="Frame1" NavigationUIVisibility="Hidden"></Frame>
     </Grid>
 </Controls:MetroWindow>

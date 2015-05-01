@@ -11,7 +11,7 @@
         Style="{DynamicResource MetroPage}">
         <Grid>
             <TabControl>
-                <TabItem Header="Manage">
+                <TabItem Header="Club Members">
                     <Label Content="Content goes here1..." />
                 </TabItem>
                 <TabItem Header="Stats">
