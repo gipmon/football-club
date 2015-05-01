@@ -1,192 +1,192 @@
-CREATE SCHEMA futebol;
+CREATE SCHEMA football;
 
--- PESSOA
-CREATE TABLE futebol.pessoa(
+-- person
+CREATE TABLE football.person(
     bi INT PRIMARY KEY CHECK(bi>0),
-    nome VARCHAR(75) NOT NULL,
-    endereco VARCHAR(75) NOT NULL,
-    data_nasc DATE NOT NULL,
+    name VARCHAR(75) NOT NULL,
+    address VARCHAR(75) NOT NULL,
+    birth_date DATE NOT NULL,
     nif INT UNIQUE NOT NULL,
-	genero VARCHAR(1) NOT NULL CHECK (genero IN('M','F')),
-	nacionalidade VARCHAR(75) NOT NULL
+	gender VARCHAR(1) NOT NULL CHECK (gender IN('M','F')),
+	nationality VARCHAR(75) NOT NULL
 );
 
--- PESSOAL INTERNO
-CREATE TABLE futebol.pessoal_interno(
+-- internal people
+CREATE TABLE football.internal_people(
     bi INT PRIMARY KEY,
-    salario MONEY NOT NULL CHECK (salario >= 0),
-    id_interno INT UNIQUE NOT NULL
+    salary MONEY NOT NULL CHECK (salary >= 0),
+    internal_id INT UNIQUE NOT NULL
 );
 
--- ALTERs PESSOAL INTERNO
-ALTER TABLE futebol.pessoal_interno ADD CONSTRAINT FORPIBIPBI
-FOREIGN KEY (bi) REFERENCES futebol.pessoa(bi)
+-- ALTERs internal people
+ALTER TABLE football.internal_people ADD CONSTRAINT FORPIBIPBI
+FOREIGN KEY (bi) REFERENCES football.person(bi)
 ON UPDATE CASCADE;
 
--- SOCIOS
-CREATE TABLE futebol.socios(
+-- members
+CREATE TABLE football.members(
     bi INT PRIMARY KEY,
-    n_socio INT NOT NULL UNIQUE CHECK(n_socio >= 0),
-    quotas_em_dia BIT NOT NULL,
-    valor_das_quotas MONEY NOT NULL CHECK (valor_das_quotas >= 0),
+    n_member INT NOT NULL UNIQUE CHECK(n_member >= 0),
+    shares_in_day BIT NOT NULL,
+    shares_value MONEY NOT NULL CHECK (shares_value >= 0),
 );
 
--- ALTERs SOCIOS
-ALTER TABLE futebol.socios ADD CONSTRAINT FORSBIPBI
-FOREIGN KEY (bi) REFERENCES futebol.pessoa(bi)
+-- ALTERs members
+ALTER TABLE football.members ADD CONSTRAINT FORSBIPBI
+FOREIGN KEY (bi) REFERENCES football.person(bi)
 ON UPDATE CASCADE;
 
--- JOGADOR
-CREATE TABLE futebol.jogador(
+-- player
+CREATE TABLE football.player(
     bi INT PRIMARY KEY,
-    id_federacao INT UNIQUE NOT NULL CHECK(id_federacao >= 0),
-    peso int NOT NULL CHECK(peso > 0),
-    altura int NOT NULL CHECK(altura > 0)
+    federation_id INT UNIQUE NOT NULL CHECK(federation_id >= 0),
+    weight int NOT NULL CHECK(weight > 0),
+    height int NOT NULL CHECK(height > 0)
 );
 
--- JOGADOR ALTERs
-ALTER TABLE futebol.jogador ADD CONSTRAINT FORJBIPIBI
-FOREIGN KEY (bi) REFERENCES futebol.pessoal_interno(bi)
+-- player ALTERs
+ALTER TABLE football.player ADD CONSTRAINT FORJBIPIBI
+FOREIGN KEY (bi) REFERENCES football.internal_people(bi)
 ON UPDATE CASCADE;
 
--- TECNICO
-CREATE TABLE futebol.tecnico(
+-- coach
+CREATE TABLE football.coach(
     bi INT PRIMARY KEY,
-    id_federacao INT NOT NULL CHECK(id_federacao >= 0),
-    funcao VARCHAR(50) NOT NULL
+    federation_id INT NOT NULL CHECK(federation_id >= 0),
+    role VARCHAR(50) NOT NULL
 );
 
--- TECNICO ALTERs
-ALTER TABLE futebol.tecnico ADD CONSTRAINT FORTBIPIBI
-FOREIGN KEY (bi) REFERENCES futebol.pessoal_interno(bi)
+-- coach ALTERs
+ALTER TABLE football.coach ADD CONSTRAINT FORTBIPIBI
+FOREIGN KEY (bi) REFERENCES football.internal_people(bi)
 ON UPDATE CASCADE;
 
 -- STAFF CLUBE
-CREATE TABLE futebol.staff_clube(
+CREATE TABLE football.staff(
     bi INT PRIMARY KEY,
-    cargo VARCHAR(50) NOT NULL,
-    id_departamento INT NOT NULL
+    office VARCHAR(50) NOT NULL,
+    department_id INT NOT NULL
 );
 
 -- STAFF ALTERs
-ALTER TABLE futebol.staff_clube ADD CONSTRAINT FORSCBIPIBI
-FOREIGN KEY (bi) REFERENCES futebol.pessoal_interno(bi)
+ALTER TABLE football.staff ADD CONSTRAINT FORSCBIPIBI
+FOREIGN KEY (bi) REFERENCES football.internal_people(bi)
 ON UPDATE CASCADE;
 
--- DEPARTAMENTO
-CREATE TABLE futebol.departamento(
-    id_departamento INT PRIMARY KEY,
-    endereco VARCHAR(75) NOT NULL,
-    nome VARCHAR(75) NOT NULL
+-- department
+CREATE TABLE football.department(
+    department_id INT PRIMARY KEY,
+    address VARCHAR(75) NOT NULL,
+    name VARCHAR(75) NOT NULL
 );
 
 -- STAFF ALTERs
-ALTER TABLE futebol.staff_clube ADD CONSTRAINT FORSCIDDID
-FOREIGN KEY (id_departamento) REFERENCES futebol.departamento(id_departamento)
+ALTER TABLE football.staff ADD CONSTRAINT FORSCIDDID
+FOREIGN KEY (department_id) REFERENCES football.department(department_id)
 ON UPDATE CASCADE;
 
 -- ESCALÃO
-CREATE TABLE futebol.escalao(
-    nome VARCHAR(50) PRIMARY KEY,
-    idade_max INT NOT NULL CHECK(idade_max > 0)
+CREATE TABLE football.team(
+    name VARCHAR(50) PRIMARY KEY,
+    max_age INT NOT NULL CHECK(max_age > 0)
 );
 
--- JOGA
-CREATE TABLE futebol.joga(
+-- play
+CREATE TABLE football.play(
     bi INT,
-    nome_escalao VARCHAR(50),
-	PRIMARY KEY(bi, nome_escalao)
+    team_name VARCHAR(50),
+	PRIMARY KEY(bi, team_name)
 );
 
--- ALTER JOGA
-ALTER TABLE futebol.joga ADD CONSTRAINT FORJBIJBI
-FOREIGN KEY (bi) REFERENCES futebol.jogador(bi)
+-- ALTER play
+ALTER TABLE football.play ADD CONSTRAINT FORJBIJBI
+FOREIGN KEY (bi) REFERENCES football.player(bi)
 ON UPDATE CASCADE;
 
-ALTER TABLE futebol.joga ADD CONSTRAINT FORJEEE
-FOREIGN KEY (nome_escalao) REFERENCES futebol.escalao(nome)
+ALTER TABLE football.play ADD CONSTRAINT FORJEEE
+FOREIGN KEY (team_name) REFERENCES football.team(name)
 ON UPDATE CASCADE;
 
--- DIRIGE
-CREATE TABLE futebol.dirige(
+-- heads
+CREATE TABLE football.heads(
     bi int,
-    nome_escalao VARCHAR(50),
-	PRIMARY KEY(bi, nome_escalao)
+    team_name VARCHAR(50),
+	PRIMARY KEY(bi, team_name)
 );
 
--- ALTER DIRIGE
-ALTER TABLE futebol.dirige ADD CONSTRAINT FORDBITBI
-FOREIGN KEY (bi) REFERENCES futebol.tecnico(bi)
+-- ALTER heads
+ALTER TABLE football.heads ADD CONSTRAINT FORDBITBI
+FOREIGN KEY (bi) REFERENCES football.coach(bi)
 ON UPDATE CASCADE;
 
-ALTER TABLE futebol.dirige ADD CONSTRAINT FORDEEE
-FOREIGN KEY (nome_escalao) REFERENCES futebol.escalao(nome)
+ALTER TABLE football.heads ADD CONSTRAINT FORDEEE
+FOREIGN KEY (team_name) REFERENCES football.team(name)
 ON UPDATE CASCADE;
 
--- CAMPO
-CREATE TABLE futebol.campo(
-    id_campo INT PRIMARY KEY,
-    local VARCHAR(150) NOT NULL
+-- court
+CREATE TABLE football.court(
+    id_court INT PRIMARY KEY,
+    address VARCHAR(150) NOT NULL
 );
 
--- TREINO
-CREATE TABLE futebol.treino(
-    data DATE NOT NULL,
-    hora TIME NOT NULL,
-    id_campo INT NOT NULL,
-    nome_escalao VARCHAR(50) NOT NULL,
-    PRIMARY KEY(data, hora, id_campo)
+-- practice
+CREATE TABLE football.practice(
+    date DATE NOT NULL,
+    hour TIME NOT NULL,
+    id_court INT NOT NULL,
+    team_name VARCHAR(50) NOT NULL,
+    PRIMARY KEY(date, hour, id_court)
 );
 
--- ALTERs TREINO
-ALTER TABLE futebol.treino ADD CONSTRAINT FORTICCIC
-FOREIGN KEY (id_campo) REFERENCES futebol.campo(id_campo)
+-- ALTERs practice
+ALTER TABLE football.practice ADD CONSTRAINT FORTICCIC
+FOREIGN KEY (id_court) REFERENCES football.court(id_court)
 ON UPDATE CASCADE;
 
-ALTER TABLE futebol.treino ADD CONSTRAINT FORTNEEN
-FOREIGN KEY (nome_escalao) REFERENCES futebol.escalao(nome)
+ALTER TABLE football.practice ADD CONSTRAINT FORTNEEN
+FOREIGN KEY (team_name) REFERENCES football.team(name)
 ON UPDATE CASCADE;
 
--- SECCAO
-CREATE TABLE futebol.seccao(
-    id_seccao INT PRIMARY KEY,
-    tipo VARCHAR(50)
+-- section
+CREATE TABLE football.section(
+    id_section INT PRIMARY KEY,
+    type VARCHAR(50)
 );
 
--- LUGAR
-CREATE TABLE futebol.lugar(
-    n_lugar INT NOT NULL,
-    fila VARCHAR(1) NOT NULL,
-    id_seccao INT NOT NULL,
-    PRIMARY KEY(n_lugar, fila, id_seccao)
+-- spot
+CREATE TABLE football.spot(
+    n_spot INT NOT NULL,
+    row VARCHAR(1) NOT NULL,
+    id_section INT NOT NULL,
+    PRIMARY KEY(n_spot, row, id_section)
 );
 
--- ALTER LUGAR
-ALTER TABLE futebol.lugar ADD CONSTRAINT FORLISSIS
-FOREIGN KEY (id_seccao)  REFERENCES futebol.seccao(id_seccao)
+-- ALTER spot
+ALTER TABLE football.spot ADD CONSTRAINT FORLISSIS
+FOREIGN KEY (id_section)  REFERENCES football.section(id_section)
 ON UPDATE CASCADE;
 
--- LUGAR ANUAL
-CREATE TABLE futebol.lugar_anual(
-  n_lugar INT NOT NULL,
-  fila VARCHAR(1) NOT NULL,
-  id_seccao INT NOT NULL,
-  data_inicio DATE NOT NULL,
-  duracao INT NOT NULL,
-  valor INT NOT NULL,
+-- annual_spot
+CREATE TABLE football.annual_spot(
+  n_spot INT NOT NULL,
+  row VARCHAR(1) NOT NULL,
+  id_section INT NOT NULL,
+  date_inicio DATE NOT NULL,
+  duration INT NOT NULL,
+  value INT NOT NULL,
   bi INT NOT NULL,
-  epoca INT NOT NULL,
-  PRIMARY KEY(n_lugar, bi, fila, id_seccao, epoca)
+  season INT NOT NULL,
+  PRIMARY KEY(n_spot, bi, row, id_section, season)
 );
 
 
 
--- LUGAR ANUAL ALTER's
-ALTER TABLE futebol.lugar_anual ADD CONSTRAINT FORLAL
-FOREIGN KEY (n_lugar, fila, id_seccao) REFERENCES futebol.lugar(n_lugar, fila, id_seccao)
+-- annual_spot ALTER's
+ALTER TABLE football.annual_spot ADD CONSTRAINT FORLAL
+FOREIGN KEY (n_spot, row, id_section) REFERENCES football.spot(n_spot, row, id_section)
 ON UPDATE CASCADE;
 
-ALTER TABLE futebol.lugar_anual ADD CONSTRAINT FORLABISBI
-FOREIGN KEY (bi) REFERENCES futebol.socios(bi)
+ALTER TABLE football.annual_spot ADD CONSTRAINT FORLABISBI
+FOREIGN KEY (bi) REFERENCES football.members(bi)
 ON UPDATE CASCADE;
 
