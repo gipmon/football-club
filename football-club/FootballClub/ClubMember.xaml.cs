@@ -14,21 +14,17 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 
+
 namespace FootballClub
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ClubMember.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class ClubMember : MetroWindow
     {
-        public MainWindow()
+        public ClubMember()
         {
             InitializeComponent();
-        }
-
-        private void Button_ClubMember(object sender, RoutedEventArgs e)
-        {
-            ClubMember clubMember = new ClubMember();
         }
     }
 }
