@@ -10,7 +10,7 @@
 
         WindowStartupLocation="CenterScreen"
                       
-        Height="450" 
+        Height="550" 
         Width="725">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>

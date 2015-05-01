@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
       mc:Ignorable="d"
-      d:DesignHeight="350"
+      d:DesignHeight="450"
       d:DesignWidth="300"
       Title="Football Club Manager" 
       Style="{DynamicResource MetroPage}">
@@ -36,6 +36,10 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label>Name:</Label>
@@ -53,7 +57,13 @@
                         <TextBox Grid.Row="5" Grid.Column="1" Margin="0,0,0,10" />
                         <Label Grid.Row="6">Nationality:</Label>
                         <TextBox Grid.Row="6" Grid.Column="1" Margin="0,0,0,10" />
-                        <Grid Grid.Row="7">
+                        <Label Grid.Row="7">Identifier:</Label>
+                        <TextBox Grid.Row="7" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="8">Shares in day:</Label>
+                        <Controls:ToggleSwitch Grid.Row="8" Grid.Column="1" OnLabel="Yes" OffLabel="No" Margin="0,0,0,10" />
+                        <Label Grid.Row="9">Shares value:</Label>
+                        <Controls:NumericUpDown Grid.Row="9" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
+                        <Grid Grid.Row="10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
