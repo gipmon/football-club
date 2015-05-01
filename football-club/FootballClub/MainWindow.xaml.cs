@@ -26,16 +26,37 @@ namespace FootballClub
             InitializeComponent();
         }
 
+        private void Button_Staff(object sender, RoutedEventArgs e)
+        {
+            Staff staff = new Staff();
+            this.NavigateTo(staff);
+        }
+
+        private void Button_Player(object sender, RoutedEventArgs e)
+        {
+            Player player = new Player();
+            this.NavigateTo(player);
+        }
+
         private void Button_ClubMember(object sender, RoutedEventArgs e)
         {
-            
             ClubMember clubMember = new ClubMember();
             this.NavigateTo(clubMember);
         }
+
+        private void Button_Practices(object sender, RoutedEventArgs e)
+        {
+            Practice practice = new Practice();
+            this.NavigateTo(practice);
+        }
+
+        private void Button_Settings(object sender, RoutedEventArgs e) { }
 
         public void NavigateTo(object o)
         {
             Frame1.Navigate(o);
         }
+
+       
     }
 }
