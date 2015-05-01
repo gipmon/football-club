@@ -12,7 +12,26 @@
       <Grid>
           <TabControl>
             <TabItem Header="Club Members">
-                   <Label Content="Content goes here1..." />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="0.6*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DataGrid>
+                    </DataGrid>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <!-- Aqui é para colocar a form -->
+                    </Grid>
+                </Grid>
             </TabItem>
             <TabItem Header="Stats">
                 <Label Content="Content goes here1..." />
