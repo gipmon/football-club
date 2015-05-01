@@ -28,6 +28,7 @@ namespace FootballClub
 
         private void Button_ClubMember(object sender, RoutedEventArgs e)
         {
+            
             ClubMember clubMember = new ClubMember();
             this.NavigateTo(clubMember);
         }
