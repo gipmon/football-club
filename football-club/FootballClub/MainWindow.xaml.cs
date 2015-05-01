@@ -19,7 +19,7 @@ namespace FootballClub
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow : MetroNavigationWindow
     {
         public MainWindow()
         {
@@ -29,6 +29,7 @@ namespace FootballClub
         private void Button_ClubMember(object sender, RoutedEventArgs e)
         {
             ClubMember clubMember = new ClubMember();
+            this.NavigationService.Navigate(clubMember);
         }
     }
 }
