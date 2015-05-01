@@ -1,0 +1,43 @@
+﻿<Controls:MetroWindow x:Class="FootballClub.Home"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        
+        Title="Football Club Manager" 
+                      
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+
+        WindowStartupLocation="CenterScreen"
+                      
+        Height="450" 
+        Width="725">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Content="staff" />
+            <Button Content="players" />
+            <Button Content="club members" Click="Button_ClubMember" />
+            <Button Content="practices" />
+            <Button Content="settings" />
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+    <Grid>
+        <TabControl Grid.ColumnSpan="2">
+            <TabItem Header="Club Staff">
+                <Label Content="Content goes here1..." />
+            </TabItem>
+            <TabItem Header="Players">
+                <Label Content="Content goes here1..." />
+            </TabItem>
+            <TabItem Header="Club Member">
+                <Label Content="Content goes here2..." />
+            </TabItem>
+            <TabItem Header="Annual Seat">
+                <Label Content="Content goes here3..." />
+            </TabItem>
+            <TabItem Header="Team Practice">
+                <Label Content="Content goes here4..." />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Controls:MetroWindow>
