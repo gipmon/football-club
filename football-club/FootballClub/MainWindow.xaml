@@ -11,9 +11,13 @@
         WindowStartupLocation="CenterScreen"
                       
         Height="450" 
-        Width="625">
+        Width="725">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
+            <Button Content="staff" />
+            <Button Content="players" />
+            <Button Content="club members" />
+            <Button Content="practices" />
             <Button Content="settings" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
