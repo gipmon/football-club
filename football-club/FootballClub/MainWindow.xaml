@@ -14,7 +14,7 @@
         Width="725">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button Content="internal people" Name="staff" Click="Button_Staff" />
+            <Button Content="staff/departments" Name="staff" Click="Button_Staff" />
             <Button Content="teams" Name="players" Click="Button_Player"/>
             <Button Content="practices" Name="practices" Click="Button_Practices"/>
             <Button Content="club members" Name="club_members" Click="Button_ClubMember" />
