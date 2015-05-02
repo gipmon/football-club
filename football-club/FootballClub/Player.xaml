@@ -12,8 +12,6 @@
 
     <Grid>
         <TabControl>
-<<<<<<< HEAD
-=======
             <TabItem Header="Teams">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -57,7 +55,6 @@
                     </Grid>
                 </Grid>
             </TabItem>
->>>>>>> origin/master
             <TabItem Header="Players">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -135,8 +132,6 @@
                     </Grid>
                 </Grid>
             </TabItem>
-<<<<<<< HEAD
-=======
             <TabItem Header="Coachs">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -216,7 +211,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
->>>>>>> origin/master
+
             <TabItem Header="Stats">
                 <Label Content="Content goes here1..." />
             </TabItem>

@@ -45,7 +45,7 @@
                         <Label Grid.Row="1">Date:</Label>
                         <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="2">Hour:</Label>
-                        <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="HH:MM" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="3">Team:</Label>
                         <ComboBox Grid.Row="3"  Grid.Column="1" Margin="0,0,0,10">
                             <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
