@@ -68,6 +68,9 @@
     <Compile Include="Practice.xaml.cs">
       <DependentUpon>Practice.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Stadium.xaml.cs">
+      <DependentUpon>Stadium.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Staff.xaml.cs">
       <DependentUpon>Staff.xaml</DependentUpon>
     </Compile>
@@ -101,6 +104,10 @@
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Stadium.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Staff.xaml">
       <SubType>Designer</SubType>

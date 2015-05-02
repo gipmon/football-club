@@ -18,6 +18,7 @@
             <Button Content="teams" Name="players" Click="Button_Player"/>
             <Button Content="practices" Name="practices" Click="Button_Practices"/>
             <Button Content="club members" Name="club_members" Click="Button_ClubMember" />
+            <Button Content="stadium" Name="stadium" Click="Button_Stadium" />
             <Button Content="settings" Name="settings" Click="Button_Settings"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>

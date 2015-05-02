@@ -50,6 +50,12 @@ namespace FootballClub
             this.NavigateTo(practice);
         }
 
+        private void Button_Stadium(object sender, RoutedEventArgs e)
+        {
+            Stadium stadium = new Stadium();
+            this.NavigateTo(stadium);
+        }
+
         private void Button_Settings(object sender, RoutedEventArgs e) { }
 
         public void NavigateTo(object o)

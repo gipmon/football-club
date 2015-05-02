@@ -76,18 +76,75 @@
                             <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top"/>
                             <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
                         </Grid>
-                        
                     </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="Anual Spot">
-                <Label Content="Content goes here1..." />
-            </TabItem>
-            <TabItem Header="Spots">
-                <Label Content="Content goes here1..." />
-            </TabItem>
-            <TabItem Header="Sections">
-                <Label Content="Content goes here1..." />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="0.6*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DataGrid>
+                    </DataGrid>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label>BI:</Label>
+                        <TextBox Grid.Column="1" Margin="0,0,0,10"  />
+                        <Label Grid.Row="1">Spot Number:</Label>
+                        <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="2">Row:</Label>
+                        <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="3">Sex:</Label>
+                        <TextBox Grid.Row="3" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="4">Section:</Label>
+                        <ComboBox Grid.Row="4" Grid.Column="1" Margin="0,0,0,10">
+                            <ComboBoxItem>Item1</ComboBoxItem>
+                            <ComboBoxItem>Item2</ComboBoxItem>
+                            <ComboBoxItem>Item3</ComboBoxItem>
+                        </ComboBox>
+                        <Label Grid.Row="5">Season:</Label>
+                        <TextBox Grid.Row="5" Grid.Column="1" Margin="0,0,0,10" />
+                        <Label Grid.Row="6">Initial Date:</Label>
+                        <TextBox Grid.Row="6" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="7">Duration (Months):</Label>
+                        <TextBox Grid.Row="7" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="8">Spot value:</Label>
+                        <Controls:NumericUpDown Grid.Row="8" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
+                        <Grid Grid.Row="9">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top"/>
+                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top"/>
+                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </TabItem>
             <TabItem Header="Stats">
                 <Label Content="Content goes here1..." />
