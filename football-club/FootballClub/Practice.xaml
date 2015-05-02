@@ -37,13 +37,21 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label>Court:</Label>
-                        <TextBox Grid.Column="1" Margin="0,0,0,10"  />
+                        <ComboBox Grid.Row="0"  Grid.Column="1" Margin="0,0,0,10">
+                            <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
+                            <ComboBoxItem IsSelected="True">ComboBox Item #2</ComboBoxItem>
+                            <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
+                        </ComboBox>
                         <Label Grid.Row="1">Date:</Label>
                         <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="2">Hour:</Label>
                         <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="3">Team:</Label>
-                        <TextBox Grid.Row="3" Grid.Column="1" Margin="0,0,0,10" />
+                        <ComboBox Grid.Row="3"  Grid.Column="1" Margin="0,0,0,10">
+                            <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
+                            <ComboBoxItem IsSelected="True">ComboBox Item #2</ComboBoxItem>
+                            <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
+                        </ComboBox>
                         <Grid Grid.Row="4">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
