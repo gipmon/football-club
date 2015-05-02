@@ -12,6 +12,52 @@
 
     <Grid>
         <TabControl>
+<<<<<<< HEAD
+=======
+            <TabItem Header="Teams">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="0.6*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DataGrid>
+                    </DataGrid>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label>Name:</Label>
+                        <TextBox Grid.Column="1" Margin="0,0,0,10"  />
+                        <Label Grid.Row="1">Max age:</Label>
+                        <TextBox  Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"  />
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top"/>
+                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top"/>
+                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+>>>>>>> origin/master
             <TabItem Header="Players">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -89,6 +135,88 @@
                     </Grid>
                 </Grid>
             </TabItem>
+<<<<<<< HEAD
+=======
+            <TabItem Header="Coachs">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="0.6*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DataGrid>
+                    </DataGrid>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label>Name:</Label>
+                        <TextBox Grid.Column="1" Margin="0,0,0,10"  />
+                        <Label Grid.Row="1">BI:</Label>
+                        <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="2">NIF:</Label>
+                        <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="3">Sex:</Label>
+                        <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Sex" Content="Male" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Sex" Margin="60,0,0,0" Content="Female" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Label Grid.Row="4">Date of Birth:</Label>
+                        <TextBox Grid.Row="4" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="5">Address:</Label>
+                        <TextBox Grid.Row="5" Grid.Column="1" Margin="0,0,0,10" />
+                        <Label Grid.Row="6">Nationality:</Label>
+                        <TextBox Grid.Row="6" Grid.Column="1" Margin="0,0,0,10" />
+                        <Label Grid.Row="7">Team:</Label>
+                        <ComboBox Grid.Row="7"  Grid.Column="1" Margin="0,0,0,10">
+                            <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
+                            <ComboBoxItem IsSelected="True">ComboBox Item #2</ComboBoxItem>
+                            <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
+                        </ComboBox>
+                        <Label Grid.Row="8">Role:</Label>
+                        <ComboBox Grid.Row="8"  Grid.Column="1" Margin="0,0,0,10">
+                            <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
+                            <ComboBoxItem IsSelected="True">ComboBox Item #2</ComboBoxItem>
+                            <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
+                        </ComboBox>
+                        <Label Grid.Row="10">Salary:</Label>
+                        <Controls:NumericUpDown Grid.Row="10" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
+                        <Label Grid.Row="11">Internal ID:</Label>
+                        <TextBox Grid.Row="11" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Grid Grid.Row="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top"/>
+                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top"/>
+                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+>>>>>>> origin/master
             <TabItem Header="Stats">
                 <Label Content="Content goes here1..." />
             </TabItem>
