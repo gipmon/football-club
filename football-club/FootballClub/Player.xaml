@@ -12,6 +12,9 @@
 
     <Grid>
         <TabControl>
+            <TabItem Header="Teams">
+                
+            </TabItem>
             <TabItem Header="Players">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -88,6 +91,9 @@
                         </Grid>
                     </Grid>
                 </Grid>
+            </TabItem>
+            <TabItem Header="Coachs">
+
             </TabItem>
             <TabItem Header="Stats">
                 <Label Content="Content goes here1..." />

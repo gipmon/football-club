@@ -80,9 +80,18 @@
                     </Grid>
                 </Grid>
             </TabItem>
+            <TabItem Header="Anual Spot">
+                <Label Content="Content goes here1..." />
+            </TabItem>
+            <TabItem Header="Spots">
+                <Label Content="Content goes here1..." />
+            </TabItem>
+            <TabItem Header="Sections">
+                <Label Content="Content goes here1..." />
+            </TabItem>
             <TabItem Header="Stats">
                 <Label Content="Content goes here1..." />
-              </TabItem>
+            </TabItem>
          </TabControl>
     </Grid>
 </Page>
