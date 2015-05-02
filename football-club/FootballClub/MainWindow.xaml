@@ -11,7 +11,7 @@
         WindowStartupLocation="CenterScreen"
                       
         Height="550" 
-        Width="725">
+        Width="825">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Content="staff/departments" Name="staff" Click="Button_Staff" />
