@@ -15,7 +15,7 @@ CREATE TABLE football.person(
 CREATE TABLE football.internal_people(
     bi INT PRIMARY KEY,
     salary MONEY NOT NULL CHECK (salary >= 0),
-    internal_id INT UNIQUE NOT NULL
+    internal_id INT UNIQUE NOT NULL IDENTITY
 );
 
 -- ALTERs internal people
@@ -26,7 +26,7 @@ ON UPDATE CASCADE;
 -- members
 CREATE TABLE football.members(
     bi INT PRIMARY KEY,
-    n_member INT NOT NULL UNIQUE CHECK(n_member >= 0),
+    n_member INT NOT NULL UNIQUE IDENTITY,
     shares_in_day BIT NOT NULL,
     shares_value MONEY NOT NULL CHECK (shares_value >= 0),
 );
@@ -64,7 +64,7 @@ ON UPDATE CASCADE;
 -- STAFF CLUBE
 CREATE TABLE football.staff(
     bi INT PRIMARY KEY,
-    office VARCHAR(50) NOT NULL,
+    role VARCHAR(50) NOT NULL,
     department_id INT NOT NULL
 );
 
@@ -125,7 +125,7 @@ ON UPDATE CASCADE;
 
 -- court
 CREATE TABLE football.court(
-    id_court INT PRIMARY KEY,
+    id_court INT PRIMARY KEY IDENTITY,
     address VARCHAR(150) NOT NULL
 );
 
@@ -171,7 +171,7 @@ CREATE TABLE football.annual_spot(
   n_spot INT NOT NULL,
   row VARCHAR(1) NOT NULL,
   id_section INT NOT NULL,
-  date_inicio DATE NOT NULL,
+  start_date DATE NOT NULL,
   duration INT NOT NULL,
   value INT NOT NULL,
   bi INT NOT NULL,
@@ -189,4 +189,3 @@ ON UPDATE CASCADE;
 ALTER TABLE football.annual_spot ADD CONSTRAINT FORLABISBI
 FOREIGN KEY (bi) REFERENCES football.members(bi)
 ON UPDATE CASCADE;
-
