@@ -64,8 +64,9 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <DataGrid Name="playersGrid" AutoGenerateColumns="False">
+                    <DataGrid Name="playersGrid" IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="playersGrid_SelectionChanged">
                         <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding bi}" Header="BI"></DataGridTextColumn>
                             <DataGridTextColumn Binding="{Binding name}" Header="Name"></DataGridTextColumn>
                             <DataGridTextColumn Binding="{Binding address}" Header="Address"></DataGridTextColumn>
                             <DataGridTextColumn Binding="{Binding birth_date}" Header="Birth Date"></DataGridTextColumn>
@@ -99,9 +100,9 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label>Name:</Label>
-                        <TextBox Grid.Column="1" Margin="0,0,0,10"  />
+                        <TextBox Grid.Column="1" Name="name" Margin="0,0,0,10"  />
                         <Label Grid.Row="1">BI:</Label>
-                        <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Name="bi" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="2">NIF:</Label>
                         <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="3">Sex:</Label>
