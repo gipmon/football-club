@@ -1,4 +1,5 @@
-use p4g5;
+-- use p4g5;
+use football_club;
 
 INSERT INTO football.department (department_id, address, name) VALUES (1, 'Avenida do Dragao', 'Direccao');
 INSERT INTO football.department (department_id, address, name) VALUES (2, 'Rua do Estadio', 'Financeiro');

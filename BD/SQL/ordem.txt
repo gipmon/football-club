@@ -1,0 +1,15 @@
+1-person
+2-internal people
+3-members
+4-players
+5-coach
+6-department
+7-staff
+8-team
+9-court
+10-practices
+11-play
+12-heads
+13-section
+14-spot
+15-annual_spot

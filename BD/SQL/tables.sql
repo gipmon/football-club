@@ -1,4 +1,5 @@
-CREATE SCHEMA football;
+-- CREATE SCHEMA football;
+use football_club
 
 -- person
 CREATE TABLE football.person(
