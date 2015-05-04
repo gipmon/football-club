@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace FootballClub
 {
@@ -23,6 +26,21 @@ namespace FootballClub
         public Player()
         {
             InitializeComponent();
+            FillDataGrid();
+        }
+        private void FillDataGrid()
+        {
+            string ConString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(ConString))
+            {
+                string CmdString = "SELECT * FROM (football.player JOIN football.person ON player.bi=person.bi)";
+                SqlCommand cmd = new SqlCommand(CmdString, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("player");
+                sda.Fill(dt);
+                playersGrid.ItemsSource = dt.DefaultView;
+            }
         }
     }
 }

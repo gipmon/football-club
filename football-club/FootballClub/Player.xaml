@@ -64,7 +64,18 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <DataGrid>
+                    <DataGrid Name="playersGrid" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding name}" Header="Name"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding address}" Header="Address"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding birth_date}" Header="Birth Date"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding nif}" Header="NIF"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding gender}" Header="Gender"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding nationality}" Header="Nationality"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding federation_id}" Header="Federation ID"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding weight}" Header="Weight"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding height}" Header="Height"></DataGridTextColumn>
+                        </DataGrid.Columns>
                     </DataGrid>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
