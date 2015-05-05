@@ -103,7 +103,7 @@
                         <TextBox Grid.Row="5" Grid.Column="1" Name="address" Margin="0,0,0,10" />
                         <Label Grid.Row="6">Nationality:</Label>
                         <TextBox Grid.Row="6" Grid.Column="1" Name="nationality" Margin="0,0,0,10" />
-                        <Label Grid.Row="7">Team:</Label>
+                        <Label Grid.Row="7">Teams:</Label>
                         <ListBox Grid.Row="7"  Grid.Column="1" Height="50px" SelectionMode="Multiple" Margin="0,0,0,10">
                             <ListBoxItem>ComboBox Item #1</ListBoxItem>
                             <ListBoxItem>ComboBox Item #2</ListBoxItem>
