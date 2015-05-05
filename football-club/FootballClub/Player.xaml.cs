@@ -50,10 +50,10 @@ namespace FootballClub
             sda = new SqlDataAdapter(cmd);
             dt = new DataTable("teams");
             sda.Fill(dt);
-            foreach (DataRow team_name in dt.Rows)
+            foreach (DataRow team in dt.Rows)
             {
                 ListBoxItem itm = new ListBoxItem();
-                itm.Content = team_name["name"].ToString();
+                itm.Content = team["name"].ToString();
                 teams.Items.Add(itm);
             }
         }
@@ -76,6 +76,7 @@ namespace FootballClub
                 name.Text = r["name"].ToString();
                 nif.Text = r["nif"].ToString();
                 address.Text = r["address"].ToString();
+
                 if (r["gender"].ToString() == "F")
                 {
                     GenderFemale.IsChecked = true;
@@ -84,6 +85,7 @@ namespace FootballClub
                 {
                     GenderMale.IsChecked = true;
                 }
+
                 DateTime date = DateTime.Parse(r["birth date"].ToString());
                 birth_date.Text = date.ToString("yyyy-MM-dd");
                 nationality.Text = r["nationality"].ToString();
@@ -93,7 +95,24 @@ namespace FootballClub
                 weight.Text = r["weight"].ToString();
                 height.Text = r["height"].ToString();
 
-                
+                // select the teams of the player
+                CmdString = "SELECT * FROM football.playersTeamsView WHERE bi=" + search_bi;
+                cmd = new SqlCommand(CmdString, con);
+                sda = new SqlDataAdapter(cmd);
+                dt = new DataTable("teams_selected");
+                sda.Fill(dt);
+
+                foreach (ListBoxItem itm in teams.Items)
+                {
+                    itm.IsSelected = false;
+                    foreach (DataRow team in dt.Rows)
+                    {
+                        if(team["team_name"].ToString() == itm.Content.ToString()){
+                            itm.IsSelected = true;
+                            break;
+                        }
+                    }
+                }
             }
         }
 
