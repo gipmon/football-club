@@ -1,6 +1,6 @@
 -- use p4g5;
-use football_club;
+use p4g5;
 
 
-INSERT INTO football.section(id_section, type) VALUES (1, 'Topo Norte');
-INSERT INTO football.section(id_section, type) VALUES (2, 'Central');
+INSERT INTO football.section(type) VALUES ('Topo Norte');
+INSERT INTO football.section(type) VALUES ('Central');

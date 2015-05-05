@@ -1,5 +1,5 @@
 -- CREATE SCHEMA football;
-use football_club
+use p4g5;
 
 -- person
 CREATE TABLE football.person(
@@ -76,7 +76,7 @@ ON UPDATE CASCADE;
 
 -- department
 CREATE TABLE football.department(
-    department_id INT PRIMARY KEY,
+    department_id INT PRIMARY KEY IDENTITY,
     address VARCHAR(75) NOT NULL,
     name VARCHAR(75) NOT NULL
 );
@@ -150,7 +150,7 @@ ON UPDATE CASCADE;
 
 -- section
 CREATE TABLE football.section(
-    id_section INT PRIMARY KEY,
+    id_section INT PRIMARY KEY IDENTITY,
     type VARCHAR(50)
 );
 

@@ -1,5 +1,5 @@
 -- use p4g5;
-use football_club;
+use p4g5;
 
 --Jogadores
 INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (12345678, 'Cristiano Ronaldo', 'Rua das bananas', '1985/02/05', 12345678, 'M', 'Portuguesa');

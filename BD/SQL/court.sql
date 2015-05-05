@@ -1,5 +1,5 @@
 -- use p4g5;
-use football_club;
+use p4g5;
 
 INSERT INTO football.court(address) VALUES ('Cidade do Dragao');
 INSERT INTO football.court(address) VALUES ('Cidade do Estadio');
