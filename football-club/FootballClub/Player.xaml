@@ -64,19 +64,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <DataGrid Name="playersGrid" IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="playersGrid_SelectionChanged">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding bi}" Header="BI"></DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding name}" Header="Name"></DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding address}" Header="Address"></DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding birth_date}" Header="Birth Date"></DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding nif}" Header="NIF"></DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding gender}" Header="Gender"></DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding nationality}" Header="Nationality"></DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding federation_id}" Header="Federation ID"></DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding weight}" Header="Weight"></DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding height}" Header="Height"></DataGridTextColumn>
-                        </DataGrid.Columns>
+                    <DataGrid Name="playersGrid" IsReadOnly="True" SelectionChanged="playersGrid_SelectionChanged">
                     </DataGrid>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
@@ -104,16 +92,16 @@
                         <Label Grid.Row="1">BI:</Label>
                         <TextBox Grid.Row="1" Grid.Column="1" Name="bi" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="2">NIF:</Label>
-                        <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="2" Grid.Column="1" Name="nif" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="3">Sex:</Label>
                         <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Sex" Content="Male" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Sex" Margin="60,0,0,0" Content="Female" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <Label Grid.Row="4">Date of Birth:</Label>
-                        <TextBox Grid.Row="4" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="4" Grid.Column="1" Name="birth_date" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="5">Address:</Label>
-                        <TextBox Grid.Row="5" Grid.Column="1" Margin="0,0,0,10" />
+                        <TextBox Grid.Row="5" Grid.Column="1" Name="address" Margin="0,0,0,10" />
                         <Label Grid.Row="6">Nationality:</Label>
-                        <TextBox Grid.Row="6" Grid.Column="1" Margin="0,0,0,10" />
+                        <TextBox Grid.Row="6" Grid.Column="1" Name="nationality" Margin="0,0,0,10" />
                         <Label Grid.Row="7">Team:</Label>
                         <ComboBox Grid.Row="7"  Grid.Column="1" Margin="0,0,0,10">
                             <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
@@ -121,9 +109,9 @@
                             <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
                         </ComboBox>
                         <Label Grid.Row="8">Weight:</Label>
-                        <TextBox Grid.Row="8" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="8" Grid.Column="1" Name="weight" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="9">Height:</Label>
-                        <TextBox Grid.Row="9" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="9" Grid.Column="1" Name="height" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="10">Salary:</Label>
                         <Controls:NumericUpDown Grid.Row="10" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
                         <Label Grid.Row="11">Internal ID:</Label>

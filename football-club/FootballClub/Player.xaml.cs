@@ -35,7 +35,7 @@ namespace FootballClub
             using (SqlConnection con = new SqlConnection(ConString))
             {
                 // é importante definirmos uma ordem nas queries e começar por definir views para isto tudo...
-                string CmdString = "SELECT * FROM (football.player JOIN football.person ON player.bi=person.bi)";
+                string CmdString = "SELECT name, person.bi, nif, address, gender, birth_date as 'birth date', nationality, federation_id as 'federation id', weight, height FROM (football.player JOIN football.person ON player.bi=person.bi) ";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable("player");
@@ -49,7 +49,16 @@ namespace FootballClub
             DataRowView row = (DataRowView)playersGrid.SelectedItem;
             try
             {
-                bi.Text = row.Row.ItemArray[0].ToString();
+                name.Text = row.Row.ItemArray[0].ToString();
+                bi.Text = row.Row.ItemArray[1].ToString();
+                nif.Text = row.Row.ItemArray[2].ToString();
+                address.Text = row.Row.ItemArray[3].ToString();
+                // gender.Text = row.Row.ItemArray[4].ToString();
+                birth_date.Text = row.Row.ItemArray[5].ToString();
+                nationality.Text = row.Row.ItemArray[6].ToString();
+                // federation_id.Text = row.Row.ItemArray[7].ToString();
+                weight.Text = row.Row.ItemArray[8].ToString();
+                height.Text = row.Row.ItemArray[9].ToString();
             }
             catch (Exception)
             {
