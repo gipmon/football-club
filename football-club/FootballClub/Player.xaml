@@ -113,9 +113,9 @@
                         <Label Grid.Row="10">Salary:</Label>
                         <Controls:NumericUpDown Grid.Row="10" Name="salary" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Interval="5" StringFormat="C2"/>
                         <Label Grid.Row="11">Federation ID:</Label>
-                        <TextBox Grid.Row="11" Grid.Column="1" Name="federation_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row ="11" Grid.Column="1" Name="federation_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="12">Internal ID:</Label>
-                        <TextBox Grid.Row="12" Grid.Column="1" Name="internal_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="12" IsReadOnly="True" IsEnabled="False" Grid.Column="1" Name="internal_id" Margin="0,0,0,10"/>
                         <Grid Grid.Row="13">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
