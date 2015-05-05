@@ -71,7 +71,8 @@ namespace FootballClub
                 {
                     GenderMale.IsChecked = true;
                 }
-                birth_date.Text = r["birth date"].ToString();
+                DateTime date = DateTime.Parse(r["birth date"].ToString());
+                birth_date.Text = date.ToString("yyyy-MM-dd");
                 nationality.Text = r["nationality"].ToString();
                 federation_id.Text = r["federation id"].ToString();
                 salary.Value = Convert.ToDouble(r["salary"].ToString());
