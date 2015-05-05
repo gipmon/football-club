@@ -116,7 +116,7 @@
                         <Label Grid.Row="9">Height:</Label>
                         <TextBox Grid.Row="9" Grid.Column="1" Name="height" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="10">Salary:</Label>
-                        <Controls:NumericUpDown Grid.Row="10" Name="salary" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
+                        <Controls:NumericUpDown Grid.Row="10" Name="salary" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Interval="5" StringFormat="C2"/>
                         <Label Grid.Row="11">Federation ID:</Label>
                         <TextBox Grid.Row="11" Grid.Column="1" Name="federation_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="12">Internal ID:</Label>
