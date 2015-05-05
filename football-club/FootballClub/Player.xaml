@@ -85,6 +85,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label>Name:</Label>
@@ -94,8 +95,8 @@
                         <Label Grid.Row="2">NIF:</Label>
                         <TextBox Grid.Row="2" Grid.Column="1" Name="nif" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="3">Gender:</Label>
-                        <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Gender" Content="Male" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Gender" Margin="60,0,0,0" Content="Female" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <RadioButton Grid.Row="3" Grid.Column="1" Name="GenderMale" GroupName="Gender" Content="Male" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <RadioButton Grid.Row="3" Grid.Column="1" Name="GenderFemale" GroupName="Gender" Margin="60,0,0,0" Content="Female" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <Label Grid.Row="4">Date of Birth:</Label>
                         <TextBox Grid.Row="4" Grid.Column="1" Name="birth_date" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="5">Address:</Label>
@@ -113,10 +114,12 @@
                         <Label Grid.Row="9">Height:</Label>
                         <TextBox Grid.Row="9" Grid.Column="1" Name="height" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="10">Salary:</Label>
-                        <Controls:NumericUpDown Grid.Row="10" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
-                        <Label Grid.Row="11">Internal ID:</Label>
-                        <TextBox Grid.Row="11" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
-                        <Grid Grid.Row="12">
+                        <Controls:NumericUpDown Grid.Row="10" Name="salary" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
+                        <Label Grid.Row="11">Federation ID:</Label>
+                        <TextBox Grid.Row="11" Grid.Column="1" Name="federation_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="12">Internal ID:</Label>
+                        <TextBox Grid.Row="12" Grid.Column="1" Name="internal_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Grid Grid.Row="13">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />

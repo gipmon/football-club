@@ -63,10 +63,19 @@ namespace FootballClub
                 name.Text = r["name"].ToString();
                 nif.Text = r["nif"].ToString();
                 address.Text = r["address"].ToString();
-                // gender.Text = row.Row.ItemArray[4].ToString();
+                if (r["gender"].ToString() == "F")
+                {
+                    GenderFemale.IsChecked = true;
+                }
+                else
+                {
+                    GenderMale.IsChecked = true;
+                }
                 birth_date.Text = r["birth date"].ToString();
                 nationality.Text = r["nationality"].ToString();
-                // federation_id.Text = row.Row.ItemArray[7].ToString();
+                federation_id.Text = r["federation id"].ToString();
+                salary.Value = Convert.ToDouble(r["salary"].ToString());
+                internal_id.Text = r["internal id"].ToString();
                 weight.Text = r["weight"].ToString();
                 height.Text = r["height"].ToString();
             }
