@@ -93,9 +93,9 @@
                         <TextBox Grid.Row="1" Grid.Column="1" Name="bi" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="2">NIF:</Label>
                         <TextBox Grid.Row="2" Grid.Column="1" Name="nif" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
-                        <Label Grid.Row="3">Sex:</Label>
-                        <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Sex" Content="Male" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Sex" Margin="60,0,0,0" Content="Female" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Label Grid.Row="3">Gender:</Label>
+                        <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Gender" Content="Male" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Gender" Margin="60,0,0,0" Content="Female" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <Label Grid.Row="4">Date of Birth:</Label>
                         <TextBox Grid.Row="4" Grid.Column="1" Name="birth_date" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="5">Address:</Label>

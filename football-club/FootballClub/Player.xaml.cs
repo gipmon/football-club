@@ -23,48 +23,53 @@ namespace FootballClub
     /// </summary>
     public partial class Player : Page
     {
+        private string ConString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
+        private SqlConnection con;
+
         public Player()
         {
             InitializeComponent();
-            FillDataGrid();
+            using (con = new SqlConnection(ConString))
+            {
+                FillDataGrid();
+            }
         }
         private void FillDataGrid()
         {
-            string ConString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
-
-            using (SqlConnection con = new SqlConnection(ConString))
-            {
-                // é importante definirmos uma ordem nas queries e começar por definir views para isto tudo...
-                string CmdString = "SELECT name, person.bi, nif, address, gender, birth_date as 'birth date', nationality, federation_id as 'federation id', weight, height FROM (football.player JOIN football.person ON player.bi=person.bi) ";
-                SqlCommand cmd = new SqlCommand(CmdString, con);
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable("player");
-                sda.Fill(dt);
-                playersGrid.ItemsSource = dt.DefaultView;
-            }
+            // é importante definirmos uma ordem nas queries e começar por definir views para isto tudo...
+            string CmdString = "SELECT * FROM football.playersView";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("players");
+            sda.Fill(dt);
+            playersGrid.ItemsSource = dt.DefaultView;
         }
 
         private void playersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DataRowView row = (DataRowView)playersGrid.SelectedItem;
-            try
+            using (con = new SqlConnection(ConString))
             {
-                name.Text = row.Row.ItemArray[0].ToString();
-                bi.Text = row.Row.ItemArray[1].ToString();
-                nif.Text = row.Row.ItemArray[2].ToString();
-                address.Text = row.Row.ItemArray[3].ToString();
+                DataRowView row = (DataRowView)playersGrid.SelectedItem;
+                string search_bi = row.Row.ItemArray[1].ToString();
+                bi.Text = search_bi;
+                string CmdString = "SELECT * FROM football.playerView WHERE bi=" + search_bi;
+                SqlCommand cmd = new SqlCommand(CmdString, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("player");
+                sda.Fill(dt);
+                DataRow r = dt.Rows[0];
+                
+                bi.Text = r["bi"].ToString();
+                name.Text = r["name"].ToString();
+                nif.Text = r["nif"].ToString();
+                address.Text = r["address"].ToString();
                 // gender.Text = row.Row.ItemArray[4].ToString();
-                birth_date.Text = row.Row.ItemArray[5].ToString();
-                nationality.Text = row.Row.ItemArray[6].ToString();
+                birth_date.Text = r["birth date"].ToString();
+                nationality.Text = r["nationality"].ToString();
                 // federation_id.Text = row.Row.ItemArray[7].ToString();
-                weight.Text = row.Row.ItemArray[8].ToString();
-                height.Text = row.Row.ItemArray[9].ToString();
+                weight.Text = r["weight"].ToString();
+                height.Text = r["height"].ToString();
             }
-            catch (Exception)
-            {
-
-            }
-            // a minha sugestao e obter os dados apartir da datagrid sempre que forem clicados e colocar no lado direito
         }
 
     }
