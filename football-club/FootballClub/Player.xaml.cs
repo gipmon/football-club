@@ -43,6 +43,19 @@ namespace FootballClub
             DataTable dt = new DataTable("players");
             sda.Fill(dt);
             playersGrid.ItemsSource = dt.DefaultView;
+
+            // fill the teams of the player
+            CmdString = "SELECT * FROM football.teamNamesView";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("teams");
+            sda.Fill(dt);
+            foreach (DataRow team_name in dt.Rows)
+            {
+                ListBoxItem itm = new ListBoxItem();
+                itm.Content = team_name["name"].ToString();
+                teams.Items.Add(itm);
+            }
         }
 
         private void playersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -79,6 +92,8 @@ namespace FootballClub
                 internal_id.Text = r["internal id"].ToString();
                 weight.Text = r["weight"].ToString();
                 height.Text = r["height"].ToString();
+
+                
             }
         }
 
