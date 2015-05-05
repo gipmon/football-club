@@ -104,11 +104,13 @@
                         <Label Grid.Row="6">Nationality:</Label>
                         <TextBox Grid.Row="6" Grid.Column="1" Name="nationality" Margin="0,0,0,10" />
                         <Label Grid.Row="7">Team:</Label>
-                        <ComboBox Grid.Row="7"  Grid.Column="1" Margin="0,0,0,10">
-                            <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
-                            <ComboBoxItem IsSelected="True">ComboBox Item #2</ComboBoxItem>
-                            <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
-                        </ComboBox>
+                        <ListBox Grid.Row="7"  Grid.Column="1" Height="50px" SelectionMode="Multiple" Margin="0,0,0,10">
+                            <ListBoxItem>ComboBox Item #1</ListBoxItem>
+                            <ListBoxItem>ComboBox Item #2</ListBoxItem>
+                            <ListBoxItem>ComboBox Item #3</ListBoxItem>
+                            <ListBoxItem>ComboBox Item #4</ListBoxItem>
+                            <ListBoxItem>ComboBox Item #5</ListBoxItem>
+                        </ListBox>
                         <Label Grid.Row="8">Weight:</Label>
                         <TextBox Grid.Row="8" Grid.Column="1" Name="weight" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="9">Height:</Label>
