@@ -131,28 +131,23 @@ namespace FootballClub
 
                 // federation id already in use
 
-                // valid date
-
-
+                DateTime dt;
+                if(!DateTime.TryParse(birth_date.Text, out dt))
+                {
+                    MessageBox.Show("Please insert a valid date!");
+                }
 
 
                 string gender;
                 // INSERT PERSON
-                if (GenderFemale.IsChecked == true)
-                {
-                    gender = "F";
-                }
-                else
-                {
-                    gender = "M";
-                }
+                gender = (GenderFemale.IsChecked == true) ? "F" : "M";
 
-                string CmdString = "INSERT INTO football.person(bi, name, address, birth_date, nif, gender, nationality) VALUES (@intBi, '@name', '@address', '@birth_date', @nif, '@gender', '@nationality')";
+                string CmdString = "INSERT INTO football.person(bi, name, address, birth_date, nif, gender, nationality) VALUES (@intBi, @name, @address, @birth_date, @nif, @gender, @nationality)";
                 SqlCommand cmd_person = new SqlCommand(CmdString, con);
                 cmd_person.Parameters.AddWithValue("@intBi", Convert.ToInt32(bi.Text));
                 cmd_person.Parameters.AddWithValue("@name", name.Text);
                 cmd_person.Parameters.AddWithValue("@address", address.Text);
-                cmd_person.Parameters.AddWithValue("@birth_date", birth_date.Text);
+                cmd_person.Parameters.AddWithValue("@birth_date", dt);
                 cmd_person.Parameters.AddWithValue("@nif", Convert.ToInt32(nif.Text));
                 cmd_person.Parameters.AddWithValue("@gender", gender);
                 cmd_person.Parameters.AddWithValue("@nationality", nationality.Text);
