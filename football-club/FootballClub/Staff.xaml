@@ -61,10 +61,7 @@
                         <Label Grid.Row="7">Role:</Label>
                         <TextBox Grid.Row="7" Grid.Column="1" Name="role" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="8">Department:</Label>
-                        <ComboBox Grid.Row="8"  Grid.Column="1" Margin="0,0,0,10">
-                            <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
-                            <ComboBoxItem IsSelected="True">ComboBox Item #2</ComboBoxItem>
-                            <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
+                        <ComboBox Grid.Row="8" Name="departments" Grid.Column="1" Margin="0,0,0,10">
                         </ComboBox>
                         <Label Grid.Row="9">Salary:</Label>
                         <Controls:NumericUpDown Grid.Row="9" Name="salary" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Interval="5" StringFormat="C2"/>

@@ -44,6 +44,19 @@ namespace FootballClub
             DataTable dt = new DataTable("staff");
             sda.Fill(dt);
             staffGrid.ItemsSource = dt.DefaultView;
+
+            // fill the departments of the staff
+            CmdString = "SELECT * FROM football.departmentsView";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("departments");
+            sda.Fill(dt);
+            foreach (DataRow department in dt.Rows)
+            {
+                ComboBoxItem itm = new ComboBoxItem();
+                itm.Content = department["name"].ToString();
+                departments.Items.Add(itm);
+            }
         }
 
         private void staffGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -78,6 +91,26 @@ namespace FootballClub
                 salary.Value = Convert.ToDouble(r["salary"].ToString());
                 internal_id.Text = r["internal id"].ToString();
                 role.Text = r["role"].ToString();
+
+                // select the department of the staff
+                CmdString = "SELECT * FROM football.staffDepartmentView WHERE bi=" + search_bi;
+                cmd = new SqlCommand(CmdString, con);
+                sda = new SqlDataAdapter(cmd);
+                dt = new DataTable("department_selected");
+                sda.Fill(dt);
+
+                foreach (ComboBoxItem itm in departments.Items)
+                {
+                    itm.IsSelected = false;
+                    foreach (DataRow department in dt.Rows)
+                    {
+                        if (department["name"].ToString() == itm.Content.ToString())
+                        {
+                            itm.IsSelected = true;
+                            break;
+                        }
+                    }
+                }
                 
             }
 
