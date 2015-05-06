@@ -65,8 +65,10 @@ namespace FootballClub
                 DataRowView row = (DataRowView)playersGrid.SelectedItem;
                 string search_bi = row.Row.ItemArray[1].ToString();
                 bi.Text = search_bi;
-                string CmdString = "SELECT * FROM football.playerView WHERE bi=" + search_bi;
+
+                string CmdString = "SELECT * FROM football.playerView WHERE bi=@intBi";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
+                cmd.Parameters.AddWithValue("@intBi", Convert.ToInt32(search_bi));
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable("player");
                 sda.Fill(dt);
@@ -114,6 +116,64 @@ namespace FootballClub
                     }
                 }
             }
+        }
+
+        private void Player_New(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                // --> Validations
+                // bi, nif and federation id is number
+
+                // bi already in use
+
+                // nif already in use
+
+                // federation id already in use
+
+                // valid date
+
+
+
+
+                string gender;
+                // INSERT PERSON
+                if (GenderFemale.IsChecked == true)
+                {
+                    gender = "F";
+                }
+                else
+                {
+                    gender = "M";
+                }
+
+                string CmdString = "INSERT INTO football.person(bi, name, address, birth_date, nif, gender, nationality) VALUES (" + bi.Text + ", '"
+                    + name.Text + "', '" + address.Text + "', '" + birth_date.Text + "', " + nif.Text + ", '" + gender + "', '" + nationality.Text + "')";
+                SqlCommand cmd_person = new SqlCommand(CmdString, con);
+
+                CmdString = "INSERT INTO football.internal_people(bi, salary) VALUES (" + bi.Text + ", '"+ salary.Value + "')";
+                SqlCommand cmd_internal_people = new SqlCommand(CmdString, con);
+
+                CmdString = "INSERT INTO football.player(bi, federation_id, weight, height) VALUES (" + bi.Text + ", " + federation_id.Text
+                    + ", " + weight.Text + ", " + height.Text + ")";
+                SqlCommand cmd_player = new SqlCommand(CmdString, con);
+
+                try
+                {
+                    con.Open();
+                    cmd_person.ExecuteNonQuery();
+                    cmd_internal_people.ExecuteNonQuery();
+                    cmd_player.ExecuteNonQuery();
+                    con.Close();
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+
+            }
+
+            
         }
 
     }
