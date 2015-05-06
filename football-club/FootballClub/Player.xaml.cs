@@ -123,8 +123,29 @@ namespace FootballClub
             using (con = new SqlConnection(ConString))
             {
                 // --> Validations
-                // bi, nif and federation id is number
+                int biInt, nifInt, fedInt, weightInt, heightInt;
 
+                // bi, nif and federation id is number
+                if (!Int32.TryParse(bi.Text, out biInt))
+                {
+                    MessageBox.Show("The BI must be an Integer!");
+                }
+                if (!Int32.TryParse(nif.Text, out nifInt))
+                {
+                    MessageBox.Show("The NIF must be an Integer!");
+                }
+                if (!Int32.TryParse(federation_id.Text, out fedInt))
+                {
+                    MessageBox.Show("The Federation ID must be an Integer!");
+                }
+                if (!Int32.TryParse(weight.Text, out weightInt))
+                {
+                    MessageBox.Show("The weight must be an Integer!");
+                }
+                if (!Int32.TryParse(height.Text, out heightInt))
+                {
+                    MessageBox.Show("The height must be an Integer!");
+                }
                 // bi already in use
 
                 // nif already in use
@@ -144,25 +165,25 @@ namespace FootballClub
 
                 string CmdString = "INSERT INTO football.person(bi, name, address, birth_date, nif, gender, nationality) VALUES (@intBi, @name, @address, @birth_date, @nif, @gender, @nationality)";
                 SqlCommand cmd_person = new SqlCommand(CmdString, con);
-                cmd_person.Parameters.AddWithValue("@intBi", Convert.ToInt32(bi.Text));
+                cmd_person.Parameters.AddWithValue("@intBi", biInt);
                 cmd_person.Parameters.AddWithValue("@name", name.Text);
                 cmd_person.Parameters.AddWithValue("@address", address.Text);
                 cmd_person.Parameters.AddWithValue("@birth_date", dt);
-                cmd_person.Parameters.AddWithValue("@nif", Convert.ToInt32(nif.Text));
+                cmd_person.Parameters.AddWithValue("@nif", nifInt);
                 cmd_person.Parameters.AddWithValue("@gender", gender);
                 cmd_person.Parameters.AddWithValue("@nationality", nationality.Text);
 
                 CmdString = "INSERT INTO football.internal_people(bi, salary) VALUES (@intBi, @salary)";
                 SqlCommand cmd_internal_people = new SqlCommand(CmdString, con);
-                cmd_internal_people.Parameters.AddWithValue("@intBi", Convert.ToInt32(bi.Text));
+                cmd_internal_people.Parameters.AddWithValue("@intBi", biInt);
                 cmd_internal_people.Parameters.AddWithValue("@salary", salary.Value);
 
                 CmdString = "INSERT INTO football.player(bi, federation_id, weight, height) VALUES (@intBi, @fed_id, @weight, @height)";
                 SqlCommand cmd_player = new SqlCommand(CmdString, con);
-                cmd_player.Parameters.AddWithValue("@intBi", Convert.ToInt32(bi.Text));
-                cmd_player.Parameters.AddWithValue("@fed_id", Convert.ToInt32(federation_id.Text));
-                cmd_player.Parameters.AddWithValue("@weight", Convert.ToInt32(weight.Text));
-                cmd_player.Parameters.AddWithValue("@height", Convert.ToInt32(height.Text));
+                cmd_player.Parameters.AddWithValue("@intBi", biInt);
+                cmd_player.Parameters.AddWithValue("@fed_id", fedInt);
+                cmd_player.Parameters.AddWithValue("@weight", weightInt);
+                cmd_player.Parameters.AddWithValue("@height", heightInt);
 
                 //try
                 //{
