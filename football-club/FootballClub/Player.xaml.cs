@@ -147,29 +147,40 @@ namespace FootballClub
                     gender = "M";
                 }
 
-                string CmdString = "INSERT INTO football.person(bi, name, address, birth_date, nif, gender, nationality) VALUES (" + bi.Text + ", '"
-                    + name.Text + "', '" + address.Text + "', '" + birth_date.Text + "', " + nif.Text + ", '" + gender + "', '" + nationality.Text + "')";
+                string CmdString = "INSERT INTO football.person(bi, name, address, birth_date, nif, gender, nationality) VALUES (@intBi, '@name', '@address', '@birth_date', @nif, '@gender', '@nationality')";
                 SqlCommand cmd_person = new SqlCommand(CmdString, con);
+                cmd_person.Parameters.AddWithValue("@intBi", Convert.ToInt32(bi.Text));
+                cmd_person.Parameters.AddWithValue("@name", name.Text);
+                cmd_person.Parameters.AddWithValue("@address", address.Text);
+                cmd_person.Parameters.AddWithValue("@birth_date", birth_date.Text);
+                cmd_person.Parameters.AddWithValue("@nif", Convert.ToInt32(nif.Text));
+                cmd_person.Parameters.AddWithValue("@gender", gender);
+                cmd_person.Parameters.AddWithValue("@nationality", nationality.Text);
 
-                CmdString = "INSERT INTO football.internal_people(bi, salary) VALUES (" + bi.Text + ", '"+ salary.Value + "')";
+                CmdString = "INSERT INTO football.internal_people(bi, salary) VALUES (@intBi, @salary)";
                 SqlCommand cmd_internal_people = new SqlCommand(CmdString, con);
+                cmd_internal_people.Parameters.AddWithValue("@intBi", Convert.ToInt32(bi.Text));
+                cmd_internal_people.Parameters.AddWithValue("@salary", salary.Value);
 
-                CmdString = "INSERT INTO football.player(bi, federation_id, weight, height) VALUES (" + bi.Text + ", " + federation_id.Text
-                    + ", " + weight.Text + ", " + height.Text + ")";
+                CmdString = "INSERT INTO football.player(bi, federation_id, weight, height) VALUES (@intBi, @fed_id, @weight, @height)";
                 SqlCommand cmd_player = new SqlCommand(CmdString, con);
+                cmd_player.Parameters.AddWithValue("@intBi", Convert.ToInt32(bi.Text));
+                cmd_player.Parameters.AddWithValue("@fed_id", Convert.ToInt32(federation_id.Text));
+                cmd_player.Parameters.AddWithValue("@weight", Convert.ToInt32(weight.Text));
+                cmd_player.Parameters.AddWithValue("@height", Convert.ToInt32(height.Text));
 
-                try
-                {
+                //try
+                //{
                     con.Open();
                     cmd_person.ExecuteNonQuery();
                     cmd_internal_people.ExecuteNonQuery();
                     cmd_player.ExecuteNonQuery();
                     con.Close();
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show(exc.Message);
-                }
+                //}
+                //catch (Exception exc)
+                //{
+                //    MessageBox.Show(exc.Message);
+                //}
 
             }
 
