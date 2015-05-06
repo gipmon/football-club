@@ -5,7 +5,7 @@ go
 CREATE VIEW football.departmentsView 
 WITH schemabinding, encryption 
 AS 
-	SELECT	department.name
+	SELECT	department.department_id as 'id', department.name, department.address
 	FROM	football.department;
 
 go 

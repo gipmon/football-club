@@ -57,6 +57,14 @@ namespace FootballClub
                 itm.Content = department["name"].ToString();
                 departments.Items.Add(itm);
             }
+
+            string CmdString1 = "SELECT * FROM football.departmentsView";
+            SqlCommand cmd1 = new SqlCommand(CmdString1, con);
+            SqlDataAdapter sda1 = new SqlDataAdapter(cmd1);
+            DataTable dt1 = new DataTable("department");
+            sda.Fill(dt1);
+            departmentGrid.ItemsSource = dt1.DefaultView;
+
         }
 
         private void staffGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -112,6 +120,28 @@ namespace FootballClub
                     }
                 }
                 
+            }
+
+        }
+
+        private void departmentGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                DataRowView row = (DataRowView)departmentGrid.SelectedItem;
+                string search_id = row.Row.ItemArray[0].ToString();
+                department_id.Text = search_id;
+                string CmdString = "SELECT * FROM football.departmentsView WHERE id=" + search_id;
+                SqlCommand cmd = new SqlCommand(CmdString, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("departments");
+                sda.Fill(dt);
+                DataRow r = dt.Rows[0];
+
+                department_id.Text = r["id"].ToString();
+                department_name.Text = r["name"].ToString();
+                department_address.Text = r["address"].ToString();
+
             }
 
         }
