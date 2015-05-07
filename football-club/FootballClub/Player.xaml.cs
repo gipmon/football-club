@@ -56,6 +56,14 @@ namespace FootballClub
                 itm.Content = team["name"].ToString();
                 teams.Items.Add(itm);
             }
+
+            //fill teams
+            string CmdString1 = "SELECT * FROM football.teamsView";
+            SqlCommand cmd1 = new SqlCommand(CmdString1, con);
+            SqlDataAdapter sda1 = new SqlDataAdapter(cmd1);
+            DataTable dt1 = new DataTable("teams");
+            sda1.Fill(dt1);
+            teamsGrid.ItemsSource = dt1.DefaultView;
         }
 
         private void playersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -201,6 +209,27 @@ namespace FootballClub
             }
 
             
+        }
+
+        private void teamsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                DataRowView row = (DataRowView)teamsGrid.SelectedItem;
+                string search_name = row.Row.ItemArray[0].ToString();
+                teamName.Text = search_name;
+                string CmdString = "SELECT * FROM football.teamsView WHERE name='" + search_name+"'";
+                SqlCommand cmd = new SqlCommand(CmdString, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("team");
+                sda.Fill(dt);
+                DataRow r = dt.Rows[0];
+                
+                teamName.Text = r["name"].ToString();
+                max_age.Text = r["max_age"].ToString();
+
+            }
+           
         }
 
     }

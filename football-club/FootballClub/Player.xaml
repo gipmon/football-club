@@ -21,7 +21,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <DataGrid>
+                    <DataGrid IsReadOnly="True" Name="teamsGrid"  SelectionChanged="teamsGrid_SelectionChanged">
                     </DataGrid>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
@@ -36,9 +36,9 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label>Name:</Label>
-                        <TextBox Grid.Column="1" Margin="0,0,0,10"  />
+                        <TextBox Grid.Column="1" Name="teamName" Margin="0,0,0,10"  />
                         <Label Grid.Row="1">Max age:</Label>
-                        <TextBox  Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"  />
+                        <TextBox Grid.Row="1" Name="max_age" Grid.Column="1" Margin="0,0,0,10"  />
                         <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
