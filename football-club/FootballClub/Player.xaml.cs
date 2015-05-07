@@ -154,11 +154,6 @@ namespace FootballClub
                 {
                     MessageBox.Show("The height must be an Integer!");
                 }
-                // bi already in use
-
-                // nif already in use
-
-                // federation id already in use
 
                 DateTime dt;
                 if(!DateTime.TryParse(birth_date.Text, out dt))
@@ -166,46 +161,35 @@ namespace FootballClub
                     MessageBox.Show("Please insert a valid date!");
                 }
 
-
                 string gender;
-                // INSERT PERSON
                 gender = (GenderFemale.IsChecked == true) ? "F" : "M";
 
-                string CmdString = "INSERT INTO football.person(bi, name, address, birth_date, nif, gender, nationality) VALUES (@intBi, @name, @address, @birth_date, @nif, @gender, @nationality)";
-                SqlCommand cmd_person = new SqlCommand(CmdString, con);
-                cmd_person.Parameters.AddWithValue("@intBi", biInt);
-                cmd_person.Parameters.AddWithValue("@name", name.Text);
-                cmd_person.Parameters.AddWithValue("@address", address.Text);
-                cmd_person.Parameters.AddWithValue("@birth_date", dt);
-                cmd_person.Parameters.AddWithValue("@nif", nifInt);
-                cmd_person.Parameters.AddWithValue("@gender", gender);
-                cmd_person.Parameters.AddWithValue("@nationality", nationality.Text);
+                // INSERT PLAYER
 
-                CmdString = "INSERT INTO football.internal_people(bi, salary) VALUES (@intBi, @salary)";
-                SqlCommand cmd_internal_people = new SqlCommand(CmdString, con);
-                cmd_internal_people.Parameters.AddWithValue("@intBi", biInt);
-                cmd_internal_people.Parameters.AddWithValue("@salary", salary.Value);
-
-                CmdString = "INSERT INTO football.player(bi, federation_id, weight, height) VALUES (@intBi, @fed_id, @weight, @height)";
+                string CmdString = "EXEC football.sp_createPlayer @bi = @paramBi, @name = @paramName, @address = @paramAddress, @birth_date = @paramBirthDate, @nif = @paramNif, @gender = @paramGender, @nationality = @paramNationality, @salary = @paramSalary, @federation_id = @paramFed, @weight = @paramWeight, @height = @paramHeight";
                 SqlCommand cmd_player = new SqlCommand(CmdString, con);
-                cmd_player.Parameters.AddWithValue("@intBi", biInt);
-                cmd_player.Parameters.AddWithValue("@fed_id", fedInt);
-                cmd_player.Parameters.AddWithValue("@weight", weightInt);
-                cmd_player.Parameters.AddWithValue("@height", heightInt);
+                cmd_player.Parameters.AddWithValue("@paramBi", biInt);
+                cmd_player.Parameters.AddWithValue("@paramName", name.Text);
+                cmd_player.Parameters.AddWithValue("@paramAddress", address.Text);
+                cmd_player.Parameters.AddWithValue("@paramBirthDate", dt);
+                cmd_player.Parameters.AddWithValue("@paramNif", nifInt);
+                cmd_player.Parameters.AddWithValue("@paramGender", gender);
+                cmd_player.Parameters.AddWithValue("@paramNationality", nationality.Text);
+                cmd_player.Parameters.AddWithValue("@paramSalary", salary.Value);
+                cmd_player.Parameters.AddWithValue("@paramFed", fedInt);
+                cmd_player.Parameters.AddWithValue("@paramWeight", weightInt);
+                cmd_player.Parameters.AddWithValue("@paramHeight", heightInt);
 
-                //try
-                //{
+                try
+                {
                     con.Open();
-                    cmd_person.ExecuteNonQuery();
-                    cmd_internal_people.ExecuteNonQuery();
                     cmd_player.ExecuteNonQuery();
                     con.Close();
-                //}
-                //catch (Exception exc)
-                //{
-                //    MessageBox.Show(exc.Message);
-                //}
-
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
             }
 
             
