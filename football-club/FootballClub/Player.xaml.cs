@@ -31,13 +31,15 @@ namespace FootballClub
             InitializeComponent();
             using (con = new SqlConnection(ConString))
             {
-                FillDataGrid();
+                FillDataGrid(con);
             }
         }
-        private void FillDataGrid()
+        private void FillDataGrid(SqlConnection con)
         {
-            // é importante definirmos uma ordem nas queries e começar por definir views para isto tudo...
-            string CmdString = "SELECT * FROM football.playersView";
+            /*
+            * PLAYER TAB
+            * */
+            string CmdString = "SELECT * FROM football.udf_players_data_grid()";
             SqlCommand cmd = new SqlCommand(CmdString, con);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable("players");
@@ -45,19 +47,22 @@ namespace FootballClub
             playersGrid.ItemsSource = dt.DefaultView;
 
             // fill the teams of the player
-            CmdString = "SELECT * FROM football.teamNamesView";
+            CmdString = "SELECT * FROM football.udf_team_names(DEFAULT)";
             cmd = new SqlCommand(CmdString, con);
             sda = new SqlDataAdapter(cmd);
             dt = new DataTable("teams");
             sda.Fill(dt);
+
             foreach (DataRow team in dt.Rows)
             {
                 ListBoxItem itm = new ListBoxItem();
-                itm.Content = team["name"].ToString();
+                itm.Content = team[0].ToString();
                 teams.Items.Add(itm);
             }
 
-            //fill teams
+            /*
+                * TEAMS TAB
+                * */
             string CmdString1 = "SELECT * FROM football.teamsView";
             SqlCommand cmd1 = new SqlCommand(CmdString1, con);
             SqlDataAdapter sda1 = new SqlDataAdapter(cmd1);
@@ -71,10 +76,21 @@ namespace FootballClub
             using (con = new SqlConnection(ConString))
             {
                 DataRowView row = (DataRowView)playersGrid.SelectedItem;
-                string search_bi = row.Row.ItemArray[1].ToString();
+                string search_bi;
+                try
+                {
+                    // este try catch e por causa de quando autalizamos a DataGrid numa segunda vez
+                    // e houve algo selecionado antes...
+                    search_bi = row.Row.ItemArray[1].ToString();
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+
                 bi.Text = search_bi;
 
-                string CmdString = "SELECT * FROM football.playerView WHERE bi=@intBi";
+                string CmdString = "SELECT * FROM football.udf_player(@intBi)";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
                 cmd.Parameters.AddWithValue("@intBi", Convert.ToInt32(search_bi));
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
@@ -106,8 +122,9 @@ namespace FootballClub
                 height.Text = r["height"].ToString();
 
                 // select the teams of the player
-                CmdString = "SELECT * FROM football.playersTeamsView WHERE bi=" + search_bi;
+                CmdString = "SELECT * FROM football.udf_team_names(@intBi)";
                 cmd = new SqlCommand(CmdString, con);
+                cmd.Parameters.AddWithValue("@intBi", Convert.ToInt32(search_bi));
                 sda = new SqlDataAdapter(cmd);
                 dt = new DataTable("teams_selected");
                 sda.Fill(dt);
@@ -117,7 +134,7 @@ namespace FootballClub
                     itm.IsSelected = false;
                     foreach (DataRow team in dt.Rows)
                     {
-                        if(team["team_name"].ToString() == itm.Content.ToString()){
+                        if(team[0].ToString() == itm.Content.ToString()){
                             itm.IsSelected = true;
                             break;
                         }
@@ -180,16 +197,19 @@ namespace FootballClub
                 cmd_player.Parameters.AddWithValue("@paramWeight", weightInt);
                 cmd_player.Parameters.AddWithValue("@paramHeight", heightInt);
 
-                try
-                {
+                //try
+                //{
                     con.Open();
                     cmd_player.ExecuteNonQuery();
+                    MessageBox.Show("The player has been inserted successfully!");
+                    FillDataGrid(con);
                     con.Close();
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show(exc.Message);
-                }
+                //}
+                //catch (Exception exc)
+                //{
+                    //MessageBox.Show(exc.Message);
+                //}
+                
             }
 
             
@@ -211,9 +231,16 @@ namespace FootballClub
                 
                 teamName.Text = r["name"].ToString();
                 max_age.Text = r["max_age"].ToString();
-
             }
            
+        }
+
+        private void players_refresh(object sender, MouseButtonEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                this.FillDataGrid(con);
+            }
         }
 
     }
