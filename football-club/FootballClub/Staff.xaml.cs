@@ -31,14 +31,17 @@ namespace FootballClub
             InitializeComponent();
             using (con = new SqlConnection(ConString))
             {
-                FillDataGrid();
+                FillDataGrid(con);
             }
 
         }
 
-        private void FillDataGrid()
+        private void FillDataGrid(SqlConnection con)
         {
-            string CmdString = "SELECT * FROM football.staffView";
+            /*
+            * STAFF TAB
+            * */
+            string CmdString = "SELECT * FROM football.udf_staff_data_grid()";
             SqlCommand cmd = new SqlCommand(CmdString, con);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable("staff");
@@ -46,7 +49,7 @@ namespace FootballClub
             staffGrid.ItemsSource = dt.DefaultView;
 
             // fill the departments of the staff
-            CmdString = "SELECT * FROM football.departmentsView";
+            CmdString = "SELECT * FROM football.udf_department_names(DEFAULT)";
             cmd = new SqlCommand(CmdString, con);
             sda = new SqlDataAdapter(cmd);
             dt = new DataTable("departments");
@@ -54,10 +57,13 @@ namespace FootballClub
             foreach (DataRow department in dt.Rows)
             {
                 ComboBoxItem itm = new ComboBoxItem();
-                itm.Content = department["name"].ToString();
+                itm.Content = department["department_name"].ToString();
                 departments.Items.Add(itm);
             }
 
+            /*
+            * DEPARTMENTS TAB
+            * */
             string CmdString1 = "SELECT * FROM football.departmentsView";
             SqlCommand cmd1 = new SqlCommand(CmdString1, con);
             SqlDataAdapter sda1 = new SqlDataAdapter(cmd1);
@@ -72,10 +78,19 @@ namespace FootballClub
             using (con = new SqlConnection(ConString))
             {
                 DataRowView row = (DataRowView)staffGrid.SelectedItem;
-                string search_bi = row.Row.ItemArray[1].ToString();
+                string search_bi;
+                try
+                {
+                    search_bi = row.Row.ItemArray[1].ToString();
+                }
+                catch (Exception)
+                {
+                    return;
+                }
                 bi.Text = search_bi;
-                string CmdString = "SELECT * FROM football.individualStaffView WHERE bi=" + search_bi;
+                string CmdString = "SELECT * FROM football.udf_staff(@intBi)";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
+                cmd.Parameters.AddWithValue("@intBi", Convert.ToInt32(search_bi));
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable("staff");
                 sda.Fill(dt);
@@ -101,8 +116,9 @@ namespace FootballClub
                 role.Text = r["role"].ToString();
 
                 // select the department of the staff
-                CmdString = "SELECT * FROM football.staffDepartmentView WHERE bi=" + search_bi;
+                CmdString = "SELECT * FROM football.udf_department_names(@intBi)";
                 cmd = new SqlCommand(CmdString, con);
+                cmd.Parameters.AddWithValue("@intBi", Convert.ToInt32(search_bi));
                 sda = new SqlDataAdapter(cmd);
                 dt = new DataTable("department_selected");
                 sda.Fill(dt);
@@ -112,7 +128,7 @@ namespace FootballClub
                     itm.IsSelected = false;
                     foreach (DataRow department in dt.Rows)
                     {
-                        if (department["name"].ToString() == itm.Content.ToString())
+                        if (department["department_name"].ToString() == itm.Content.ToString())
                         {
                             itm.IsSelected = true;
                             break;
@@ -121,6 +137,64 @@ namespace FootballClub
                 }
                 
             }
+
+        }
+
+        private void Staff_New(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                // --> Validations
+                int biInt, nifInt;
+
+                // bi, nif and federation id is number
+                if (!Int32.TryParse(bi.Text, out biInt))
+                {
+                    MessageBox.Show("The BI must be an Integer!");
+                }
+                if (!Int32.TryParse(nif.Text, out nifInt))
+                {
+                    MessageBox.Show("The NIF must be an Integer!");
+                }
+                
+                DateTime dt;
+                if (!DateTime.TryParse(birth_date.Text, out dt))
+                {
+                    MessageBox.Show("Please insert a valid date!");
+                }
+
+                string gender;
+                gender = (GenderFemale.IsChecked == true) ? "F" : "M";
+
+                // INSERT PLAYER
+
+                string CmdString = "EXEC football.sp_createStaff @bi = @paramBi, @name = @paramName, @address = @paramAddress, @birth_date = @paramBirthDate, @nif = @paramNif, @gender = @paramGender, @nationality = @paramNationality, @salary = @paramSalary, @role = @paramRole";
+                SqlCommand cmd_player = new SqlCommand(CmdString, con);
+                cmd_player.Parameters.AddWithValue("@paramBi", biInt);
+                cmd_player.Parameters.AddWithValue("@paramName", name.Text);
+                cmd_player.Parameters.AddWithValue("@paramAddress", address.Text);
+                cmd_player.Parameters.AddWithValue("@paramBirthDate", dt);
+                cmd_player.Parameters.AddWithValue("@paramNif", nifInt);
+                cmd_player.Parameters.AddWithValue("@paramGender", gender);
+                cmd_player.Parameters.AddWithValue("@paramNationality", nationality.Text);
+                cmd_player.Parameters.AddWithValue("@paramSalary", salary.Value);
+                cmd_player.Parameters.AddWithValue("@paramRole", role.Text);
+
+                //try
+                //{
+                con.Open();
+                cmd_player.ExecuteNonQuery();
+                MessageBox.Show("The staff has been inserted successfully!");
+                FillDataGrid(con);
+                con.Close();
+                //}
+                //catch (Exception exc)
+                //{
+                //MessageBox.Show(exc.Message);
+                //}
+
+            }
+
 
         }
 
