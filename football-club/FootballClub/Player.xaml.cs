@@ -154,28 +154,34 @@ namespace FootballClub
                 if (!Int32.TryParse(bi.Text, out biInt))
                 {
                     MessageBox.Show("The BI must be an Integer!");
+                    return;
                 }
                 if (!Int32.TryParse(nif.Text, out nifInt))
                 {
                     MessageBox.Show("The NIF must be an Integer!");
+                    return;
                 }
                 if (!Int32.TryParse(federation_id.Text, out fedInt))
                 {
                     MessageBox.Show("The Federation ID must be an Integer!");
+                    return;
                 }
                 if (!Int32.TryParse(weight.Text, out weightInt))
                 {
                     MessageBox.Show("The weight must be an Integer!");
+                    return;
                 }
                 if (!Int32.TryParse(height.Text, out heightInt))
                 {
                     MessageBox.Show("The height must be an Integer!");
+                    return;
                 }
 
                 DateTime dt;
                 if(!DateTime.TryParse(birth_date.Text, out dt))
                 {
                     MessageBox.Show("Please insert a valid date!");
+                    return;
                 }
 
                 string gender;
@@ -197,22 +203,75 @@ namespace FootballClub
                 cmd_player.Parameters.AddWithValue("@paramWeight", weightInt);
                 cmd_player.Parameters.AddWithValue("@paramHeight", heightInt);
 
-                //try
-                //{
+                try
+                {
                     con.Open();
                     cmd_player.ExecuteNonQuery();
                     MessageBox.Show("The player has been inserted successfully!");
                     FillDataGrid(con);
                     con.Close();
-                //}
-                //catch (Exception exc)
-                //{
-                    //MessageBox.Show(exc.Message);
-                //}
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
                 
             }
+        }
 
-            
+        private void Player_Delete(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                using (con = new SqlConnection(ConString))
+                {
+                    // --> Validations
+                    int biInt;
+
+                    // bi is number
+                    if (!Int32.TryParse(bi.Text, out biInt))
+                    {
+                        MessageBox.Show("The BI must be an Integer!");
+                        return;
+                    }
+
+                    // DELETE THE PLAYER
+
+                    string CmdString = "EXEC football.sp_deletePlayer @bi = @paramBi";
+                    SqlCommand cmd_player = new SqlCommand(CmdString, con);
+                    cmd_player.Parameters.AddWithValue("@paramBi", biInt);
+
+                    try
+                    {
+                        con.Open();
+                        cmd_player.ExecuteNonQuery();
+                        MessageBox.Show("The player has been deleted successfully!");
+                        FillDataGrid(con);
+                        con.Close();
+
+                        // limpar as text boxs
+                        name.Text = "";
+                        bi.Text = "";
+                        nif.Text = "";
+                        address.Text = "";
+                        federation_id.Text = "";
+                        weight.Text = "";
+                        height.Text = "";
+                        birth_date.Text = "";
+                        nationality.Text = "";
+                        GenderMale.IsChecked = false;
+                        GenderFemale.IsChecked = false;
+                        salary.Value = 0;
+                        internal_id.Text = "";
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show(exc.Message);
+                    }
+
+                }
+            }
         }
 
         private void teamsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -95,3 +95,30 @@ AS
 		RAISERROR ('An error occurred when creating the player!', 14, 1)
 		ROLLBACK TRANSACTION;
 	END CATCH;
+
+go 
+
+-- DROP PROC football.sp_deletePlayer
+
+CREATE PROCEDURE football.sp_deletePlayer
+  @bi				INT
+WITH ENCRYPTION
+AS 
+	IF @bi is null
+	BEGIN
+		PRINT 'The bi can not be null!'
+		RETURN
+	END
+	
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		DELETE FROM football.player WHERE bi = @bi;
+		DELETE FROM football.internal_people WHERE bi = @bi;
+		DELETE FROM football.person WHERE bi = @bi;
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when creating the player!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
