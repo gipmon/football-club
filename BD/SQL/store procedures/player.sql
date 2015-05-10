@@ -119,6 +119,80 @@ AS
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
-		RAISERROR ('An error occurred when creating the player!', 14, 1)
+		RAISERROR ('An error occurred when try delete the player!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+
+
+go 
+
+-- DROP PROC football.sp_modifyPlayer
+
+CREATE PROCEDURE football.sp_modifyPlayer
+  @bi				INT, 
+  @name				VARCHAR(75),
+  @address			VARCHAR(75), 
+  @birth_date		DATE, 
+  @gender			VARCHAR(1), 
+  @nationality		VARCHAR(75),
+  @salary			MONEY,
+  @federation_id	INT,
+  @weight			INT,
+  @height			INT
+WITH ENCRYPTION
+AS 
+	IF @bi is null OR @name is null OR @address is null OR @birth_date is null OR @gender is null
+		OR @nationality is null OR @salary is null OR @federation_id is null OR @weight is null 
+		OR @height is null
+	BEGIN
+		PRINT 'The bi, name, address, birth_date, nationality, salary, federation_id, weight and height can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the BI exists
+	SELECT @count = count(bi) FROM football.person WHERE bi = @bi;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The BI that you provided do not exists!', 14, 1)
+		RETURN
+	END
+
+	-- check if the federation id is already in use
+	SELECT @count = count(federation_id) FROM football.player WHERE federation_id = @federation_id AND bi != @bi;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		UPDATE  football.person SET
+				name = @name, 
+				address = @address, 
+				birth_date = @birth_date,
+				gender = @gender,
+				nationality = @nationality
+		WHERE bi = @bi;
+
+		UPDATE football.internal_people SET
+			   salary = @salary
+		WHERE bi = @bi;
+
+		UPDATE football.player SET
+			   federation_id = @federation_id, 
+			   weight = @weight,
+			   height = @height
+		WHERE bi = @bi;
+
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the player!', 14, 1)
 		ROLLBACK TRANSACTION;
 	END CATCH;

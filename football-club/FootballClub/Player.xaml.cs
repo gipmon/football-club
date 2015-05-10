@@ -219,6 +219,76 @@ namespace FootballClub
             }
         }
 
+        private void Player_Update(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                // --> Validations
+                int biInt, fedInt, weightInt, heightInt;
+
+                // bi and federation id is number
+                if (!Int32.TryParse(bi.Text, out biInt))
+                {
+                    MessageBox.Show("The BI must be an Integer!");
+                    return;
+                }
+                if (!Int32.TryParse(federation_id.Text, out fedInt))
+                {
+                    MessageBox.Show("The Federation ID must be an Integer!");
+                    return;
+                }
+                if (!Int32.TryParse(weight.Text, out weightInt))
+                {
+                    MessageBox.Show("The weight must be an Integer!");
+                    return;
+                }
+                if (!Int32.TryParse(height.Text, out heightInt))
+                {
+                    MessageBox.Show("The height must be an Integer!");
+                    return;
+                }
+
+                DateTime dt;
+                if (!DateTime.TryParse(birth_date.Text, out dt))
+                {
+                    MessageBox.Show("Please insert a valid date!");
+                    return;
+                }
+
+                string gender;
+                gender = (GenderFemale.IsChecked == true) ? "F" : "M";
+
+                // INSERT PLAYER
+
+                string CmdString = "EXEC football.sp_modifyPlayer @bi = @paramBi, @name = @paramName, @address = @paramAddress, @birth_date = @paramBirthDate, @gender = @paramGender, @nationality = @paramNationality, @salary = @paramSalary, @federation_id = @paramFed, @weight = @paramWeight, @height = @paramHeight";
+                SqlCommand cmd_player = new SqlCommand(CmdString, con);
+                cmd_player.Parameters.AddWithValue("@paramBi", biInt);
+                cmd_player.Parameters.AddWithValue("@paramName", name.Text);
+                cmd_player.Parameters.AddWithValue("@paramAddress", address.Text);
+                cmd_player.Parameters.AddWithValue("@paramBirthDate", dt);
+                cmd_player.Parameters.AddWithValue("@paramGender", gender);
+                cmd_player.Parameters.AddWithValue("@paramNationality", nationality.Text);
+                cmd_player.Parameters.AddWithValue("@paramSalary", salary.Value);
+                cmd_player.Parameters.AddWithValue("@paramFed", fedInt);
+                cmd_player.Parameters.AddWithValue("@paramWeight", weightInt);
+                cmd_player.Parameters.AddWithValue("@paramHeight", heightInt);
+
+                try
+                {
+                    con.Open();
+                    cmd_player.ExecuteNonQuery();
+                    MessageBox.Show("The player has been updated successfully!");
+                    FillDataGrid(con);
+                    con.Close();
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+
+            }
+        }
+
         private void Player_Delete(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
