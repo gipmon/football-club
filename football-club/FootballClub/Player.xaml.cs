@@ -91,7 +91,6 @@ namespace FootballClub
             }
              
             // SYNC TEAMS PLAYER
-
             string CmdString = "football.sp_sync_playerTeams";
             SqlCommand cmd_player = new SqlCommand(CmdString, con);
             cmd_player.CommandType = CommandType.StoredProcedure;
@@ -104,9 +103,9 @@ namespace FootballClub
         private void playerTeamsGet(SqlConnection con, Int32 biInt)
         {
             // select the teams of the player
-            String CmdString = "SELECT * FROM football.udf_team_names(@intBi)";
+            String CmdString = "SELECT * FROM football.udf_team_names(@bi)";
             SqlCommand cmd = new SqlCommand(CmdString, con);
-            cmd.Parameters.AddWithValue("@intBi", biInt);
+            cmd.Parameters.AddWithValue("@bi", biInt);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable("teams_selected");
             sda.Fill(dt);
@@ -144,9 +143,9 @@ namespace FootballClub
 
                 bi.Text = search_bi;
 
-                string CmdString = "SELECT * FROM football.udf_player(@intBi)";
+                string CmdString = "SELECT * FROM football.udf_player(@bi)";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
-                cmd.Parameters.AddWithValue("@intBi", Convert.ToInt32(search_bi));
+                cmd.Parameters.AddWithValue("@bi", Convert.ToInt32(search_bi));
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable("player");
                 sda.Fill(dt);
@@ -177,7 +176,7 @@ namespace FootballClub
 
                 playerTeamsGet(con, Convert.ToInt32(search_bi));
             }
-            e.Handled = true;
+            
         }
 
         private void Player_New(object sender, RoutedEventArgs e)
@@ -214,6 +213,23 @@ namespace FootballClub
                     return;
                 }
 
+                if (name.Text.Length == 0)
+                {
+                    MessageBox.Show("The name can't be blank!");
+                    return;
+                }
+                if (address.Text.Length == 0)
+                {
+                    MessageBox.Show("The address can't be blank!");
+                    return;
+                }
+                if (nationality.Text.Length == 0)
+                {
+                    MessageBox.Show("The nationality can't be blank!");
+                    return;
+                }
+
+
                 DateTime dt;
                 if(!DateTime.TryParse(birth_date.Text, out dt))
                 {
@@ -222,23 +238,36 @@ namespace FootballClub
                 }
 
                 string gender;
-                gender = (GenderFemale.IsChecked == true) ? "F" : "M";
+                if (GenderFemale.IsChecked == true)
+                {
+                    gender = "F";
+                }
+                else if (GenderMale.IsChecked == true)
+                {
+                    gender = "M";
+                }
+                else
+                {
+                    MessageBox.Show("Please select the gender!");
+                    return;
+                }
 
                 // INSERT PLAYER
 
-                string CmdString = "EXEC football.sp_createPlayer @bi = @paramBi, @name = @paramName, @address = @paramAddress, @birth_date = @paramBirthDate, @nif = @paramNif, @gender = @paramGender, @nationality = @paramNationality, @salary = @paramSalary, @federation_id = @paramFed, @weight = @paramWeight, @height = @paramHeight";
+                string CmdString = "football.sp_createPlayer";
                 SqlCommand cmd_player = new SqlCommand(CmdString, con);
-                cmd_player.Parameters.AddWithValue("@paramBi", biInt);
-                cmd_player.Parameters.AddWithValue("@paramName", name.Text);
-                cmd_player.Parameters.AddWithValue("@paramAddress", address.Text);
-                cmd_player.Parameters.AddWithValue("@paramBirthDate", dt);
-                cmd_player.Parameters.AddWithValue("@paramNif", nifInt);
-                cmd_player.Parameters.AddWithValue("@paramGender", gender);
-                cmd_player.Parameters.AddWithValue("@paramNationality", nationality.Text);
-                cmd_player.Parameters.AddWithValue("@paramSalary", salary.Value);
-                cmd_player.Parameters.AddWithValue("@paramFed", fedInt);
-                cmd_player.Parameters.AddWithValue("@paramWeight", weightInt);
-                cmd_player.Parameters.AddWithValue("@paramHeight", heightInt);
+                cmd_player.CommandType = CommandType.StoredProcedure;
+                cmd_player.Parameters.AddWithValue("@bi", biInt);
+                cmd_player.Parameters.AddWithValue("@name", name.Text);
+                cmd_player.Parameters.AddWithValue("@address", address.Text);
+                cmd_player.Parameters.AddWithValue("@birth_date", dt);
+                cmd_player.Parameters.AddWithValue("@nif", nifInt);
+                cmd_player.Parameters.AddWithValue("@gender", gender);
+                cmd_player.Parameters.AddWithValue("@nationality", nationality.Text);
+                cmd_player.Parameters.AddWithValue("@salary", (double)salary.Value);
+                cmd_player.Parameters.AddWithValue("@federation_id", fedInt);
+                cmd_player.Parameters.AddWithValue("@weight", weightInt);
+                cmd_player.Parameters.AddWithValue("@height", heightInt);
 
                 try
                 {
@@ -255,7 +284,7 @@ namespace FootballClub
                 }
 
             }
-            e.Handled = true;
+            
         }
 
         private void Player_Update(object sender, RoutedEventArgs e)
@@ -294,23 +323,51 @@ namespace FootballClub
                     return;
                 }
 
+                if (name.Text.Length == 0)
+                {
+                    MessageBox.Show("The name can't be blank!");
+                    return;
+                }
+                if (address.Text.Length == 0)
+                {
+                    MessageBox.Show("The address can't be blank!");
+                    return;
+                }
+                if (nationality.Text.Length == 0)
+                {
+                    MessageBox.Show("The nationality can't be blank!");
+                    return;
+                }
+
                 string gender;
-                gender = (GenderFemale.IsChecked == true) ? "F" : "M";
+                if (GenderFemale.IsChecked == true)
+                {
+                    gender = "F";
+                }
+                else if (GenderMale.IsChecked == true)
+                {
+                    gender = "M";
+                }
+                else
+                {
+                    MessageBox.Show("Please select the gender!");
+                    return;
+                }
 
-                // INSERT PLAYER
-
-                string CmdString = "EXEC football.sp_modifyPlayer @bi = @paramBi, @name = @paramName, @address = @paramAddress, @birth_date = @paramBirthDate, @gender = @paramGender, @nationality = @paramNationality, @salary = @paramSalary, @federation_id = @paramFed, @weight = @paramWeight, @height = @paramHeight";
+                // UPDATE PLAYER
+                string CmdString = "football.sp_modifyPlayer";
                 SqlCommand cmd_player = new SqlCommand(CmdString, con);
-                cmd_player.Parameters.AddWithValue("@paramBi", biInt);
-                cmd_player.Parameters.AddWithValue("@paramName", name.Text);
-                cmd_player.Parameters.AddWithValue("@paramAddress", address.Text);
-                cmd_player.Parameters.AddWithValue("@paramBirthDate", dt);
-                cmd_player.Parameters.AddWithValue("@paramGender", gender);
-                cmd_player.Parameters.AddWithValue("@paramNationality", nationality.Text);
-                cmd_player.Parameters.AddWithValue("@paramSalary", salary.Value);
-                cmd_player.Parameters.AddWithValue("@paramFed", fedInt);
-                cmd_player.Parameters.AddWithValue("@paramWeight", weightInt);
-                cmd_player.Parameters.AddWithValue("@paramHeight", heightInt);
+                cmd_player.CommandType = CommandType.StoredProcedure;
+                cmd_player.Parameters.AddWithValue("@bi", biInt);
+                cmd_player.Parameters.AddWithValue("@name", name.Text);
+                cmd_player.Parameters.AddWithValue("@address", address.Text);
+                cmd_player.Parameters.AddWithValue("@birth_date", dt);
+                cmd_player.Parameters.AddWithValue("@gender", gender);
+                cmd_player.Parameters.AddWithValue("@nationality", nationality.Text);
+                cmd_player.Parameters.AddWithValue("@salary", (double)salary.Value);
+                cmd_player.Parameters.AddWithValue("@federation_id", fedInt);
+                cmd_player.Parameters.AddWithValue("@weight", weightInt);
+                cmd_player.Parameters.AddWithValue("@height", heightInt);
 
                 try
                 {
@@ -326,7 +383,7 @@ namespace FootballClub
                     MessageBox.Show(exc.Message);
                 }
             }
-            e.Handled = true;
+            
         }
 
         private void Player_Delete(object sender, RoutedEventArgs e)
@@ -348,9 +405,10 @@ namespace FootballClub
 
                     // DELETE THE PLAYER
 
-                    string CmdString = "EXEC football.sp_deletePlayer @bi = @paramBi";
+                    string CmdString = "football.sp_deletePlayer";
                     SqlCommand cmd_player = new SqlCommand(CmdString, con);
-                    cmd_player.Parameters.AddWithValue("@paramBi", biInt);
+                    cmd_player.CommandType = CommandType.StoredProcedure;
+                    cmd_player.Parameters.AddWithValue("@bi", biInt);
 
                     try
                     {
@@ -382,7 +440,7 @@ namespace FootballClub
 
                 }
             }
-            e.Handled = true;
+            
         }
 
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -390,7 +448,7 @@ namespace FootballClub
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
         private void FillDataGridTeam(SqlConnection con)
         {
-            string CmdString = "SELECT * FROM football.teamsView";
+            string CmdString = "SELECT * FROM football.udf_teams(DEFAULT)";
             SqlCommand cmd = new SqlCommand(CmdString, con);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable("teams");
@@ -403,19 +461,112 @@ namespace FootballClub
             using (con = new SqlConnection(ConString))
             {
                 DataRowView row = (DataRowView)teamsGrid.SelectedItem;
-                string search_name = row.Row.ItemArray[0].ToString();
+                string search_name;
+
+                try
+                {
+                    // este try catch e por causa de quando autalizamos a DataGrid numa segunda vez
+                    // e houve algo selecionado antes...
+                    search_name = row.Row.ItemArray[0].ToString();
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+
                 teamName.Text = search_name;
-                string CmdString = "SELECT * FROM football.teamsView WHERE name='" + search_name+"'";
+                string CmdString = "SELECT * FROM football.udf_teams(@name)";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
+                cmd.Parameters.AddWithValue("@name", search_name);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable("team");
                 sda.Fill(dt);
                 DataRow r = dt.Rows[0];
                 
                 teamName.Text = r["name"].ToString();
-                max_age.Text = r["max_age"].ToString();
+                max_age.Value = Convert.ToDouble(r["max_age"].ToString());
             }
-            e.Handled = true;
+        }
+
+        private void Team_New(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                // validation: name can't not be lenght = 0
+                if (teamName.Text.Length == 0)
+                {
+                    MessageBox.Show("The team name can't be blank!");
+                    return;
+                }
+
+                string CmdString = "football.sp_createTeam";
+                SqlCommand cmd_team = new SqlCommand(CmdString, con);
+                cmd_team.CommandType = CommandType.StoredProcedure;
+                cmd_team.Parameters.AddWithValue("@name", teamName.Text);
+                cmd_team.Parameters.AddWithValue("@max_age", max_age.Value);
+
+                try
+                {
+                    con.Open();
+                    cmd_team.ExecuteNonQuery(); ;
+                    FillDataGridTeam(con);
+                    con.Close();
+                    MessageBox.Show("The team has been inserted successfully!");
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+            }
+        }
+
+        private void Team_Update(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                string CmdString = "football.sp_modifyTeam";
+                SqlCommand cmd_team = new SqlCommand(CmdString, con);
+                cmd_team.CommandType = CommandType.StoredProcedure;
+                cmd_team.Parameters.AddWithValue("@name", teamName.Text);
+                cmd_team.Parameters.AddWithValue("@max_age", (double)max_age.Value);
+
+                try
+                {
+                    con.Open();
+                    cmd_team.ExecuteNonQuery();
+                    FillDataGridTeam(con);
+                    con.Close();
+                    MessageBox.Show("The team has been updated successfully!");
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+            }
+        }
+
+        private void Team_Delete(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                string CmdString = "football.sp_deleteTeam";
+                SqlCommand cmd_team = new SqlCommand(CmdString, con);
+                cmd_team.CommandType = CommandType.StoredProcedure;
+                cmd_team.Parameters.AddWithValue("@name", teamName.Text);
+
+                try
+                {
+                    con.Open();
+                    cmd_team.ExecuteNonQuery();
+                    FillDataGridTeam(con);
+                    con.Close();
+                    MessageBox.Show("The team has been deleted successfully!");
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+            }
         }
 
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

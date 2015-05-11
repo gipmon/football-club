@@ -24,4 +24,21 @@ BEGIN
 END;
 
 go
-SELECT * FROM football.udf_team_names(DEFAULT)
+CREATE FUNCTION football.udf_teams(@team_name varchar(50)=null)
+RETURNS @table TABLE ("name" varchar(50), "max_age" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	IF (@team_name is null)
+		BEGIN
+			INSERT @table SELECT name, max_age
+						  FROM football.team
+		END;
+	ELSE
+		BEGIN
+			INSERT @table SELECT name, max_age
+						  FROM football.team
+						  WHERE name = @team_name
+		END;
+	RETURN;
+END;
