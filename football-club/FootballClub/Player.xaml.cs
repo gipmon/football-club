@@ -53,6 +53,7 @@ namespace FootballClub
             dt = new DataTable("teams");
             sda.Fill(dt);
 
+            teams.Items.Clear();
             foreach (DataRow team in dt.Rows)
             {
                 ListBoxItem itm = new ListBoxItem();
