@@ -53,23 +53,55 @@ namespace FootballClub
             dt = new DataTable("teams");
             sda.Fill(dt);
 
-            teams.Items.Clear();
+            playerTeams.Items.Clear();
             foreach (DataRow team in dt.Rows)
             {
                 ListBoxItem itm = new ListBoxItem();
                 itm.Content = team[0].ToString();
-                teams.Items.Add(itm);
+                playerTeams.Items.Add(itm);
             }
 
             /*
-                * TEAMS TAB
-                * */
+             * TEAMS TAB
+             * */
             string CmdString1 = "SELECT * FROM football.teamsView";
             SqlCommand cmd1 = new SqlCommand(CmdString1, con);
             SqlDataAdapter sda1 = new SqlDataAdapter(cmd1);
             DataTable dt1 = new DataTable("teams");
             sda1.Fill(dt1);
             teamsGrid.ItemsSource = dt1.DefaultView;
+        }
+
+        private void sync_teams(SqlConnection con, Int32 biInt)
+        {
+            string category = "Cat1, Cat2, Cat3, Cat4";
+            string[] categories = category.Split(',');
+
+            DataTable dt_playerTeams = new DataTable();
+            dt_playerTeams.Columns.Add("team_name", typeof(String));
+            dt_playerTeams.Columns.Add("bi", typeof(Int32));
+
+            DataRow workRow;
+            foreach (ListBoxItem itm in playerTeams.Items)
+            {
+                if (itm.IsSelected)
+                {
+                    workRow = dt_playerTeams.NewRow();
+                    workRow["team_name"] = itm.Content.ToString().Trim();
+                    workRow["bi"] = biInt;
+                    dt_playerTeams.Rows.Add(workRow);
+                }
+            }
+             
+            // SYNC TEAMS PLAYER
+
+            string CmdString = "football.sp_sync_playerTeams";
+            SqlCommand cmd_player = new SqlCommand(CmdString, con);
+            cmd_player.CommandType = CommandType.StoredProcedure;
+            cmd_player.Parameters.AddWithValue("@bi", biInt);
+            SqlParameter tvparam = cmd_player.Parameters.AddWithValue("@playerTeams", dt_playerTeams);
+            tvparam.SqlDbType = SqlDbType.Structured;
+            cmd_player.ExecuteNonQuery();
         }
 
         private void playersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -130,7 +162,7 @@ namespace FootballClub
                 dt = new DataTable("teams_selected");
                 sda.Fill(dt);
 
-                foreach (ListBoxItem itm in teams.Items)
+                foreach (ListBoxItem itm in playerTeams.Items)
                 {
                     itm.IsSelected = false;
                     foreach (DataRow team in dt.Rows)
@@ -208,9 +240,10 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_player.ExecuteNonQuery();
-                    MessageBox.Show("The player has been inserted successfully!");
+                    sync_teams(con, biInt);
                     FillDataGrid(con);
                     con.Close();
+                    MessageBox.Show("The player has been inserted successfully!");
                 }
                 catch (Exception exc)
                 {
@@ -278,15 +311,15 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_player.ExecuteNonQuery();
-                    MessageBox.Show("The player has been updated successfully!");
+                    sync_teams(con, biInt);
                     FillDataGrid(con);
                     con.Close();
+                    MessageBox.Show("The player has been updated successfully!");
                 }
-                catch (Exception exc)
+                    catch (Exception exc)
                 {
                     MessageBox.Show(exc.Message);
                 }
-
             }
         }
 
@@ -317,7 +350,6 @@ namespace FootballClub
                     {
                         con.Open();
                         cmd_player.ExecuteNonQuery();
-                        MessageBox.Show("The player has been deleted successfully!");
                         FillDataGrid(con);
                         con.Close();
 
@@ -335,6 +367,7 @@ namespace FootballClub
                         GenderFemale.IsChecked = false;
                         salary.Value = 0;
                         internal_id.Text = "";
+                        MessageBox.Show("The player has been deleted successfully!");
                     }
                     catch (Exception exc)
                     {
