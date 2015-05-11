@@ -196,3 +196,42 @@ AS
 		RAISERROR ('An error occurred when updating the player!', 14, 1)
 		ROLLBACK TRANSACTION;
 	END CATCH;
+
+-- Player teams
+go
+-- DROP TYPE football.PlayerTeams;
+CREATE TYPE football.PlayerTeams
+AS TABLE
+(
+  team_name NVARCHAR(200),
+  bi		INT
+);
+
+go
+
+-- DROP PROC football.sp_sync_playerTeams
+
+CREATE PROCEDURE football.sp_sync_playerTeams
+  @playerTeams as football.PlayerTeams READONLY,
+  @bi INT
+WITH ENCRYPTION
+AS 
+BEGIN
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		-- clean player teams
+		DELETE FROM football.play WHERE play.bi = @bi;
+
+		-- insert into player teams
+		INSERT football.play(team_name, bi)
+		SELECT team_name, bi
+		FROM @playerTeams
+		
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the player teams!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+END
