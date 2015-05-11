@@ -63,7 +63,7 @@ namespace FootballClub
             }
 
             int search_bi;
-            if (Int32.TryParse(bi.Text, out search_bi))
+            if (Int32.TryParse(player_bi.Text, out search_bi))
             {
                 playerTeamsGet(con, Convert.ToInt32(search_bi));
             }
@@ -71,9 +71,6 @@ namespace FootballClub
 
         private void sync_teams_player(SqlConnection con, Int32 biInt)
         {
-            string category = "Cat1, Cat2, Cat3, Cat4";
-            string[] categories = category.Split(',');
-
             DataTable dt_playerTeams = new DataTable();
             dt_playerTeams.Columns.Add("team_name", typeof(String));
             dt_playerTeams.Columns.Add("bi", typeof(Int32));
@@ -141,7 +138,7 @@ namespace FootballClub
                     return;
                 }
 
-                bi.Text = search_bi;
+                player_bi.Text = search_bi;
 
                 string CmdString = "SELECT * FROM football.udf_player(@bi)";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
@@ -150,29 +147,29 @@ namespace FootballClub
                 DataTable dt = new DataTable("player");
                 sda.Fill(dt);
                 DataRow r = dt.Rows[0];
-                
-                bi.Text = r["bi"].ToString();
-                name.Text = r["name"].ToString();
-                nif.Text = r["nif"].ToString();
-                address.Text = r["address"].ToString();
+
+                player_bi.Text = r["bi"].ToString();
+                player_name.Text = r["name"].ToString();
+                player_nif.Text = r["nif"].ToString();
+                player_address.Text = r["address"].ToString();
 
                 if (r["gender"].ToString() == "F")
                 {
-                    GenderFemale.IsChecked = true;
+                    player_GenderFemale.IsChecked = true;
                 }
                 else
                 {
-                    GenderMale.IsChecked = true;
+                    player_GenderMale.IsChecked = true;
                 }
 
                 DateTime date = DateTime.Parse(r["birth date"].ToString());
-                birth_date.Text = date.ToString("yyyy-MM-dd");
-                nationality.Text = r["nationality"].ToString();
-                federation_id.Text = r["federation id"].ToString();
-                salary.Value = Convert.ToDouble(r["salary"].ToString());
-                internal_id.Text = r["internal id"].ToString();
-                weight.Text = r["weight"].ToString();
-                height.Text = r["height"].ToString();
+                player_birth_date.Text = date.ToString("yyyy-MM-dd");
+                player_nationality.Text = r["nationality"].ToString();
+                player_federation_id.Text = r["federation id"].ToString();
+                player_salary.Value = Convert.ToDouble(r["salary"].ToString());
+                player_internal_id.Text = r["internal id"].ToString();
+                player_weight.Text = r["weight"].ToString();
+                player_height.Text = r["height"].ToString();
 
                 playerTeamsGet(con, Convert.ToInt32(search_bi));
             }
@@ -187,43 +184,43 @@ namespace FootballClub
                 int biInt, nifInt, fedInt, weightInt, heightInt;
 
                 // bi, nif and federation id is number
-                if (!Int32.TryParse(bi.Text, out biInt))
+                if (!Int32.TryParse(player_bi.Text, out biInt))
                 {
                     MessageBox.Show("The BI must be an Integer!");
                     return;
                 }
-                if (!Int32.TryParse(nif.Text, out nifInt))
+                if (!Int32.TryParse(player_nif.Text, out nifInt))
                 {
                     MessageBox.Show("The NIF must be an Integer!");
                     return;
                 }
-                if (!Int32.TryParse(federation_id.Text, out fedInt))
+                if (!Int32.TryParse(player_federation_id.Text, out fedInt))
                 {
                     MessageBox.Show("The Federation ID must be an Integer!");
                     return;
                 }
-                if (!Int32.TryParse(weight.Text, out weightInt))
+                if (!Int32.TryParse(player_weight.Text, out weightInt))
                 {
                     MessageBox.Show("The weight must be an Integer!");
                     return;
                 }
-                if (!Int32.TryParse(height.Text, out heightInt))
+                if (!Int32.TryParse(player_height.Text, out heightInt))
                 {
                     MessageBox.Show("The height must be an Integer!");
                     return;
                 }
 
-                if (name.Text.Length == 0)
+                if (player_name.Text.Length == 0)
                 {
                     MessageBox.Show("The name can't be blank!");
                     return;
                 }
-                if (address.Text.Length == 0)
+                if (player_address.Text.Length == 0)
                 {
                     MessageBox.Show("The address can't be blank!");
                     return;
                 }
-                if (nationality.Text.Length == 0)
+                if (player_nationality.Text.Length == 0)
                 {
                     MessageBox.Show("The nationality can't be blank!");
                     return;
@@ -231,18 +228,18 @@ namespace FootballClub
 
 
                 DateTime dt;
-                if(!DateTime.TryParse(birth_date.Text, out dt))
+                if (!DateTime.TryParse(player_birth_date.Text, out dt))
                 {
                     MessageBox.Show("Please insert a valid date!");
                     return;
                 }
 
                 string gender;
-                if (GenderFemale.IsChecked == true)
+                if (player_GenderFemale.IsChecked == true)
                 {
                     gender = "F";
                 }
-                else if (GenderMale.IsChecked == true)
+                else if (player_GenderMale.IsChecked == true)
                 {
                     gender = "M";
                 }
@@ -258,13 +255,13 @@ namespace FootballClub
                 SqlCommand cmd_player = new SqlCommand(CmdString, con);
                 cmd_player.CommandType = CommandType.StoredProcedure;
                 cmd_player.Parameters.AddWithValue("@bi", biInt);
-                cmd_player.Parameters.AddWithValue("@name", name.Text);
-                cmd_player.Parameters.AddWithValue("@address", address.Text);
+                cmd_player.Parameters.AddWithValue("@name", player_name.Text);
+                cmd_player.Parameters.AddWithValue("@address", player_address.Text);
                 cmd_player.Parameters.AddWithValue("@birth_date", dt);
                 cmd_player.Parameters.AddWithValue("@nif", nifInt);
                 cmd_player.Parameters.AddWithValue("@gender", gender);
-                cmd_player.Parameters.AddWithValue("@nationality", nationality.Text);
-                cmd_player.Parameters.AddWithValue("@salary", (double)salary.Value);
+                cmd_player.Parameters.AddWithValue("@nationality", player_nationality.Text);
+                cmd_player.Parameters.AddWithValue("@salary", (double)player_salary.Value);
                 cmd_player.Parameters.AddWithValue("@federation_id", fedInt);
                 cmd_player.Parameters.AddWithValue("@weight", weightInt);
                 cmd_player.Parameters.AddWithValue("@height", heightInt);
@@ -295,56 +292,56 @@ namespace FootballClub
                 int biInt, fedInt, weightInt, heightInt;
 
                 // bi and federation id is number
-                if (!Int32.TryParse(bi.Text, out biInt))
+                if (!Int32.TryParse(player_bi.Text, out biInt))
                 {
                     MessageBox.Show("The BI must be an Integer!");
                     return;
                 }
-                if (!Int32.TryParse(federation_id.Text, out fedInt))
+                if (!Int32.TryParse(player_federation_id.Text, out fedInt))
                 {
                     MessageBox.Show("The Federation ID must be an Integer!");
                     return;
                 }
-                if (!Int32.TryParse(weight.Text, out weightInt))
+                if (!Int32.TryParse(player_weight.Text, out weightInt))
                 {
                     MessageBox.Show("The weight must be an Integer!");
                     return;
                 }
-                if (!Int32.TryParse(height.Text, out heightInt))
+                if (!Int32.TryParse(player_height.Text, out heightInt))
                 {
                     MessageBox.Show("The height must be an Integer!");
                     return;
                 }
 
                 DateTime dt;
-                if (!DateTime.TryParse(birth_date.Text, out dt))
+                if (!DateTime.TryParse(player_birth_date.Text, out dt))
                 {
                     MessageBox.Show("Please insert a valid date!");
                     return;
                 }
 
-                if (name.Text.Length == 0)
+                if (player_name.Text.Length == 0)
                 {
                     MessageBox.Show("The name can't be blank!");
                     return;
                 }
-                if (address.Text.Length == 0)
+                if (player_address.Text.Length == 0)
                 {
                     MessageBox.Show("The address can't be blank!");
                     return;
                 }
-                if (nationality.Text.Length == 0)
+                if (player_nationality.Text.Length == 0)
                 {
                     MessageBox.Show("The nationality can't be blank!");
                     return;
                 }
 
                 string gender;
-                if (GenderFemale.IsChecked == true)
+                if (player_GenderFemale.IsChecked == true)
                 {
                     gender = "F";
                 }
-                else if (GenderMale.IsChecked == true)
+                else if (player_GenderMale.IsChecked == true)
                 {
                     gender = "M";
                 }
@@ -359,12 +356,12 @@ namespace FootballClub
                 SqlCommand cmd_player = new SqlCommand(CmdString, con);
                 cmd_player.CommandType = CommandType.StoredProcedure;
                 cmd_player.Parameters.AddWithValue("@bi", biInt);
-                cmd_player.Parameters.AddWithValue("@name", name.Text);
-                cmd_player.Parameters.AddWithValue("@address", address.Text);
+                cmd_player.Parameters.AddWithValue("@name", player_name.Text);
+                cmd_player.Parameters.AddWithValue("@address", player_address.Text);
                 cmd_player.Parameters.AddWithValue("@birth_date", dt);
                 cmd_player.Parameters.AddWithValue("@gender", gender);
-                cmd_player.Parameters.AddWithValue("@nationality", nationality.Text);
-                cmd_player.Parameters.AddWithValue("@salary", (double)salary.Value);
+                cmd_player.Parameters.AddWithValue("@nationality", player_nationality.Text);
+                cmd_player.Parameters.AddWithValue("@salary", (double)player_salary.Value);
                 cmd_player.Parameters.AddWithValue("@federation_id", fedInt);
                 cmd_player.Parameters.AddWithValue("@weight", weightInt);
                 cmd_player.Parameters.AddWithValue("@height", heightInt);
@@ -397,7 +394,7 @@ namespace FootballClub
                     int biInt;
 
                     // bi is number
-                    if (!Int32.TryParse(bi.Text, out biInt))
+                    if (!Int32.TryParse(player_bi.Text, out biInt))
                     {
                         MessageBox.Show("The BI must be an Integer!");
                         return;
@@ -418,19 +415,19 @@ namespace FootballClub
                         con.Close();
 
                         // limpar as text boxs
-                        name.Text = "";
-                        bi.Text = "";
-                        nif.Text = "";
-                        address.Text = "";
-                        federation_id.Text = "";
-                        weight.Text = "";
-                        height.Text = "";
-                        birth_date.Text = "";
-                        nationality.Text = "";
-                        GenderMale.IsChecked = false;
-                        GenderFemale.IsChecked = false;
-                        salary.Value = 0;
-                        internal_id.Text = "";
+                        player_name.Text = "";
+                        player_bi.Text = "";
+                        player_nif.Text = "";
+                        player_address.Text = "";
+                        player_federation_id.Text = "";
+                        player_weight.Text = "";
+                        player_height.Text = "";
+                        player_birth_date.Text = "";
+                        player_nationality.Text = "";
+                        player_GenderMale.IsChecked = false;
+                        player_GenderFemale.IsChecked = false;
+                        player_salary.Value = 0;
+                        player_internal_id.Text = "";
                         MessageBox.Show("The player has been deleted successfully!");
                     }
                     catch (Exception exc)
@@ -441,6 +438,71 @@ namespace FootballClub
                 }
             }
             
+        }
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+         *  ##########################----------- COACH TAB -----------#############################
+         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+        private void FillDataGridCoachs(SqlConnection con)
+        {
+            string CmdString = "SELECT * FROM football.udf_coachs_data_grid()";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("teams");
+            sda.Fill(dt);
+            coachsGrid.ItemsSource = dt.DefaultView;
+        }
+
+        private void coachsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                DataRowView row = (DataRowView)coachsGrid.SelectedItem;
+                string search_bi;
+                try
+                {
+                    // este try catch e por causa de quando autalizamos a DataGrid numa segunda vez
+                    // e houve algo selecionado antes...
+                    search_bi = row.Row.ItemArray[1].ToString();
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+
+                coach_bi.Text = search_bi;
+
+                string CmdString = "SELECT * FROM football.udf_coach(@bi)";
+                SqlCommand cmd = new SqlCommand(CmdString, con);
+                cmd.Parameters.AddWithValue("@bi", Convert.ToInt32(search_bi));
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("coach");
+                sda.Fill(dt);
+                DataRow r = dt.Rows[0];
+
+                coach_bi.Text = r["bi"].ToString();
+                coach_name.Text = r["name"].ToString();
+                coach_nif.Text = r["nif"].ToString();
+                coach_address.Text = r["address"].ToString();
+
+                if (r["gender"].ToString() == "F")
+                {
+                    coach_GenderFemale.IsChecked = true;
+                }
+                else
+                {
+                    coach_GenderMale.IsChecked = true;
+                }
+
+                DateTime date = DateTime.Parse(r["birth date"].ToString());
+                coach_birth_date.Text = date.ToString("yyyy-MM-dd");
+                coach_nationality.Text = r["nationality"].ToString();
+                coach_federation_id.Text = r["federation id"].ToString();
+                coach_salary.Value = Convert.ToDouble(r["salary"].ToString());
+                coach_internal_id.Text = r["internal id"].ToString();
+                coach_role.Text = r["role"].ToString();
+
+                // playerTeamsGet(con, Convert.ToInt32(search_bi));
+            }
         }
 
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -577,6 +639,20 @@ namespace FootballClub
             using (con = new SqlConnection(ConString))
             {
                 FillDataGridPlayer(con);
+            }
+        }
+        private void TeamsTabIsSelected(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                FillDataGridTeam(con);
+            }
+        }
+        private void CoachsTabIsSelected(object sender, RoutedEventArgs e) 
+        {
+            using (con = new SqlConnection(ConString)) 
+            {
+                FillDataGridCoachs(con);
             }
         }
 

@@ -7,12 +7,12 @@
       mc:Ignorable="d"
       d:DesignHeight="450"
       d:DesignWidth="300"
-      Title="Football Club Manager" 
+      Title="Football Club Manager"
       Style="{DynamicResource MetroPage}">
 
     <Grid>
         <TabControl>
-            <TabItem Header="Teams">
+            <TabItem Header="Teams" MouseEnter="TeamsTabIsSelected">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -89,33 +89,33 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label>Name:</Label>
-                        <TextBox Grid.Column="1" Name="name" Margin="0,0,0,10"  />
+                        <TextBox Grid.Column="1" Name="player_name" Margin="0,0,0,10"  />
                         <Label Grid.Row="1">BI:</Label>
-                        <TextBox Grid.Row="1" Grid.Column="1" Name="bi" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Name="player_bi" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="2">NIF:</Label>
-                        <TextBox Grid.Row="2" Grid.Column="1" Name="nif" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="2" Grid.Column="1" Name="player_nif" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="3">Gender:</Label>
-                        <RadioButton Grid.Row="3" Grid.Column="1" Name="GenderMale" GroupName="Gender" Content="Male" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <RadioButton Grid.Row="3" Grid.Column="1" Name="GenderFemale" GroupName="Gender" Margin="60,0,0,0" Content="Female" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <RadioButton Grid.Row="3" Grid.Column="1" Name="player_GenderMale" GroupName="Gender" Content="Male" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <RadioButton Grid.Row="3" Grid.Column="1" Name="player_GenderFemale" GroupName="Gender" Margin="60,0,0,0" Content="Female" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <Label Grid.Row="4">Date of Birth:</Label>
-                        <TextBox Grid.Row="4" Grid.Column="1" Name="birth_date" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="4" Grid.Column="1" Name="player_birth_date" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="5">Address:</Label>
-                        <TextBox Grid.Row="5" Grid.Column="1" Name="address" Margin="0,0,0,10" />
+                        <TextBox Grid.Row="5" Grid.Column="1" Name="player_address" Margin="0,0,0,10" />
                         <Label Grid.Row="6">Nationality:</Label>
-                        <TextBox Grid.Row="6" Grid.Column="1" Name="nationality" Margin="0,0,0,10" />
+                        <TextBox Grid.Row="6" Grid.Column="1" Name="player_nationality" Margin="0,0,0,10" />
                         <Label Grid.Row="7">Teams:</Label>
                         <ListBox Grid.Row="7"  Grid.Column="1" Name="playerTeams" Height="50px" SelectionMode="Multiple" Margin="0,0,0,10">
                         </ListBox>
                         <Label Grid.Row="8">Weight:</Label>
-                        <TextBox Grid.Row="8" Grid.Column="1" Name="weight" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="8" Grid.Column="1" Name="player_weight" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="9">Height:</Label>
-                        <TextBox Grid.Row="9" Grid.Column="1" Name="height" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="9" Grid.Column="1" Name="player_height" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="10">Salary:</Label>
-                        <Controls:NumericUpDown Grid.Row="10" Name="salary" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Interval="5" StringFormat="C2"/>
+                        <Controls:NumericUpDown Grid.Row="10" Name="player_salary" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Interval="5" StringFormat="C2"/>
                         <Label Grid.Row="11">Federation ID:</Label>
-                        <TextBox Grid.Row ="11" Grid.Column="1" Name="federation_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row ="11" Grid.Column="1" Name="player_federation_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="12">Internal ID:</Label>
-                        <TextBox Grid.Row="12" IsReadOnly="True" IsEnabled="False" Grid.Column="1" Name="internal_id" Margin="0,0,0,10"/>
+                        <TextBox Grid.Row="12" IsReadOnly="True" IsEnabled="False" Grid.Column="1" Name="player_internal_id" Margin="0,0,0,10"/>
                         <Grid Grid.Row="13">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -132,7 +132,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Coachs">
+            <TabItem Header="Coachs" MouseEnter="CoachsTabIsSelected">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -141,8 +141,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <DataGrid>
-                    </DataGrid>
+                    <DataGrid Name="coachsGrid" IsReadOnly="True" SelectionChanged="coachsGrid_SelectionChanged"></DataGrid>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -165,37 +164,31 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label>Name:</Label>
-                        <TextBox Grid.Column="1" Margin="0,0,0,10"  />
+                        <TextBox Grid.Column="1" Name="coach_name" Margin="0,0,0,10"  />
                         <Label Grid.Row="1">BI:</Label>
-                        <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Name="coach_bi" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="2">NIF:</Label>
-                        <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
-                        <Label Grid.Row="3">Sex:</Label>
-                        <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Sex" Content="Male" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Sex" Margin="60,0,0,0" Content="Female" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Name="coach_nif" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="3">Gender:</Label>
+                        <RadioButton Grid.Row="3" Grid.Column="1" Name="coach_GenderMale" GroupName="Gender" Content="Male" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <RadioButton Grid.Row="3" Grid.Column="1" Name="coach_GenderFemale" GroupName="Gender" Margin="60,0,0,0" Content="Female" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <Label Grid.Row="4">Date of Birth:</Label>
-                        <TextBox Grid.Row="4" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="4" Grid.Column="1" Name="coach_birth_date" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="5">Address:</Label>
-                        <TextBox Grid.Row="5" Grid.Column="1" Margin="0,0,0,10" />
+                        <TextBox Grid.Row="5" Grid.Column="1" Name="coach_address" Margin="0,0,0,10" />
                         <Label Grid.Row="6">Nationality:</Label>
-                        <TextBox Grid.Row="6" Grid.Column="1" Margin="0,0,0,10" />
-                        <Label Grid.Row="7">Team:</Label>
-                        <ComboBox Grid.Row="7"  Grid.Column="1" Margin="0,0,0,10">
-                            <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
-                            <ComboBoxItem IsSelected="True">ComboBox Item #2</ComboBoxItem>
-                            <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
-                        </ComboBox>
+                        <TextBox Grid.Row="6" Grid.Column="1" Name="coach_nationality" Margin="0,0,0,10" />
+                        <Label Grid.Row="7">Teams:</Label>
+                        <ListBox Grid.Row="7"  Grid.Column="1" Name="coach_teams" Height="50px" SelectionMode="Multiple" Margin="0,0,0,10">
+                        </ListBox>
                         <Label Grid.Row="8">Role:</Label>
-                        <ComboBox Grid.Row="8"  Grid.Column="1" Margin="0,0,0,10">
-                            <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
-                            <ComboBoxItem IsSelected="True">ComboBox Item #2</ComboBoxItem>
-                            <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
-                        </ComboBox>
+                        <TextBox Grid.Row="6" Grid.Column="1" Name="coach_role" Margin="0,0,0,10" />
                         <Label Grid.Row="10">Salary:</Label>
-                        <Controls:NumericUpDown Grid.Row="10" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
-                        <Label Grid.Row="11">Internal ID:</Label>
-                        <TextBox Grid.Row="11" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
-                        <Grid Grid.Row="12">
+                        <Controls:NumericUpDown Grid.Row="10" Name="coach_salary" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
+                        <TextBox Grid.Row ="11" Grid.Column="1" Name="coach_federation_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="12">Internal ID:</Label>
+                        <TextBox Grid.Row="12" IsReadOnly="True" IsEnabled="False" Grid.Column="1" Name="coach_internal_id" Margin="0,0,0,10"/>
+                        <Grid Grid.Row="13">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
