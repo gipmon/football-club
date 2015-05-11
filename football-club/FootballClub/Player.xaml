@@ -55,7 +55,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Name="PlayersTab" Header="Players" MouseLeftButtonDown="players_refresh">
+            <TabItem Header="Players" MouseEnter="PlayersTabIsSelected">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />

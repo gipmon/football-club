@@ -31,14 +31,15 @@ namespace FootballClub
             InitializeComponent();
             using (con = new SqlConnection(ConString))
             {
-                FillDataGrid(con);
+                FillDataGridTeam(con);
             }
         }
-        private void FillDataGrid(SqlConnection con)
+
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+         *  ##########################----------- PLAYER TAB -----------##########################
+         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+        private void FillDataGridPlayer(SqlConnection con)
         {
-            /*
-            * PLAYER TAB
-            * */
             string CmdString = "SELECT * FROM football.udf_players_data_grid()";
             SqlCommand cmd = new SqlCommand(CmdString, con);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
@@ -61,16 +62,6 @@ namespace FootballClub
                 playerTeams.Items.Add(itm);
             }
 
-            /*
-             * TEAMS TAB
-             * */
-            string CmdString1 = "SELECT * FROM football.teamsView";
-            SqlCommand cmd1 = new SqlCommand(CmdString1, con);
-            SqlDataAdapter sda1 = new SqlDataAdapter(cmd1);
-            DataTable dt1 = new DataTable("teams");
-            sda1.Fill(dt1);
-            teamsGrid.ItemsSource = dt1.DefaultView;
-
             int search_bi;
             if (Int32.TryParse(bi.Text, out search_bi))
             {
@@ -78,7 +69,7 @@ namespace FootballClub
             }
         }
 
-        private void sync_teams(SqlConnection con, Int32 biInt)
+        private void sync_teams_player(SqlConnection con, Int32 biInt)
         {
             string category = "Cat1, Cat2, Cat3, Cat4";
             string[] categories = category.Split(',');
@@ -186,6 +177,7 @@ namespace FootballClub
 
                 playerTeamsGet(con, Convert.ToInt32(search_bi));
             }
+            e.Handled = true;
         }
 
         private void Player_New(object sender, RoutedEventArgs e)
@@ -252,8 +244,8 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_player.ExecuteNonQuery();
-                    sync_teams(con, biInt);
-                    FillDataGrid(con);
+                    sync_teams_player(con, biInt);
+                    FillDataGridPlayer(con);
                     con.Close();
                     MessageBox.Show("The player has been inserted successfully!");
                 }
@@ -261,8 +253,9 @@ namespace FootballClub
                 {
                     MessageBox.Show(exc.Message);
                 }
-                
+
             }
+            e.Handled = true;
         }
 
         private void Player_Update(object sender, RoutedEventArgs e)
@@ -323,8 +316,8 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_player.ExecuteNonQuery();
-                    sync_teams(con, biInt);
-                    FillDataGrid(con);
+                    sync_teams_player(con, biInt);
+                    FillDataGridPlayer(con);
                     con.Close();
                     MessageBox.Show("The player has been updated successfully!");
                 }
@@ -333,6 +326,7 @@ namespace FootballClub
                     MessageBox.Show(exc.Message);
                 }
             }
+            e.Handled = true;
         }
 
         private void Player_Delete(object sender, RoutedEventArgs e)
@@ -362,7 +356,7 @@ namespace FootballClub
                     {
                         con.Open();
                         cmd_player.ExecuteNonQuery();
-                        FillDataGrid(con);
+                        FillDataGridPlayer(con);
                         con.Close();
 
                         // limpar as text boxs
@@ -388,6 +382,20 @@ namespace FootballClub
 
                 }
             }
+            e.Handled = true;
+        }
+
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+         *  ##########################----------- TEAMS TAB -----------############################
+         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+        private void FillDataGridTeam(SqlConnection con)
+        {
+            string CmdString = "SELECT * FROM football.teamsView";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("teams");
+            sda.Fill(dt);
+            teamsGrid.ItemsSource = dt.DefaultView;
         }
 
         private void teamsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -407,14 +415,17 @@ namespace FootballClub
                 teamName.Text = r["name"].ToString();
                 max_age.Text = r["max_age"].ToString();
             }
-           
+            e.Handled = true;
         }
 
-        private void players_refresh(object sender, MouseButtonEventArgs e)
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+         *  ##########################----------- TAB CONTROL -----------##########################
+         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+        private void PlayersTabIsSelected(object sender, RoutedEventArgs e)
         {
             using (con = new SqlConnection(ConString))
             {
-                this.FillDataGrid(con);
+                FillDataGridPlayer(con);
             }
         }
 
