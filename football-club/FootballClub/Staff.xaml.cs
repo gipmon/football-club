@@ -25,6 +25,7 @@ namespace FootballClub
     {
         private string ConString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
         private SqlConnection con;
+        private string dep_id;
 
         public Staff()
         {
@@ -123,13 +124,15 @@ namespace FootballClub
                 dt = new DataTable("department_selected");
                 sda.Fill(dt);
 
+
                 foreach (ComboBoxItem itm in departments.Items)
                 {
                     itm.IsSelected = false;
                     foreach (DataRow department in dt.Rows)
                     {
-                        if (department["department_name"].ToString() == itm.Content.ToString())
+                        if (department[0].ToString() == itm.Content.ToString())
                         {
+                            dep_id = department[1].ToString();
                             itm.IsSelected = true;
                             break;
                         }
@@ -145,30 +148,61 @@ namespace FootballClub
             using (con = new SqlConnection(ConString))
             {
                 // --> Validations
-                int biInt, nifInt;
+                int biInt, nifInt, depInt;
 
                 // bi, nif and federation id is number
                 if (!Int32.TryParse(bi.Text, out biInt))
                 {
                     MessageBox.Show("The BI must be an Integer!");
+                    return;
                 }
                 if (!Int32.TryParse(nif.Text, out nifInt))
                 {
                     MessageBox.Show("The NIF must be an Integer!");
+                    return;
                 }
+
+              
                 
                 DateTime dt;
                 if (!DateTime.TryParse(birth_date.Text, out dt))
                 {
                     MessageBox.Show("Please insert a valid date!");
+                    return;
                 }
 
                 string gender;
                 gender = (GenderFemale.IsChecked == true) ? "F" : "M";
 
-                // INSERT PLAYER
+                string CmdString1 = "SELECT * FROM football.udf_department_names(DEFAULT)";
+                SqlCommand cmd = new SqlCommand(CmdString1, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt1 = new DataTable("department_selected");
+                sda.Fill(dt1);
+                string dep = departments.Text;
 
-                string CmdString = "EXEC football.sp_createStaff @bi = @paramBi, @name = @paramName, @address = @paramAddress, @birth_date = @paramBirthDate, @nif = @paramNif, @gender = @paramGender, @nationality = @paramNationality, @salary = @paramSalary, @role = @paramRole";
+                foreach (ComboBoxItem itm in departments.Items)
+                {
+                    itm.IsSelected = false;
+                    foreach (DataRow department in dt1.Rows)
+                    {
+                        if (department[0].ToString() == dep)
+                        {
+                            dep_id = department[1].ToString();
+                            itm.IsSelected = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!Int32.TryParse(dep_id, out depInt))
+                {
+                    MessageBox.Show("The dep must be an Integer!");
+                    return;
+                }
+
+
+                string CmdString = "EXEC football.sp_createStaff @bi = @paramBi, @name = @paramName, @address = @paramAddress, @birth_date = @paramBirthDate, @nif = @paramNif, @gender = @paramGender, @nationality = @paramNationality, @salary = @paramSalary, @department_id = @paramDepartment, @role = @paramRole";
                 SqlCommand cmd_player = new SqlCommand(CmdString, con);
                 cmd_player.Parameters.AddWithValue("@paramBi", biInt);
                 cmd_player.Parameters.AddWithValue("@paramName", name.Text);
@@ -178,20 +212,21 @@ namespace FootballClub
                 cmd_player.Parameters.AddWithValue("@paramGender", gender);
                 cmd_player.Parameters.AddWithValue("@paramNationality", nationality.Text);
                 cmd_player.Parameters.AddWithValue("@paramSalary", salary.Value);
+                cmd_player.Parameters.AddWithValue("@paramDepartment", depInt);
                 cmd_player.Parameters.AddWithValue("@paramRole", role.Text);
 
-                //try
-                //{
-                con.Open();
-                cmd_player.ExecuteNonQuery();
-                MessageBox.Show("The staff has been inserted successfully!");
-                FillDataGrid(con);
-                con.Close();
-                //}
-                //catch (Exception exc)
-                //{
-                //MessageBox.Show(exc.Message);
-                //}
+                try
+                {
+                    con.Open();
+                    cmd_player.ExecuteNonQuery();
+                    MessageBox.Show("The staff has been inserted successfully!");
+                    FillDataGrid(con);
+                    con.Close();
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
 
             }
 

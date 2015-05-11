@@ -28,7 +28,7 @@ AS
 									person.name, 
 									person.birth_date AS 'birth date',
 									person.gender,
-									department.name AS 'department name',
+									department.department_id AS 'department id',
 									internal_people.salary,
 									person.address,
 									person.nif,

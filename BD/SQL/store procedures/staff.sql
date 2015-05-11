@@ -2,7 +2,7 @@ use p4g5;
 
 go 
 
--- DROP PROC football.sp_createPlayer
+-- DROP PROC football.sp_createStaff
 
 CREATE PROCEDURE football.sp_createStaff
   @bi				INT, 
@@ -13,14 +13,15 @@ CREATE PROCEDURE football.sp_createStaff
   @gender			VARCHAR(1), 
   @nationality		VARCHAR(75),
   @salary			MONEY,
+  @department_id    INT,
   @role	            VARCHAR(50)
 
 WITH ENCRYPTION
 AS 
 	IF @bi is null OR @name is null OR @address is null OR @birth_date is null OR @nif is null OR 
-		@gender is null OR @nationality is null OR @salary is null OR @role is null
+		@gender is null OR @nationality is null OR @salary is null OR @department_name is null OR @role is null
 	BEGIN
-		PRINT 'The bi, name, address, birth_date, nif, nationality, salary and role can not be null!'
+		PRINT 'The bi, name, address, birth_date, nif, nationality, salary, department name and role can not be null!'
 		RETURN
 	END
 	
@@ -70,9 +71,11 @@ AS
 					  @salary) 
 
 		INSERT INTO football.staff 
-					([bi], 
+					([bi],
+					 [department_id],
 					 [role]) 
 		VALUES      ( @bi, 
+					  @department_id,
 					  @role)
 		COMMIT TRANSACTION;
 	END TRY
