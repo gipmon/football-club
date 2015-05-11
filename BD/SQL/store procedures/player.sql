@@ -113,6 +113,7 @@ AS
 	BEGIN TRANSACTION;
 
 	BEGIN TRY
+		DELETE FROM football.play WHERE bi = @bi;
 		DELETE FROM football.player WHERE bi = @bi;
 		DELETE FROM football.internal_people WHERE bi = @bi;
 		DELETE FROM football.person WHERE bi = @bi;
@@ -221,7 +222,7 @@ BEGIN
 
 	BEGIN TRY
 		-- clean player teams
-		DELETE FROM football.play WHERE play.bi = @bi;
+		DELETE FROM football.play WHERE bi = @bi;
 
 		-- insert into player teams
 		INSERT football.play(team_name, bi)
