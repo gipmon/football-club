@@ -55,6 +55,7 @@ namespace FootballClub
             sda = new SqlDataAdapter(cmd);
             dt = new DataTable("departments");
             sda.Fill(dt);
+            departments.Items.Clear();
             foreach (DataRow department in dt.Rows)
             {
                 ComboBoxItem itm = new ComboBoxItem();
@@ -181,19 +182,16 @@ namespace FootballClub
                 sda.Fill(dt1);
                 string dep = departments.Text;
 
-                foreach (ComboBoxItem itm in departments.Items)
+                
+                foreach (DataRow department in dt1.Rows)
                 {
-                    itm.IsSelected = false;
-                    foreach (DataRow department in dt1.Rows)
+                    if (department[0].ToString() == dep)
                     {
-                        if (department[0].ToString() == dep)
-                        {
-                            dep_id = department[1].ToString();
-                            itm.IsSelected = true;
-                            break;
-                        }
+                        dep_id = department[1].ToString();
+                        break;
                     }
                 }
+                
 
                 if (!Int32.TryParse(dep_id, out depInt))
                 {
@@ -232,6 +230,141 @@ namespace FootballClub
 
 
         }
+
+        private void Staff_Update(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                // --> Validations
+                int biInt, depInt;
+
+                // bi is number
+                if (!Int32.TryParse(bi.Text, out biInt))
+                {
+                    MessageBox.Show("The BI must be an Integer!");
+                    return;
+                }
+                
+
+                DateTime dt;
+                if (!DateTime.TryParse(birth_date.Text, out dt))
+                {
+                    MessageBox.Show("Please insert a valid date!");
+                    return;
+                }
+
+                string gender;
+                gender = (GenderFemale.IsChecked == true) ? "F" : "M";
+
+                string CmdString1 = "SELECT * FROM football.udf_department_names(DEFAULT)";
+                SqlCommand cmd = new SqlCommand(CmdString1, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt1 = new DataTable("department_selected");
+                sda.Fill(dt1);
+                string dep = departments.Text;
+
+              
+                foreach (DataRow department in dt1.Rows)
+                {
+                    if (department[0].ToString() == dep)
+                    {
+                        dep_id = department[1].ToString();
+                        break;
+                    }
+                }
+                
+
+                if (!Int32.TryParse(dep_id, out depInt))
+                {
+                    MessageBox.Show("The dep must be an Integer!");
+                    return;
+                }
+
+
+                // MODIFY STAFF
+
+                string CmdString = "EXEC football.sp_modifyStaff @bi = @paramBi, @name = @paramName, @address = @paramAddress, @birth_date = @paramBirthDate, @gender = @paramGender, @nationality = @paramNationality, @salary = @paramSalary, @department_id = @paramDepartment, @role = @paramRole";
+                SqlCommand cmd_player = new SqlCommand(CmdString, con);
+                cmd_player.Parameters.AddWithValue("@paramBi", biInt);
+                cmd_player.Parameters.AddWithValue("@paramName", name.Text);
+                cmd_player.Parameters.AddWithValue("@paramAddress", address.Text);
+                cmd_player.Parameters.AddWithValue("@paramBirthDate", dt);
+                cmd_player.Parameters.AddWithValue("@paramGender", gender);
+                cmd_player.Parameters.AddWithValue("@paramNationality", nationality.Text);
+                cmd_player.Parameters.AddWithValue("@paramSalary", salary.Value);
+                cmd_player.Parameters.AddWithValue("@paramDepartment", depInt);
+                cmd_player.Parameters.AddWithValue("@paramRole", role.Text);
+
+                try
+                {
+                    con.Open();
+                    cmd_player.ExecuteNonQuery();
+                    MessageBox.Show("The staff has been updated successfully!");
+                    FillDataGrid(con);
+                    con.Close();
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+
+            }
+        }
+
+        private void Staff_Delete(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                using (con = new SqlConnection(ConString))
+                {
+                    // --> Validations
+                    int biInt;
+
+                    // bi is number
+                    if (!Int32.TryParse(bi.Text, out biInt))
+                    {
+                        MessageBox.Show("The BI must be an Integer!");
+                        return;
+                    }
+
+                    // DELETE THE PLAYER
+
+                    string CmdString = "EXEC football.sp_deleteStaff @bi = @paramBi";
+                    SqlCommand cmd_player = new SqlCommand(CmdString, con);
+                    cmd_player.Parameters.AddWithValue("@paramBi", biInt);
+
+                    try
+                    {
+                        con.Open();
+                        cmd_player.ExecuteNonQuery();
+                        MessageBox.Show("The staff has been deleted successfully!");
+                        FillDataGrid(con);
+                        con.Close();
+
+                        // limpar as text boxs
+                        name.Text = "";
+                        bi.Text = "";
+                        nif.Text = "";
+                        address.Text = "";
+                        departments.Text = "";
+                        role.Text = "";
+                        birth_date.Text = "";
+                        nationality.Text = "";
+                        GenderMale.IsChecked = false;
+                        GenderFemale.IsChecked = false;
+                        salary.Value = 0;
+                        internal_id.Text = "";
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show(exc.Message);
+                    }
+
+                }
+            }
+        }
+
 
         private void departmentGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
