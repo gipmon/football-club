@@ -70,6 +70,12 @@ namespace FootballClub
             DataTable dt1 = new DataTable("teams");
             sda1.Fill(dt1);
             teamsGrid.ItemsSource = dt1.DefaultView;
+
+            int search_bi;
+            if (Int32.TryParse(bi.Text, out search_bi))
+            {
+                playerTeamsGet(con, Convert.ToInt32(search_bi));
+            }
         }
 
         private void sync_teams(SqlConnection con, Int32 biInt)
@@ -102,6 +108,30 @@ namespace FootballClub
             SqlParameter tvparam = cmd_player.Parameters.AddWithValue("@playerTeams", dt_playerTeams);
             tvparam.SqlDbType = SqlDbType.Structured;
             cmd_player.ExecuteNonQuery();
+        }
+
+        private void playerTeamsGet(SqlConnection con, Int32 biInt)
+        {
+            // select the teams of the player
+            String CmdString = "SELECT * FROM football.udf_team_names(@intBi)";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            cmd.Parameters.AddWithValue("@intBi", biInt);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("teams_selected");
+            sda.Fill(dt);
+
+            foreach (ListBoxItem itm in playerTeams.Items)
+            {
+                itm.IsSelected = false;
+                foreach (DataRow team in dt.Rows)
+                {
+                    if (team[0].ToString() == itm.Content.ToString())
+                    {
+                        itm.IsSelected = true;
+                        break;
+                    }
+                }
+            }
         }
 
         private void playersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -154,25 +184,7 @@ namespace FootballClub
                 weight.Text = r["weight"].ToString();
                 height.Text = r["height"].ToString();
 
-                // select the teams of the player
-                CmdString = "SELECT * FROM football.udf_team_names(@intBi)";
-                cmd = new SqlCommand(CmdString, con);
-                cmd.Parameters.AddWithValue("@intBi", Convert.ToInt32(search_bi));
-                sda = new SqlDataAdapter(cmd);
-                dt = new DataTable("teams_selected");
-                sda.Fill(dt);
-
-                foreach (ListBoxItem itm in playerTeams.Items)
-                {
-                    itm.IsSelected = false;
-                    foreach (DataRow team in dt.Rows)
-                    {
-                        if(team[0].ToString() == itm.Content.ToString()){
-                            itm.IsSelected = true;
-                            break;
-                        }
-                    }
-                }
+                playerTeamsGet(con, Convert.ToInt32(search_bi));
             }
         }
 
