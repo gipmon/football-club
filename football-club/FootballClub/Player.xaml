@@ -182,13 +182,14 @@
                         <ListBox Grid.Row="7"  Grid.Column="1" Name="coach_teams" Height="50px" SelectionMode="Multiple" Margin="0,0,0,10">
                         </ListBox>
                         <Label Grid.Row="8">Role:</Label>
-                        <TextBox Grid.Row="6" Grid.Column="1" Name="coach_role" Margin="0,0,0,10" />
-                        <Label Grid.Row="10">Salary:</Label>
-                        <Controls:NumericUpDown Grid.Row="10" Name="coach_salary" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
-                        <TextBox Grid.Row ="11" Grid.Column="1" Name="coach_federation_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
-                        <Label Grid.Row="12">Internal ID:</Label>
-                        <TextBox Grid.Row="12" IsReadOnly="True" IsEnabled="False" Grid.Column="1" Name="coach_internal_id" Margin="0,0,0,10"/>
-                        <Grid Grid.Row="13">
+                        <TextBox Grid.Row="8" Grid.Column="1" Name="coach_role" Margin="0,0,0,10" />
+                        <Label Grid.Row="9">Salary:</Label>
+                        <Controls:NumericUpDown Grid.Row="9" Name="coach_salary" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
+                        <Label Grid.Row="10">Federation ID:</Label>
+                        <TextBox Grid.Row ="10" Grid.Column="1" Name="coach_federation_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="11">Internal ID:</Label>
+                        <TextBox Grid.Row="11" IsReadOnly="True" IsEnabled="False" Grid.Column="1" Name="coach_internal_id" Margin="0,0,0,10"/>
+                        <Grid Grid.Row="12">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
@@ -198,7 +199,7 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Button Grid.Row="0" Grid.Column="0" Name="coach_save" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top"/>
-                            <Button Grid.Row="0" Grid.Column="1" Name="coach_new" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top"/>
+                            <Button Grid.Row="0" Grid.Column="1" Name="coach_new" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Coach_New"/>
                             <Button Grid.Row="0" Grid.Column="2" Name="coach_delete" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
                         </Grid>
                     </Grid>
