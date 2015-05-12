@@ -12,7 +12,7 @@
 
     <Grid>
         <TabControl>
-            <TabItem Header="Teams" MouseEnter="TeamsTabIsSelected">
+            <TabItem Header="Teams">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -52,10 +52,23 @@
                             <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Team_New"/>
                             <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Team_Delete"/>
                         </Grid>
+                        <Grid Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Name="ListTeamsBtn" Visibility="Hidden" Content="List teams" Style="{DynamicResource SquareButtonStyle}" Margin="0,10,5,0" VerticalAlignment="Top" Click="ListTeams"/>
+                            <Button Grid.Row="0" Grid.Column="1" Name="PlayersBtn" Visibility="Hidden" Content="Players" Style="{DynamicResource SquareButtonStyle}" Margin="0,10,5,0" VerticalAlignment="Top" Click="ShowTeamPlayers"/>
+                            <Button Grid.Row="0" Grid.Column="2" Name="CoachsBtn" Visibility="Hidden"  Content="Coachs" Style="{DynamicResource SquareButtonStyle}"  Margin="0,10,0,0" VerticalAlignment="Top" Click="ShowTeamCoachs"/>
+                        </Grid>
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Players" MouseEnter="PlayersTabIsSelected">
+            <TabItem Header="Players">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -132,7 +145,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Coachs" MouseEnter="CoachsTabIsSelected">
+            <TabItem Header="Coachs">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />

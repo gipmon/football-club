@@ -25,6 +25,7 @@ namespace FootballClub
     {
         private string ConString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
         private SqlConnection con;
+        private bool team_select_enable = true;
 
         public Player()
         {
@@ -32,6 +33,8 @@ namespace FootballClub
             using (con = new SqlConnection(ConString))
             {
                 FillDataGridTeam(con);
+                FillDataGridCoachs(con);
+                FillDataGridPlayer(con);
             }
         }
 
@@ -40,7 +43,7 @@ namespace FootballClub
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
         private void FillDataGridPlayer(SqlConnection con)
         {
-            string CmdString = "SELECT * FROM football.udf_players_data_grid()";
+            string CmdString = "SELECT * FROM football.udf_players_data_grid(DEFAULT)";
             SqlCommand cmd = new SqlCommand(CmdString, con);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable("players");
@@ -444,7 +447,7 @@ namespace FootballClub
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
         private void FillDataGridCoachs(SqlConnection con)
         {
-            string CmdString = "SELECT * FROM football.udf_coachs_data_grid()";
+            string CmdString = "SELECT * FROM football.udf_coachs_data_grid(DEFAULT)";
             SqlCommand cmd = new SqlCommand(CmdString, con);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable("coachs");
@@ -767,6 +770,14 @@ namespace FootballClub
 
         private void teamsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!team_select_enable) 
+            {
+                return;
+            }
+
+            PlayersBtn.Visibility = System.Windows.Visibility.Visible;
+            CoachsBtn.Visibility = System.Windows.Visibility.Visible;
+
             using (con = new SqlConnection(ConString))
             {
                 DataRowView row = (DataRowView)teamsGrid.SelectedItem;
@@ -878,30 +889,55 @@ namespace FootballClub
             }
         }
 
-        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-         *  ##########################----------- TAB CONTROL -----------##########################
-         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-        private void PlayersTabIsSelected(object sender, RoutedEventArgs e)
+        private void ListTeams(object sender, RoutedEventArgs e) 
         {
-            using (con = new SqlConnection(ConString))
-            {
-                FillDataGridPlayer(con);
-            }
-        }
-        private void TeamsTabIsSelected(object sender, RoutedEventArgs e)
-        {
+            team_select_enable = true;
+            ListTeamsBtn.Visibility = System.Windows.Visibility.Hidden;
+            CoachsBtn.IsEnabled = true;
+            PlayersBtn.IsEnabled = true;
+
             using (con = new SqlConnection(ConString))
             {
                 FillDataGridTeam(con);
             }
         }
-        private void CoachsTabIsSelected(object sender, RoutedEventArgs e) 
+
+        private void ShowTeamPlayers(object sender, RoutedEventArgs e)
         {
-            using (con = new SqlConnection(ConString)) 
+            team_select_enable = false;
+            ListTeamsBtn.Visibility = System.Windows.Visibility.Visible;
+            CoachsBtn.IsEnabled = true;
+            PlayersBtn.IsEnabled = false;
+
+            using (con = new SqlConnection(ConString))
             {
-                FillDataGridCoachs(con);
+                string CmdString = "SELECT * FROM football.udf_players_data_grid(@team_name)";
+                SqlCommand cmd = new SqlCommand(CmdString, con);
+                cmd.Parameters.AddWithValue("@team_name", teamName.Text);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("teamPlayers");
+                sda.Fill(dt);
+                teamsGrid.ItemsSource = dt.DefaultView;
             }
         }
 
+        private void ShowTeamCoachs(object sender, RoutedEventArgs e)
+        {
+            team_select_enable = false;
+            ListTeamsBtn.Visibility = System.Windows.Visibility.Visible;
+            CoachsBtn.IsEnabled = false;
+            PlayersBtn.IsEnabled = true;
+
+            using (con = new SqlConnection(ConString))
+            {
+                string CmdString = "SELECT * FROM football.udf_coachs_data_grid(@team_name)";
+                SqlCommand cmd = new SqlCommand(CmdString, con);
+                cmd.Parameters.AddWithValue("@team_name", teamName.Text);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("teamCoach");
+                sda.Fill(dt);
+                teamsGrid.ItemsSource = dt.DefaultView;
+            }
+        }
     }
 }
