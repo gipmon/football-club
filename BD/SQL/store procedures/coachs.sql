@@ -209,3 +209,42 @@ AS
 		RAISERROR ('An error occurred when updating the coach!', 14, 1)
 		ROLLBACK TRANSACTION;
 	END CATCH;
+
+-- Coach teams
+go
+-- DROP TYPE football.CoachTeams;
+CREATE TYPE football.CoachTeams
+AS TABLE
+(
+  team_name NVARCHAR(200),
+  bi		INT
+);
+
+go
+
+-- DROP PROC football.sp_sync_coachTeams
+
+CREATE PROCEDURE football.sp_sync_coachTeams
+  @coachTeams as football.CoachTeams READONLY,
+  @bi INT
+WITH ENCRYPTION
+AS 
+BEGIN
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		-- clean coach teams
+		DELETE FROM football.heads WHERE bi = @bi;
+
+		-- insert into coach teams
+		INSERT football.heads(team_name, bi)
+		SELECT team_name, bi
+		FROM @coachTeams
+		
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the coach teams!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+END

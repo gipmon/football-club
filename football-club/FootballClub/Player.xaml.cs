@@ -51,7 +51,7 @@ namespace FootballClub
             playersGrid.ItemsSource = dt.DefaultView;
 
             // fill the teams of the player
-            CmdString = "SELECT * FROM football.udf_team_names(DEFAULT)";
+            CmdString = "SELECT * FROM football.udf_team_names()";
             cmd = new SqlCommand(CmdString, con);
             sda = new SqlDataAdapter(cmd);
             dt = new DataTable("teams");
@@ -103,7 +103,7 @@ namespace FootballClub
         private void playerTeamsGet(SqlConnection con, Int32 biInt)
         {
             // select the teams of the player
-            String CmdString = "SELECT * FROM football.udf_team_names(@bi)";
+            String CmdString = "SELECT * FROM football.udf_team_names_player(@bi)";
             SqlCommand cmd = new SqlCommand(CmdString, con);
             cmd.Parameters.AddWithValue("@bi", biInt);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
@@ -453,6 +453,51 @@ namespace FootballClub
             DataTable dt = new DataTable("coachs");
             sda.Fill(dt);
             coachsGrid.ItemsSource = dt.DefaultView;
+
+            // fill the teams of the coach
+            CmdString = "SELECT * FROM football.udf_team_names()";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("teams");
+            sda.Fill(dt);
+
+            coach_teams.Items.Clear();
+            foreach (DataRow team in dt.Rows)
+            {
+                ListBoxItem itm = new ListBoxItem();
+                itm.Content = team[0].ToString();
+                coach_teams.Items.Add(itm);
+            }
+
+            int search_bi;
+            if (Int32.TryParse(coach_bi.Text, out search_bi))
+            {
+                coachTeamsGet(con, Convert.ToInt32(search_bi));
+            }
+        }
+
+        private void coachTeamsGet(SqlConnection con, Int32 biInt)
+        {
+            // select the teams of the player
+            String CmdString = "SELECT * FROM football.udf_team_names_coach(@bi)";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            cmd.Parameters.AddWithValue("@bi", biInt);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("teams_selected");
+            sda.Fill(dt);
+
+            foreach (ListBoxItem itm in coach_teams.Items)
+            {
+                itm.IsSelected = false;
+                foreach (DataRow team in dt.Rows)
+                {
+                    if (team[0].ToString() == itm.Content.ToString())
+                    {
+                        itm.IsSelected = true;
+                        break;
+                    }
+                }
+            }
         }
 
         private void coachsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -504,7 +549,7 @@ namespace FootballClub
                 coach_internal_id.Text = r["internal id"].ToString();
                 coach_role.Text = r["role"].ToString();
 
-                // playerTeamsGet(con, Convert.ToInt32(search_bi));
+                coachTeamsGet(con, Convert.ToInt32(search_bi));
             }
         }
 
@@ -595,7 +640,7 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_coach.ExecuteNonQuery();
-                    // sync_teams_player(con, biInt);
+                    sync_teams_coach(con, biInt);
                     FillDataGridCoachs(con);
                     con.Close();
                     MessageBox.Show("The coach has been inserted successfully!");
@@ -688,7 +733,7 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_coach.ExecuteNonQuery();
-                    // sync_teams_player(con, biInt);
+                    sync_teams_coach(con, biInt);
                     FillDataGridCoachs(con);
                     con.Close();
                     MessageBox.Show("The coach has been updated successfully!");
@@ -753,6 +798,34 @@ namespace FootballClub
                     }
                 }
             }
+        }
+
+        private void sync_teams_coach(SqlConnection con, Int32 biInt)
+        {
+            DataTable dt_coachTeams = new DataTable();
+            dt_coachTeams.Columns.Add("team_name", typeof(String));
+            dt_coachTeams.Columns.Add("bi", typeof(Int32));
+
+            DataRow workRow;
+            foreach (ListBoxItem itm in coach_teams.Items)
+            {
+                if (itm.IsSelected)
+                {
+                    workRow = dt_coachTeams.NewRow();
+                    workRow["team_name"] = itm.Content.ToString().Trim();
+                    workRow["bi"] = biInt;
+                    dt_coachTeams.Rows.Add(workRow);
+                }
+            }
+
+            // SYNC TEAMS PLAYER
+            string CmdString = "football.sp_sync_coachTeams";
+            SqlCommand cmd_coach = new SqlCommand(CmdString, con);
+            cmd_coach.CommandType = CommandType.StoredProcedure;
+            cmd_coach.Parameters.AddWithValue("@bi", biInt);
+            SqlParameter tvparam = cmd_coach.Parameters.AddWithValue("@coachTeams", dt_coachTeams);
+            tvparam.SqlDbType = SqlDbType.Structured;
+            cmd_coach.ExecuteNonQuery();
         }
 
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -830,6 +903,10 @@ namespace FootballClub
                     con.Open();
                     cmd_team.ExecuteNonQuery(); ;
                     FillDataGridTeam(con);
+                    // player and coach list box needs to be upadted
+                    FillDataGridCoachs(con);
+                    FillDataGridPlayer(con);
+
                     con.Close();
                     MessageBox.Show("The team has been inserted successfully!");
                 }
@@ -855,6 +932,10 @@ namespace FootballClub
                     con.Open();
                     cmd_team.ExecuteNonQuery();
                     FillDataGridTeam(con);
+                    // player and coach list box needs to be upadted
+                    FillDataGridCoachs(con);
+                    FillDataGridPlayer(con);
+
                     con.Close();
                     MessageBox.Show("The team has been updated successfully!");
                 }
@@ -879,6 +960,10 @@ namespace FootballClub
                     con.Open();
                     cmd_team.ExecuteNonQuery();
                     FillDataGridTeam(con);
+                    // player and coach list box needs to be upadted
+                    FillDataGridCoachs(con);
+                    FillDataGridPlayer(con);
+
                     con.Close();
                     MessageBox.Show("The team has been deleted successfully!");
                 }
