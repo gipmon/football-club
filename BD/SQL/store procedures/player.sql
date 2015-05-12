@@ -179,6 +179,15 @@ AS
 		RETURN
 	END
 
+	-- check if the federation id is already in use
+	SELECT @count = count(federation_id) FROM football.coach WHERE federation_id = @federation_id;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use by one coach!', 14, 1)
+		RETURN
+	END
+
 	BEGIN TRANSACTION;
 
 	BEGIN TRY

@@ -603,7 +603,153 @@ namespace FootballClub
                 }
 
             }
+        }
 
+        private void Coach_Update(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                // --> Validations
+                int biInt, fedInt;
+
+                // bi and federation id is number
+                if (!Int32.TryParse(coach_bi.Text, out biInt))
+                {
+                    MessageBox.Show("The BI must be an Integer!");
+                    return;
+                }
+                if (!Int32.TryParse(coach_federation_id.Text, out fedInt))
+                {
+                    MessageBox.Show("The Federation ID must be an Integer!");
+                    return;
+                }
+
+                DateTime dt;
+                if (!DateTime.TryParse(coach_birth_date.Text, out dt))
+                {
+                    MessageBox.Show("Please insert a valid date!");
+                    return;
+                }
+
+                if (coach_role.Text.Length == 0)
+                {
+                    MessageBox.Show("The role can't be blank!");
+                    return;
+                }
+                if (coach_name.Text.Length == 0)
+                {
+                    MessageBox.Show("The name can't be blank!");
+                    return;
+                }
+                if (coach_address.Text.Length == 0)
+                {
+                    MessageBox.Show("The address can't be blank!");
+                    return;
+                }
+                if (coach_nationality.Text.Length == 0)
+                {
+                    MessageBox.Show("The nationality can't be blank!");
+                    return;
+                }
+
+                string gender;
+                if (coach_GenderFemale.IsChecked == true)
+                {
+                    gender = "F";
+                }
+                else if (coach_GenderMale.IsChecked == true)
+                {
+                    gender = "M";
+                }
+                else
+                {
+                    MessageBox.Show("Please select the gender!");
+                    return;
+                }
+
+                // UPDATE COACH
+                string CmdString = "football.sp_modifyCoach";
+                SqlCommand cmd_coach = new SqlCommand(CmdString, con);
+                cmd_coach.CommandType = CommandType.StoredProcedure;
+                cmd_coach.Parameters.AddWithValue("@bi", biInt);
+                cmd_coach.Parameters.AddWithValue("@name", coach_name.Text);
+                cmd_coach.Parameters.AddWithValue("@address", coach_address.Text);
+                cmd_coach.Parameters.AddWithValue("@birth_date", dt);
+                cmd_coach.Parameters.AddWithValue("@gender", gender);
+                cmd_coach.Parameters.AddWithValue("@nationality", coach_nationality.Text);
+                cmd_coach.Parameters.AddWithValue("@salary", (double)coach_salary.Value);
+                cmd_coach.Parameters.AddWithValue("@federation_id", fedInt);
+                cmd_coach.Parameters.AddWithValue("@role", coach_role.Text);
+
+                try
+                {
+                    con.Open();
+                    cmd_coach.ExecuteNonQuery();
+                    // sync_teams_player(con, biInt);
+                    FillDataGridCoachs(con);
+                    con.Close();
+                    MessageBox.Show("The coach has been updated successfully!");
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+            }
+
+        }
+
+        private void Coach_Delete(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                using (con = new SqlConnection(ConString))
+                {
+                    // --> Validations
+                    int biInt;
+
+                    // bi is number
+                    if (!Int32.TryParse(coach_bi.Text, out biInt))
+                    {
+                        MessageBox.Show("The BI must be an Integer!");
+                        return;
+                    }
+
+                    // DELETE THE COACH
+
+                    string CmdString = "football.sp_deleteCoach";
+                    SqlCommand cmd_coach = new SqlCommand(CmdString, con);
+                    cmd_coach.CommandType = CommandType.StoredProcedure;
+                    cmd_coach.Parameters.AddWithValue("@bi", biInt);
+
+                    try
+                    {
+                        con.Open();
+                        cmd_coach.ExecuteNonQuery();
+                        FillDataGridCoachs(con);
+                        con.Close();
+
+                        // limpar as text boxs
+                        coach_name.Text = "";
+                        coach_bi.Text = "";
+                        coach_nif.Text = "";
+                        coach_address.Text = "";
+                        coach_federation_id.Text = "";
+                        coach_birth_date.Text = "";
+                        coach_nationality.Text = "";
+                        coach_GenderMale.IsChecked = false;
+                        coach_GenderFemale.IsChecked = false;
+                        coach_salary.Value = 0;
+                        coach_internal_id.Text = "";
+                        coach_role.Text = "";
+                        MessageBox.Show("The coach has been deleted successfully!");
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show(exc.Message);
+                    }
+                }
+            }
         }
 
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

@@ -1,6 +1,9 @@
 use p4g5;
 
 go
+
+-- DROP FUNCTION football.udf_coachs_data_grid
+
 CREATE FUNCTION football.udf_coachs_data_grid()
 RETURNS TABLE
 WITH SCHEMABINDING, ENCRYPTION
@@ -8,7 +11,8 @@ AS
 	RETURN (SELECT	internal_people.internal_id AS 'internal id',
 									person.bi, 
 									person.name, 
-									person.birth_date AS 'birth date',
+									coach.role, 
+									internal_people.salary,
 									person.gender,
 									coach.federation_id AS 'federation id'
 			FROM	(football.coach JOIN 
