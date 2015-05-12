@@ -1,10 +1,10 @@
 use p4g5;
 
--- DROP FUNCTION football.udf_department_names
+-- DROP FUNCTION football.udf_departments_names
 
 go
 CREATE FUNCTION football.udf_department_names(@staff_bi int=null) 
-RETURNS @table TABLE ("department_name" varchar(50), "department_id" int)
+RETURNS @table TABLE ("department_name" varchar(75), "department_id" int)
 WITH SCHEMABINDING, ENCRYPTION
 AS
 BEGIN
@@ -24,4 +24,21 @@ BEGIN
 END;
 
 go
-SELECT * FROM football.udf_department_names(DEFAULT)
+CREATE FUNCTION football.udf_departments(@department_id int=null)
+RETURNS @table TABLE ("department_name" varchar(75), "department_id" int, "address" varchar(75))
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	IF (@department_id is null)
+		BEGIN
+			INSERT @table SELECT name, department_id, address
+						  FROM football.department
+		END;
+	ELSE
+		BEGIN
+			INSERT @table SELECT name, department_id, address
+						  FROM football.department
+						  WHERE department.department_id = @department_id
+		END;
+	RETURN;
+END;

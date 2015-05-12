@@ -12,7 +12,7 @@
 
     <Grid>
         <TabControl>
-            <TabItem Header="Staff">
+            <TabItem Header="Staff" MouseEnter="StaffTabIsSelected">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -44,29 +44,29 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label>Name:</Label>
-                        <TextBox Grid.Column="1" Name="name" Margin="0,0,0,10"  />
+                        <TextBox Grid.Column="1" Name="staff_name" Margin="0,0,0,10"  />
                         <Label Grid.Row="1">BI:</Label>
-                        <TextBox Grid.Row="1" Name="bi" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="1" Name="staff_bi" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="2">NIF:</Label>
-                        <TextBox Grid.Row="2" Name="nif" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="2" Name="staff_nif" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="3">Gender:</Label>
-                        <RadioButton Grid.Row="3" Grid.Column="1" Name="GenderMale" GroupName="Sex" Content="Male" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <RadioButton Grid.Row="3" Grid.Column="1" Name="GenderFemale" GroupName="Sex" Margin="60,0,0,0" Content="Female" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <RadioButton Grid.Row="3" Grid.Column="1" Name="staff_GenderMale" GroupName="Sex" Content="Male" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <RadioButton Grid.Row="3" Grid.Column="1" Name="staff_GenderFemale" GroupName="Sex" Margin="60,0,0,0" Content="Female" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <Label Grid.Row="4">Date of Birth:</Label>
-                        <TextBox Grid.Row="4" Grid.Column="1" Name="birth_date" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="4" Grid.Column="1" Name="staff_birth_date" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="5">Address:</Label>
-                        <TextBox Grid.Row="5" Grid.Column="1" Name="address" Margin="0,0,0,10" />
+                        <TextBox Grid.Row="5" Grid.Column="1" Name="staff_address" Margin="0,0,0,10" />
                         <Label Grid.Row="6">Nationality:</Label>
-                        <TextBox Grid.Row="6" Grid.Column="1" Name="nationality" Margin="0,0,0,10" />
+                        <TextBox Grid.Row="6" Grid.Column="1" Name="staff_nationality" Margin="0,0,0,10" />
                         <Label Grid.Row="7">Role:</Label>
-                        <TextBox Grid.Row="7" Grid.Column="1" Name="role" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="7" Grid.Column="1" Name="staff_role" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="8">Department:</Label>
-                        <ComboBox Grid.Row="8" Name="departments" Grid.Column="1" Margin="0,0,0,10">
+                        <ComboBox Grid.Row="8" Name="staff_departments" Grid.Column="1" Margin="0,0,0,10">
                         </ComboBox>
                         <Label Grid.Row="9">Salary:</Label>
-                        <Controls:NumericUpDown Grid.Row="9" Name="salary" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Interval="5" StringFormat="C2"/>
+                        <Controls:NumericUpDown Grid.Row="9" Name="staff_salary" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Interval="5" StringFormat="C2"/>
                         <Label Grid.Row="10">Internal ID:</Label>
-                        <TextBox Grid.Row="10" IsReadOnly="True" IsEnabled="False" Grid.Column="1" Name="internal_id" Margin="0,0,0,10"/>
+                        <TextBox Grid.Row="10" IsReadOnly="True" IsEnabled="False" Grid.Column="1" Name="staff_internal_id" Margin="0,0,0,10"/>
                         <Grid Grid.Row="11">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -83,7 +83,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Department">
+            <TabItem Header="Department" MouseEnter="DepartmentsTabIsSelected">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -121,9 +121,9 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Grid.Column="0" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top"/>
-                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top"/>
-                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Department_Update" />
+                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Department_New" />
+                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Department_Delete" />
                         </Grid>
 
                     </Grid>
