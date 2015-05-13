@@ -32,6 +32,87 @@ namespace FootballClub
             using (con = new SqlConnection(ConString))
             {
                 FillDataGridCourts(con);
+                FillDataGridPractices(con);
+            }
+        }
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+        *  ########################----------- PRACTICES TAB -----------###########################
+        * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+        private void FillDataGridPractices(SqlConnection con)
+        {
+            string CmdString = "SELECT * FROM football.udf_practices(DEFAULT, DEFAULT, DEFAULT)";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("practices");
+            sda.Fill(dt);
+            practices_grid.ItemsSource = dt.DefaultView;
+
+            // fill combo box court
+            CmdString = "SELECT * FROM football.udf_courts(DEFAULT)";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("courts");
+            sda.Fill(dt);
+
+            CourtsComboBox.Items.Clear();
+            foreach (DataRow court in dt.Rows)
+            {
+                ListBoxItem itm = new ListBoxItem();
+                itm.Content = court[0].ToString();
+                CourtsComboBox.Items.Add(itm);
+            }
+
+            // fill combo box teams
+            CmdString = "SELECT * FROM football.udf_team_names()";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("teams");
+            sda.Fill(dt);
+
+            TeamsComboBox.Items.Clear();
+            foreach (DataRow team in dt.Rows)
+            {
+                ListBoxItem itm = new ListBoxItem();
+                itm.Content = team[0].ToString();
+                TeamsComboBox.Items.Add(itm);
+            }
+        }
+        private void practicesGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                DataRowView row = (DataRowView)practices_grid.SelectedItem;
+                string search_id, search_team_name ;
+                try
+                {
+                    // este try catch e por causa de quando autalizamos a DataGrid numa segunda vez
+                    // e houve algo selecionado antes...
+                    DateTime date = DateTime.Parse(row.Row.ItemArray[0].ToString());
+                    practice_date.Text = date.ToString("yyyy-MM-dd");
+                    practice_hour.Text = row.Row.ItemArray[1].ToString();
+                    /*
+                    foreach (ListBoxItem itm in CourtsComboBox.Items)
+                    {
+                        if (itm.Content.ToString() == row.Row.ItemArray[2].ToString())
+                        {
+                            itm.IsSelected = true;
+                            break;
+                        }
+                    }
+                    foreach (ListBoxItem itm in TeamsComboBox.Items)
+                    {
+                        if (itm.Content.ToString() == row.Row.ItemArray[3].ToString())
+                        {
+                            itm.IsSelected = true;
+                            break;
+                        }
+                    }
+                     */
+                }
+                catch (Exception)
+                {
+                    return;
+                }
             }
         }
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

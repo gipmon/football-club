@@ -21,7 +21,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <DataGrid>
+                    <DataGrid IsReadOnly="True" Name="practices_grid" SelectionChanged="practicesGrid_SelectionChanged">
                     </DataGrid>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
@@ -37,21 +37,13 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label>Court:</Label>
-                        <ComboBox Grid.Row="0"  Grid.Column="1" Margin="0,0,0,10">
-                            <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
-                            <ComboBoxItem IsSelected="True">ComboBox Item #2</ComboBoxItem>
-                            <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
-                        </ComboBox>
+                        <ComboBox Grid.Row="0" Name="CourtsComboBox" Grid.Column="1" Margin="0,0,0,10"></ComboBox>
                         <Label Grid.Row="1">Date:</Label>
-                        <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Name="practice_date" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="2">Hour:</Label>
-                        <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="HH:MM" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Name="practice_hour" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="HH:MM" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="3">Team:</Label>
-                        <ComboBox Grid.Row="3"  Grid.Column="1" Margin="0,0,0,10">
-                            <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
-                            <ComboBoxItem IsSelected="True">ComboBox Item #2</ComboBoxItem>
-                            <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
-                        </ComboBox>
+                        <ComboBox Grid.Row="3" Name="TeamsComboBox" Grid.Column="1" Margin="0,0,0,10"></ComboBox>
                         <Grid Grid.Row="4">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
