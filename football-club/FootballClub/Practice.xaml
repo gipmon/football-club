@@ -78,7 +78,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <DataGrid>
+                    <DataGrid IsReadOnly="True" Name="courts_grid"  SelectionChanged="courtsGrid_SelectionChanged">
                     </DataGrid>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
@@ -93,9 +93,9 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label>Address:</Label>
-                        <TextBox Grid.Column="1" Margin="0,0,0,10"  />
+                        <TextBox Name="courts_address" Grid.Column="1" Margin="0,0,0,10"  />
                         <Label Grid.Row="1">ID:</Label>
-                        <TextBox  Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"  />
+                        <TextBox Name="courts_id" IsReadOnly="True" IsEnabled="False" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"  />
                         <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -105,9 +105,9 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Grid.Column="0" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top"/>
-                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top"/>
-                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Court_Update"/>
+                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Court_New"/>
+                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Court_Delete"/>
                         </Grid>
                     </Grid>
                 </Grid>
