@@ -76,13 +76,13 @@ namespace FootballClub
                 itm.Content = team[0].ToString();
                 TeamsComboBox.Items.Add(itm);
             }
+
         }
         private void practicesGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             using (con = new SqlConnection(ConString))
             {
                 DataRowView row = (DataRowView)practices_grid.SelectedItem;
-                string search_id, search_team_name ;
                 try
                 {
                     // este try catch e por causa de quando autalizamos a DataGrid numa segunda vez
@@ -90,28 +90,185 @@ namespace FootballClub
                     DateTime date = DateTime.Parse(row.Row.ItemArray[0].ToString());
                     practice_date.Text = date.ToString("yyyy-MM-dd");
                     practice_hour.Text = row.Row.ItemArray[1].ToString();
-                    /*
-                    foreach (ListBoxItem itm in CourtsComboBox.Items)
-                    {
-                        if (itm.Content.ToString() == row.Row.ItemArray[2].ToString())
-                        {
-                            itm.IsSelected = true;
-                            break;
-                        }
-                    }
-                    foreach (ListBoxItem itm in TeamsComboBox.Items)
-                    {
-                        if (itm.Content.ToString() == row.Row.ItemArray[3].ToString())
-                        {
-                            itm.IsSelected = true;
-                            break;
-                        }
-                    }
-                     */
+                    CourtsComboBox.Text = row.Row.ItemArray[2].ToString();
+                    TeamsComboBox.Text = row.Row.ItemArray[3].ToString();
                 }
                 catch (Exception)
                 {
                     return;
+                }
+            }
+        }
+        private void Practice_New(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                // validation: team_name, id_court can't not be lenght = 0
+                if (TeamsComboBox.Text.Length == 0)
+                {
+                    MessageBox.Show("The team name can't be blank!");
+                    return;
+                }
+                if (CourtsComboBox.Text.Length == 0)
+                {
+                    MessageBox.Show("The court can't be blank!");
+                    return;
+                }
+
+                int courtId;
+
+                if (!Int32.TryParse(CourtsComboBox.Text, out courtId))
+                {
+                    MessageBox.Show("The court id must be an Integer!");
+                    return;
+                }
+                DateTime date;
+                if (!DateTime.TryParse(practice_date.Text, out date))
+                {
+                    MessageBox.Show("Please insert a valid date!");
+                    return;
+                }
+                TimeSpan time;
+                if (!TimeSpan.TryParse(practice_hour.Text, out time))
+                {
+                    MessageBox.Show("Please insert a valid hour!");
+                    return;
+                }
+
+                string CmdString = "football.sp_createPractice";
+                SqlCommand cmd_practice = new SqlCommand(CmdString, con);
+                cmd_practice.CommandType = CommandType.StoredProcedure;
+                cmd_practice.Parameters.AddWithValue("@id_court", courtId);
+                cmd_practice.Parameters.AddWithValue("@date", date);
+                cmd_practice.Parameters.AddWithValue("@hour", time);
+                cmd_practice.Parameters.AddWithValue("@team_name", TeamsComboBox.Text);
+
+                try
+                {
+                    con.Open();
+                    cmd_practice.ExecuteNonQuery();
+                    FillDataGridPractices(con);
+                    con.Close();
+                    MessageBox.Show("The practice has been inserted successfully!");
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+            }
+        }
+        private void Practice_Update(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                // validation: team_name, id_court can't not be lenght = 0
+                if (TeamsComboBox.Text.Length == 0)
+                {
+                    MessageBox.Show("The team name can't be blank!");
+                    return;
+                }
+                if (CourtsComboBox.Text.Length == 0)
+                {
+                    MessageBox.Show("The court can't be blank!");
+                    return;
+                }
+
+                int courtId;
+
+                if (!Int32.TryParse(CourtsComboBox.Text, out courtId))
+                {
+                    MessageBox.Show("The court id must be an Integer!");
+                    return;
+                }
+                DateTime date;
+                if (!DateTime.TryParse(practice_date.Text, out date))
+                {
+                    MessageBox.Show("Please insert a valid date!");
+                    return;
+                }
+                TimeSpan time;
+                if (!TimeSpan.TryParse(practice_hour.Text, out time))
+                {
+                    MessageBox.Show("Please insert a valid hour!");
+                    return;
+                }
+
+                string CmdString = "football.sp_modifyPractice";
+                SqlCommand cmd_practice = new SqlCommand(CmdString, con);
+                cmd_practice.CommandType = CommandType.StoredProcedure;
+                cmd_practice.Parameters.AddWithValue("@id_court", courtId);
+                cmd_practice.Parameters.AddWithValue("@date", date);
+                cmd_practice.Parameters.AddWithValue("@hour", time);
+                cmd_practice.Parameters.AddWithValue("@team_name", TeamsComboBox.Text);
+
+                try
+                {
+                    con.Open();
+                    cmd_practice.ExecuteNonQuery();
+                    FillDataGridPractices(con);
+                    con.Close();
+                    practice_date.Text = "";
+                    practice_hour.Text = "";
+                    MessageBox.Show("The practice has been updated successfully!");
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+            }
+        }
+        private void Practice_Delete(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                if (CourtsComboBox.Text.Length == 0)
+                {
+                    MessageBox.Show("The court can't be blank!");
+                    return;
+                }
+
+                int courtId;
+
+                if (!Int32.TryParse(CourtsComboBox.Text, out courtId))
+                {
+                    MessageBox.Show("The court id must be an Integer!");
+                    return;
+                }
+                DateTime date;
+                if (!DateTime.TryParse(practice_date.Text, out date))
+                {
+                    MessageBox.Show("Please insert a valid date!");
+                    return;
+                }
+                TimeSpan time;
+                if (!TimeSpan.TryParse(practice_hour.Text, out time))
+                {
+                    MessageBox.Show("Please insert a valid hour!");
+                    return;
+                }
+
+                string CmdString = "football.sp_deletePractice";
+                SqlCommand cmd_practice = new SqlCommand(CmdString, con);
+                cmd_practice.CommandType = CommandType.StoredProcedure;
+                cmd_practice.Parameters.AddWithValue("@id_court", courtId);
+                cmd_practice.Parameters.AddWithValue("@date", date);
+                cmd_practice.Parameters.AddWithValue("@hour", time);
+
+                try
+                {
+                    con.Open();
+                    cmd_practice.ExecuteNonQuery();
+                    FillDataGridPractices(con);
+                    con.Close();
+                    TeamsComboBox.Text = "";
+                    CourtsComboBox.Text = "";
+                    practice_date.Text = "";
+                    practice_hour.Text = "";
+                    MessageBox.Show("The practice has been deleted successfully!");
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
                 }
             }
         }
@@ -178,6 +335,7 @@ namespace FootballClub
                     con.Open();
                     cmd_court.ExecuteNonQuery(); ;
                     FillDataGridCourts(con);
+                    FillDataGridPractices(con);
                     con.Close();
                     MessageBox.Show("The court has been inserted successfully!");
                 }
@@ -210,6 +368,7 @@ namespace FootballClub
                     con.Open();
                     cmd_court.ExecuteNonQuery();
                     FillDataGridCourts(con);
+                    FillDataGridPractices(con);
                     con.Close();
                     MessageBox.Show("The court has been updated successfully!");
                 }
@@ -247,6 +406,7 @@ namespace FootballClub
                         con.Open();
                         cmd_court.ExecuteNonQuery();
                         FillDataGridCourts(con);
+                        FillDataGridPractices(con);
                         con.Close();
 
                         // limpar as text boxs
