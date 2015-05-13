@@ -33,6 +33,7 @@ namespace FootballClub
             using (con = new SqlConnection(ConString))
             {
                 FillDataGridStaff(con);
+                FillDataGridDepartments(con);
             }
 
         }
@@ -56,10 +57,12 @@ namespace FootballClub
             sda = new SqlDataAdapter(cmd);
             dt = new DataTable("departments");
             sda.Fill(dt);
+            staff_departments.Items.Clear();
+            //MessageBox.Show("clear");
             foreach (DataRow department in dt.Rows)
             {
                 ComboBoxItem itm = new ComboBoxItem();
-                itm.Content = department["department_name"].ToString();
+                itm.Content = department[0].ToString();
                 staff_departments.Items.Add(itm);
             }
 
@@ -80,9 +83,9 @@ namespace FootballClub
                     return;
                 }
                 staff_bi.Text = search_bi;
-                string CmdString = "SELECT * FROM football.udf_staff(@intBi)";
+                string CmdString = "SELECT * FROM football.udf_staff(@staff_bi)";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
-                cmd.Parameters.AddWithValue("@intBi", Convert.ToInt32(search_bi));
+                cmd.Parameters.AddWithValue("@staff_bi", Convert.ToInt32(search_bi));
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable("staff");
                 sda.Fill(dt);
@@ -107,12 +110,12 @@ namespace FootballClub
                 staff_internal_id.Text = r["internal id"].ToString();
                 staff_role.Text = r["role"].ToString();
 
-                String CmdString1 = "SELECT * FROM football.udf_department_names(@intBi)";
+                String CmdString1 = "SELECT * FROM football.udf_department_names(@staff_bi)";
                 SqlCommand cmd1 = new SqlCommand(CmdString1, con);
-                cmd.Parameters.AddWithValue("@intBi", search_bi);
-                SqlDataAdapter sda1 = new SqlDataAdapter(cmd);
+                cmd1.Parameters.AddWithValue("@staff_bi", Convert.ToInt32(search_bi));
+                SqlDataAdapter sda1 = new SqlDataAdapter(cmd1);
                 DataTable dt1 = new DataTable("department_selected");
-                sda.Fill(dt1);
+                sda1.Fill(dt1);
 
                 foreach (ComboBoxItem itm in staff_departments.Items)
                 {
@@ -232,6 +235,7 @@ namespace FootballClub
                     con.Open();
                     cmd_staff.ExecuteNonQuery();
                     FillDataGridStaff(con);
+                    FillDataGridDepartments(con);
                     con.Close();
                     MessageBox.Show("The staff has been inserted successfully!");
 
@@ -345,6 +349,8 @@ namespace FootballClub
                     con.Open();
                     cmd_staff.ExecuteNonQuery();
                     FillDataGridStaff(con);
+                    FillDataGridDepartments(con);
+
                     con.Close();
                     MessageBox.Show("The staff has been updated successfully!");
 
@@ -386,6 +392,8 @@ namespace FootballClub
                         con.Open();
                         cmd_staff.ExecuteNonQuery();
                         FillDataGridStaff(con);
+                        FillDataGridDepartments(con);
+
                         con.Close();
 
                         // limpar as text boxs
@@ -486,6 +494,8 @@ namespace FootballClub
                     con.Open();
                     cmd_department.ExecuteNonQuery(); ;
                     FillDataGridDepartments(con);
+                    FillDataGridStaff(con);
+
                     con.Close();
                     MessageBox.Show("The department has been inserted successfully!");
                 }
@@ -523,6 +533,8 @@ namespace FootballClub
                     con.Open();
                     cmd_department.ExecuteNonQuery();
                     FillDataGridDepartments(con);
+                    FillDataGridStaff(con);
+
                     con.Close();
                     MessageBox.Show("The department has been updated successfully!");
                 }
@@ -556,6 +568,8 @@ namespace FootballClub
                     con.Open();
                     cmd_department.ExecuteNonQuery();
                     FillDataGridDepartments(con);
+                    FillDataGridStaff(con);
+
                     con.Close();
                     MessageBox.Show("The department has been deleted successfully!");
                 }
