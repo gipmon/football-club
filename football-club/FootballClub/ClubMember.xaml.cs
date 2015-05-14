@@ -26,12 +26,15 @@ namespace FootballClub
     {
         private string ConString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
         private SqlConnection con;
+        private string section_id;
+
         public ClubMember()
         {
             InitializeComponent();
             using (con = new SqlConnection(ConString))
             {
                 FillDataGridMembers(con);
+                FillDataGridAnnualSpots(con);
                 
             }
         }
@@ -203,6 +206,7 @@ namespace FootballClub
                     con.Open();
                     cmd_member.ExecuteNonQuery();
                     FillDataGridMembers(con);
+                    FillDataGridAnnualSpots(con);
                     con.Close();
                     MessageBox.Show("The member has been inserted successfully!");
                 }
@@ -300,6 +304,7 @@ namespace FootballClub
                     con.Open();
                     cmd_member.ExecuteNonQuery();
                     FillDataGridMembers(con);
+                    FillDataGridAnnualSpots(con);
                     con.Close();
                     MessageBox.Show("The member has been updated successfully!");
                 }
@@ -340,6 +345,7 @@ namespace FootballClub
                         con.Open();
                         cmd_member.ExecuteNonQuery();
                         FillDataGridMembers(con);
+                        FillDataGridAnnualSpots(con);
                         con.Close();
 
                         // limpar as text boxs
@@ -364,6 +370,159 @@ namespace FootballClub
                 }
             }
 
+        }
+
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+         *  ##########################----------- ANNUAL SPOT TAB -----------#############################
+         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+        private void FillDataGridAnnualSpots(SqlConnection con)
+        {
+            string CmdString = "SELECT * FROM football.udf_annualSpots(DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT)";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("annual_spots");
+            sda.Fill(dt);
+            annualSpotsGrid.ItemsSource = dt.DefaultView;
+
+            
+            // fill the sections of the stadium
+            CmdString = "SELECT * FROM football.udf_sections()";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("sections");
+            sda.Fill(dt);
+
+            spot_section.Items.Clear();
+            foreach (DataRow court in dt.Rows)
+            {
+                ComboBoxItem itm = new ComboBoxItem();
+                itm.Content = court[0].ToString();
+                spot_section.Items.Add(itm);
+            }
+
+        }
+
+        private void annualSpotsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                DataRowView row = (DataRowView)annualSpotsGrid.SelectedItem;
+                string search_bi;
+                try
+                {
+                    // este try catch e por causa de quando autalizamos a DataGrid numa segunda vez
+                    // e houve algo selecionado antes...
+                    search_bi = row.Row.ItemArray[2].ToString();
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+
+                spot_bi.Text = search_bi;
+
+                string search_spot;
+                try
+                {
+                    // este try catch e por causa de quando autalizamos a DataGrid numa segunda vez
+                    // e houve algo selecionado antes...
+                    search_spot = row.Row.ItemArray[6].ToString();
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+
+                spot_number.Text = search_spot;
+
+                string search_row;
+                try
+                {
+                    // este try catch e por causa de quando autalizamos a DataGrid numa segunda vez
+                    // e houve algo selecionado antes...
+                    search_row = row.Row.ItemArray[5].ToString();
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+
+
+                string search_section;
+                try
+                {
+                    // este try catch e por causa de quando autalizamos a DataGrid numa segunda vez
+                    // e houve algo selecionado antes...
+                    search_section = row.Row.ItemArray[4].ToString();
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+
+                string search_season;
+                try
+                {
+                    // este try catch e por causa de quando autalizamos a DataGrid numa segunda vez
+                    // e houve algo selecionado antes...
+                    search_season = row.Row.ItemArray[7].ToString();
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+
+                spot_season.Text = search_season;
+
+                string CmdString = "SELECT * FROM football.udf_annualSpots_full(@n_spot, @row, @id_section, @bi, @season)";
+                SqlCommand cmd = new SqlCommand(CmdString, con);
+                cmd.Parameters.AddWithValue("@n_spot", Convert.ToInt32(search_spot));
+                cmd.Parameters.AddWithValue("@row", search_row);
+                cmd.Parameters.AddWithValue("@id_section", Convert.ToInt32(search_section));
+                cmd.Parameters.AddWithValue("@bi", Convert.ToInt32(search_bi));
+                cmd.Parameters.AddWithValue("@season", Convert.ToInt32(search_season));
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("annualSpot");
+                sda.Fill(dt);
+                DataRow r = dt.Rows[0];
+
+                spot_bi.Text = r["bi"].ToString();
+                spot_number.Text = r["spot number"].ToString();
+                spot_row.Text = r["row"].ToString();
+                spot_season.Text = r["season"].ToString();
+
+                DateTime date = DateTime.Parse(r["start_date"].ToString());
+                spot_initial_date.Text = date.ToString("yyyy-MM-dd");
+                spot_duration.Text = r["duration"].ToString();
+                spot_value.Value = Convert.ToDouble(r["value"].ToString());
+
+                String CmdString1 = "SELECT * FROM football.udf_sections_annual(@bi, @n_spot, @row, @id_section, @season)";
+                SqlCommand cmd1 = new SqlCommand(CmdString1, con);
+                cmd1.Parameters.AddWithValue("@bi", Convert.ToInt32(search_bi));
+                cmd1.Parameters.AddWithValue("@n_spot", Convert.ToInt32(search_spot));
+                cmd1.Parameters.AddWithValue("@row", search_row);
+                cmd1.Parameters.AddWithValue("@id_section", Convert.ToInt32(search_section));
+                cmd1.Parameters.AddWithValue("@season", Convert.ToInt32(search_season));
+
+                SqlDataAdapter sda1 = new SqlDataAdapter(cmd1);
+                DataTable dt1 = new DataTable("section_selected");
+                sda1.Fill(dt1);
+
+                foreach (ComboBoxItem itm in spot_section.Items)
+                {
+                    itm.IsSelected = false;
+                    foreach (DataRow section in dt1.Rows)
+                    {
+                        if (section[0].ToString() == itm.Content.ToString())
+                        {
+                            section_id = section[1].ToString();
+                            itm.IsSelected = true;
+                            break;
+                        }
+                    }
+                }
+                
+            }
         }
     }
 }

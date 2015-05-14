@@ -62,7 +62,7 @@
                         <Label Grid.Row="8">Shares in day:</Label>
                         <Controls:ToggleSwitch Grid.Row="8" Name="member_shares_in_day" Grid.Column="1" OnLabel="Yes" OffLabel="No" Margin="0,0,0,10" />
                         <Label Grid.Row="9">Shares value:</Label>
-                        <Controls:NumericUpDown Grid.Row="9" Name="member_shares_value" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
+                        <Controls:NumericUpDown Grid.Row="9" Name="member_shares_value" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Interval="5" StringFormat="C2"/>
                         <Grid Grid.Row="10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -88,7 +88,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <DataGrid>
+                    <DataGrid IsReadOnly="True" Name="annualSpotsGrid" SelectionChanged="annualSpotsGrid_SelectionChanged">
                     </DataGrid>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
@@ -105,32 +105,26 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label>BI:</Label>
-                        <TextBox Grid.Column="1" Margin="0,0,0,10"  />
+                        <TextBox Grid.Column="1" Name="spot_bi" Margin="0,0,0,10"  />
                         <Label Grid.Row="1">Spot Number:</Label>
-                        <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="1" Name="spot_number" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="2">Row:</Label>
-                        <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
-                        <Label Grid.Row="3">Sex:</Label>
-                        <TextBox Grid.Row="3" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
-                        <Label Grid.Row="4">Section:</Label>
-                        <ComboBox Grid.Row="4" Grid.Column="1" Margin="0,0,0,10">
-                            <ComboBoxItem>Item1</ComboBoxItem>
-                            <ComboBoxItem>Item2</ComboBoxItem>
-                            <ComboBoxItem>Item3</ComboBoxItem>
+                        <TextBox Grid.Row="2" Name="spot_row"  Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="3">Section:</Label>
+                        <ComboBox Grid.Row="3" Name="spot_section" Grid.Column="1" Margin="0,0,0,10">
                         </ComboBox>
-                        <Label Grid.Row="5">Season:</Label>
-                        <TextBox Grid.Row="5" Grid.Column="1" Margin="0,0,0,10" />
-                        <Label Grid.Row="6">Initial Date:</Label>
-                        <TextBox Grid.Row="6" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
-                        <Label Grid.Row="7">Duration (Months):</Label>
-                        <TextBox Grid.Row="7" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
-                        <Label Grid.Row="8">Spot value:</Label>
-                        <Controls:NumericUpDown Grid.Row="8" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
-                        <Grid Grid.Row="9">
+                        <Label Grid.Row="4">Season:</Label>
+                        <TextBox Grid.Row="4" Name="spot_season" Grid.Column="1" Margin="0,0,0,10" />
+                        <Label Grid.Row="5">Initial Date:</Label>
+                        <TextBox Grid.Row="5" Name="spot_initial_date" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="6">Duration (Months):</Label>
+                        <TextBox Grid.Row="6" Name="spot_duration" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="7">Spot Value:</Label>
+                        <Controls:NumericUpDown Grid.Row="7" Name="spot_value" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Interval="5" StringFormat="C2"/>
+                        <Grid Grid.Row="8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
