@@ -205,8 +205,8 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_member.ExecuteNonQuery();
+                    FillDataGridAnnualSpots(con);
                     FillDataGridMembers(con);
-                    // FillDataGridAnnualSpots(con);
                     con.Close();
                     MessageBox.Show("The member has been inserted successfully!");
                 }
@@ -303,8 +303,8 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_member.ExecuteNonQuery();
+                    FillDataGridAnnualSpots(con);
                     FillDataGridMembers(con);
-                    //FillDataGridAnnualSpots(con);
                     con.Close();
                     MessageBox.Show("The member has been updated successfully!");
                 }
@@ -344,8 +344,8 @@ namespace FootballClub
                     {
                         con.Open();
                         cmd_member.ExecuteNonQuery();
-                        FillDataGridMembers(con);
                         FillDataGridAnnualSpots(con);
+                        FillDataGridMembers(con);
                         con.Close();
 
                         // limpar as text boxs
