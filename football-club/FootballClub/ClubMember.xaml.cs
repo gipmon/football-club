@@ -524,5 +524,301 @@ namespace FootballClub
                 
             }
         }
+
+        private void AnnualSpot_New(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                // --> Validations
+                int biInt, nSpotInt, sectionidInt, seasonInt, durationInt;
+
+                if (!Int32.TryParse(spot_bi.Text, out biInt))
+                {
+                    MessageBox.Show("The BI must be an Integer!");
+                    return;
+                }
+                if (!Int32.TryParse(spot_number.Text, out nSpotInt))
+                {
+                    MessageBox.Show("The Spot Number must be an Integer!");
+                    return;
+                }
+
+                if (!Int32.TryParse(spot_season.Text, out seasonInt))
+                {
+                    MessageBox.Show("The Season must be an Integer!");
+                    return;
+                }
+                if (!Int32.TryParse(spot_duration.Text, out durationInt))
+                {
+                    MessageBox.Show("The Duration must be an Integer!");
+                    return;
+                }
+
+                if (spot_row.Text.Length == 0)
+                {
+                    MessageBox.Show("The row can't be blank!");
+                    return;
+                }
+
+                DateTime dt;
+                if (!DateTime.TryParse(spot_initial_date.Text, out dt))
+                {
+                    MessageBox.Show("Please insert a valid date!");
+                    return;
+                }
+
+
+                string CmdString1 = "SELECT * FROM football.udf_sections()";
+                SqlCommand cmd = new SqlCommand(CmdString1, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt1 = new DataTable("section_selected");
+                sda.Fill(dt1);
+                string section_text = spot_section.Text;
+
+                foreach (DataRow section in dt1.Rows)
+                {
+                    if (section[0].ToString() == section_text)
+                    {
+                        section_id = section[1].ToString();
+                        break;
+                    }
+                }
+
+
+                if (!Int32.TryParse(section_id, out sectionidInt))
+                {
+                    MessageBox.Show("The Section must be valid!");
+                    return;
+                }
+
+                // INSERT ANNUAL SPOT
+
+                string CmdString = "football.sp_createAnnualSpot";
+                SqlCommand cmd_annualSpot = new SqlCommand(CmdString, con);
+                cmd_annualSpot.CommandType = CommandType.StoredProcedure;
+                cmd_annualSpot.Parameters.AddWithValue("@bi", biInt);
+                cmd_annualSpot.Parameters.AddWithValue("@start_date", dt);
+                cmd_annualSpot.Parameters.AddWithValue("@n_spot", nSpotInt);
+                cmd_annualSpot.Parameters.AddWithValue("@row", spot_row.Text);
+                cmd_annualSpot.Parameters.AddWithValue("@value", spot_value.Value);
+                cmd_annualSpot.Parameters.AddWithValue("@id_section", sectionidInt);
+                cmd_annualSpot.Parameters.AddWithValue("@season", seasonInt);
+                cmd_annualSpot.Parameters.AddWithValue("@duration", durationInt);
+
+                try
+                {
+                    con.Open();
+                    cmd_annualSpot.ExecuteNonQuery();
+                    FillDataGridMembers(con);
+                    FillDataGridAnnualSpots(con);
+                    con.Close();
+                    MessageBox.Show("The annual spot has been inserted successfully!");
+
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+
+            }
+        }
+
+        private void AnnualSpot_Update(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                // --> Validations
+                int biInt, nSpotInt, sectionidInt, seasonInt, durationInt;
+
+                if (!Int32.TryParse(spot_bi.Text, out biInt))
+                {
+                    MessageBox.Show("The BI must be an Integer!");
+                    return;
+                }
+                if (!Int32.TryParse(spot_number.Text, out nSpotInt))
+                {
+                    MessageBox.Show("The Spot Number must be an Integer!");
+                    return;
+                }
+
+                if (!Int32.TryParse(spot_season.Text, out seasonInt))
+                {
+                    MessageBox.Show("The Season must be an Integer!");
+                    return;
+                }
+                if (!Int32.TryParse(spot_duration.Text, out durationInt))
+                {
+                    MessageBox.Show("The Duration must be an Integer!");
+                    return;
+                }
+
+                if (spot_row.Text.Length == 0)
+                {
+                    MessageBox.Show("The row can't be blank!");
+                    return;
+                }
+
+                DateTime dt;
+                if (!DateTime.TryParse(spot_initial_date.Text, out dt))
+                {
+                    MessageBox.Show("Please insert a valid date!");
+                    return;
+                }
+
+                string CmdString1 = "SELECT * FROM football.udf_sections()";
+                SqlCommand cmd = new SqlCommand(CmdString1, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt1 = new DataTable("section_selected");
+                sda.Fill(dt1);
+                string section_text = spot_section.Text;
+
+                foreach (DataRow section in dt1.Rows)
+                {
+                    if (section[0].ToString() == section_text)
+                    {
+                        section_id = section[1].ToString();
+                        break;
+                    }
+                }
+
+
+                if (!Int32.TryParse(section_id, out sectionidInt))
+                {
+                    MessageBox.Show("The Section must be valid!");
+                    return;
+                }
+
+
+                // UPDATE ANNUAL SPOT
+
+                string CmdString = "football.sp_modifyAnnualSpot";
+                SqlCommand cmd_annualSpot = new SqlCommand(CmdString, con);
+                cmd_annualSpot.CommandType = CommandType.StoredProcedure;
+                cmd_annualSpot.Parameters.AddWithValue("@bi", biInt);
+                cmd_annualSpot.Parameters.AddWithValue("@start_date", dt);
+                cmd_annualSpot.Parameters.AddWithValue("@n_spot", nSpotInt);
+                cmd_annualSpot.Parameters.AddWithValue("@row", spot_row.Text);
+                cmd_annualSpot.Parameters.AddWithValue("@value", spot_value.Value);
+                cmd_annualSpot.Parameters.AddWithValue("@id_section", sectionidInt);
+                cmd_annualSpot.Parameters.AddWithValue("@season", seasonInt);
+                cmd_annualSpot.Parameters.AddWithValue("@duration", durationInt);
+
+                try
+                {
+                    con.Open();
+                    cmd_annualSpot.ExecuteNonQuery();
+                    FillDataGridMembers(con);
+                    FillDataGridAnnualSpots(con);
+                    con.Close();
+                    MessageBox.Show("The annual spot has been updated successfully!");
+
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+
+            }
+        }
+
+        private void AnnualSpot_Delete(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                using (con = new SqlConnection(ConString))
+                {
+                    // --> Validations
+                    int biInt, nSpotInt, sectionidInt, seasonInt;
+
+                    // bi, spot number, section id and season are number
+                    if (!Int32.TryParse(spot_bi.Text, out biInt))
+                    {
+                        MessageBox.Show("The BI must be an Integer!");
+                        return;
+                    }
+                    if (!Int32.TryParse(spot_number.Text, out nSpotInt))
+                    {
+                        MessageBox.Show("The Spot Number must be an Integer!");
+                        return;
+                    }
+
+                    if (!Int32.TryParse(spot_season.Text, out seasonInt))
+                    {
+                        MessageBox.Show("The Season must be an Integer!");
+                        return;
+                    }
+
+                    if (spot_row.Text.Length == 0)
+                    {
+                        MessageBox.Show("The row can't be blank!");
+                        return;
+                    }
+
+                    string CmdString1 = "SELECT * FROM football.udf_sections()";
+                    SqlCommand cmd = new SqlCommand(CmdString1, con);
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    DataTable dt1 = new DataTable("section_selected");
+                    sda.Fill(dt1);
+                    string section_text = spot_section.Text;
+
+                    foreach (DataRow section in dt1.Rows)
+                    {
+                        if (section[0].ToString() == section_text)
+                        {
+                            section_id = section[1].ToString();
+                            break;
+                        }
+                    }
+
+
+                    if (!Int32.TryParse(section_id, out sectionidInt))
+                    {
+                        MessageBox.Show("The Section must be valid!");
+                        return;
+                    }
+
+
+                    // DELETE THE ANNUAL SPOT
+
+                    string CmdString = "football.sp_deleteAnnualSpot";
+                    SqlCommand cmd_annualSpot = new SqlCommand(CmdString, con);
+                    cmd_annualSpot.CommandType = CommandType.StoredProcedure;
+                    cmd_annualSpot.Parameters.AddWithValue("@bi", biInt);
+                    cmd_annualSpot.Parameters.AddWithValue("@n_spot", nSpotInt);
+                    cmd_annualSpot.Parameters.AddWithValue("@season", seasonInt);
+                    cmd_annualSpot.Parameters.AddWithValue("@row", spot_row.Text);
+                    cmd_annualSpot.Parameters.AddWithValue("@id_section", sectionidInt);
+
+                    try
+                    {
+                        con.Open();
+                        cmd_annualSpot.ExecuteNonQuery();
+                        FillDataGridMembers(con);
+                        FillDataGridAnnualSpots(con);
+
+                        con.Close();
+
+                        // limpar as text boxs
+                        spot_bi.Text = "";
+                        spot_number.Text = "";
+                        spot_row.Text = "";
+                        spot_section.Text = "";
+                        spot_value.Value = 0;
+                        spot_duration.Text = "";
+                        spot_initial_date.Text = "";
+                        spot_season.Text = "";
+
+                        MessageBox.Show("The annual spot has been deleted successfully!");
+
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show(exc.Message);
+                    }
+
+                }
+            }
+        }
     }
 }
