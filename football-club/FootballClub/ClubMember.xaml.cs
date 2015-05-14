@@ -206,13 +206,13 @@ namespace FootballClub
                     con.Open();
                     cmd_member.ExecuteNonQuery();
                     FillDataGridMembers(con);
-                    FillDataGridAnnualSpots(con);
+                    // FillDataGridAnnualSpots(con);
                     con.Close();
                     MessageBox.Show("The member has been inserted successfully!");
                 }
                 catch (Exception exc)
                 {
-                    MessageBox.Show(exc.Message);
+                   MessageBox.Show(exc.Message);
                 }
 
             }
@@ -304,7 +304,7 @@ namespace FootballClub
                     con.Open();
                     cmd_member.ExecuteNonQuery();
                     FillDataGridMembers(con);
-                    FillDataGridAnnualSpots(con);
+                    //FillDataGridAnnualSpots(con);
                     con.Close();
                     MessageBox.Show("The member has been updated successfully!");
                 }
