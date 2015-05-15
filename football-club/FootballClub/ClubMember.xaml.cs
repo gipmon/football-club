@@ -393,10 +393,10 @@ namespace FootballClub
             sda.Fill(dt);
 
             spot_section.Items.Clear();
-            foreach (DataRow court in dt.Rows)
+            foreach (DataRow section in dt.Rows)
             {
                 ComboBoxItem itm = new ComboBoxItem();
-                itm.Content = court[0].ToString();
+                itm.Content = section[0].ToString();
                 spot_section.Items.Add(itm);
             }
 
