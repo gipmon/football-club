@@ -110,7 +110,7 @@
                         <Label Grid.Row="1">Address:</Label>
                         <TextBox Grid.Row="1" Name="department_address" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="2">Department ID:</Label>
-                        <TextBox Grid.Row="2" IsEnabled="false" IsReadOnly="True" Name="department_id" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="2" IsEnabled="false" IsReadOnly="True" Name="department_id" Grid.Column="1" Margin="0,0,0,10" />
      
                         <Grid Grid.Row="3">
                             <Grid.ColumnDefinitions>

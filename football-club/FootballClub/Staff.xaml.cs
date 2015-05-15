@@ -234,8 +234,8 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_staff.ExecuteNonQuery();
-                    FillDataGridStaff(con);
                     FillDataGridDepartments(con);
+                    FillDataGridStaff(con);
                     con.Close();
                     MessageBox.Show("The staff has been inserted successfully!");
 
@@ -348,8 +348,8 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_staff.ExecuteNonQuery();
-                    FillDataGridStaff(con);
                     FillDataGridDepartments(con);
+                    FillDataGridStaff(con);
 
                     con.Close();
                     MessageBox.Show("The staff has been updated successfully!");
@@ -391,8 +391,8 @@ namespace FootballClub
                     {
                         con.Open();
                         cmd_staff.ExecuteNonQuery();
-                        FillDataGridStaff(con);
                         FillDataGridDepartments(con);
+                        FillDataGridStaff(con);
 
                         con.Close();
 
@@ -492,9 +492,9 @@ namespace FootballClub
                 try
                 {
                     con.Open();
-                    cmd_department.ExecuteNonQuery(); ;
-                    FillDataGridDepartments(con);
+                    cmd_department.ExecuteNonQuery();
                     FillDataGridStaff(con);
+                    FillDataGridDepartments(con);
 
                     con.Close();
                     MessageBox.Show("The department has been inserted successfully!");
@@ -532,8 +532,8 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_department.ExecuteNonQuery();
-                    FillDataGridDepartments(con);
                     FillDataGridStaff(con);
+                    FillDataGridDepartments(con);
 
                     con.Close();
                     MessageBox.Show("The department has been updated successfully!");
@@ -567,8 +567,8 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_department.ExecuteNonQuery();
-                    FillDataGridDepartments(con);
                     FillDataGridStaff(con);
+                    FillDataGridDepartments(con);
 
                     con.Close();
                     MessageBox.Show("The department has been deleted successfully!");
