@@ -24,6 +24,8 @@ namespace FootballClub
         public MainWindow()
         {
             InitializeComponent();
+            Index index = new Index();
+            this.NavigateTo(index);
         }
 
         private void Button_Staff(object sender, RoutedEventArgs e)
