@@ -34,6 +34,7 @@ namespace FootballClub
             using (con = new SqlConnection(ConString))
             {
                 FillDataGridSpots(con);
+                FillDataGridSections(con);
             }
         }
 
@@ -51,7 +52,7 @@ namespace FootballClub
 
 
             // fill the sections of the stadium
-            CmdString = "SELECT * FROM football.udf_sections()";
+            CmdString = "SELECT * FROM football.udf_sections(DEFAULT)";
             cmd = new SqlCommand(CmdString, con);
             sda = new SqlDataAdapter(cmd);
             dt = new DataTable("sections");
@@ -172,7 +173,7 @@ namespace FootballClub
                     return;
                 }
 
-                string CmdString1 = "SELECT * FROM football.udf_sections()";
+                string CmdString1 = "SELECT * FROM football.udf_sections(DEFAULT)";
                 SqlCommand cmd = new SqlCommand(CmdString1, con);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt1 = new DataTable("section_selected");
@@ -195,7 +196,7 @@ namespace FootballClub
                     return;
                 }
 
-                // INSERT ANNUAL SPOT
+                // INSERT SPOT
 
                 string CmdString = "football.sp_createSpot";
                 SqlCommand cmd_spot = new SqlCommand(CmdString, con);
@@ -208,7 +209,9 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_spot.ExecuteNonQuery();
+                    FillDataGridSections(con);
                     FillDataGridSpots(con);
+                    
                     con.Close();
                     MessageBox.Show("The spot has been inserted successfully!");
 
@@ -246,7 +249,7 @@ namespace FootballClub
                         return;
                     }
 
-                    string CmdString1 = "SELECT * FROM football.udf_sections()";
+                    string CmdString1 = "SELECT * FROM football.udf_sections(DEFAULT)";
                     SqlCommand cmd = new SqlCommand(CmdString1, con);
                     SqlDataAdapter sda = new SqlDataAdapter(cmd);
                     DataTable dt1 = new DataTable("section_selected");
@@ -270,7 +273,7 @@ namespace FootballClub
                     }
 
 
-                    // DELETE THE ANNUAL SPOT
+                    // DELETE THE SPOT
 
                     string CmdString = "football.sp_deleteSpot";
                     SqlCommand cmd_spot = new SqlCommand(CmdString, con);
@@ -283,6 +286,7 @@ namespace FootballClub
                     {
                         con.Open();
                         cmd_spot.ExecuteNonQuery();
+                        FillDataGridSections(con);
                         FillDataGridSpots(con);
 
                         con.Close();
@@ -303,5 +307,194 @@ namespace FootballClub
                 }
             }
         }
+
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+        *  ##########################----------- SECTIONS TAB -----------#############################
+        * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+        private void FillDataGridSections(SqlConnection con)
+        {
+            string CmdString = "SELECT * FROM football.udf_sections(DEFAULT);";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("sections");
+            sda.Fill(dt);
+            sectionsGrid.ItemsSource = dt.DefaultView;
+
+        }
+        
+        private void sectionsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                DataRowView row = (DataRowView)sectionsGrid.SelectedItem;
+
+                string search_id;
+                try
+                {
+                    // este try catch e por causa de quando autalizamos a DataGrid numa segunda vez
+                    // e houve algo selecionado antes...
+                    search_id = row.Row.ItemArray[1].ToString();
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+
+                sections_id.Text = search_id;
+
+
+                string CmdString = "SELECT * FROM football.udf_sections(@id_section)";
+                SqlCommand cmd = new SqlCommand(CmdString, con);
+                cmd.Parameters.AddWithValue("@id_section", Convert.ToInt32(search_id));
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("section");
+                sda.Fill(dt);
+                DataRow r = dt.Rows[0];
+
+                sections_type.Text = r["section name"].ToString();
+
+
+            }
+        }
+
+        
+        private void Section_New(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+
+
+                if (sections_type.Text.Length == 0)
+                {
+                    MessageBox.Show("The type can't be blank!");
+                    return;
+                }
+
+                // INSERT SECTION 
+
+                string CmdString = "football.sp_createSection";
+                SqlCommand cmd_section = new SqlCommand(CmdString, con);
+                cmd_section.CommandType = CommandType.StoredProcedure;
+                cmd_section.Parameters.AddWithValue("@type", sections_type.Text);
+
+                try
+                {
+                    con.Open();
+                    cmd_section.ExecuteNonQuery();
+                    FillDataGridSections(con);
+                    FillDataGridSpots(con);
+                    con.Close();
+                    MessageBox.Show("The section has been inserted successfully!");
+
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+
+            }
+        }
+
+        private void Section_Update(object sender, RoutedEventArgs e)
+        {
+            using (con = new SqlConnection(ConString))
+            {
+                // --> Validations
+                int sectionidInt;
+
+                if (!Int32.TryParse(sections_id.Text, out sectionidInt))
+                {
+                    MessageBox.Show("The Section ID must be an Integer!");
+                    return;
+                }
+
+
+                if (sections_type.Text.Length == 0)
+                {
+                    MessageBox.Show("The type can't be blank!");
+                    return;
+                }
+
+
+                // UPDATE SECTION
+
+                string CmdString = "football.sp_modifySection";
+                SqlCommand cmd_section = new SqlCommand(CmdString, con);
+                cmd_section.CommandType = CommandType.StoredProcedure;
+                cmd_section.Parameters.AddWithValue("@type", sections_type.Text);
+                cmd_section.Parameters.AddWithValue("@id_section", sectionidInt);
+
+                try
+                {
+                    con.Open();
+                    cmd_section.ExecuteNonQuery();
+                    FillDataGridSections(con);
+                    FillDataGridSpots(con);
+                    con.Close();
+                    MessageBox.Show("The section has been updated successfully!");
+
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+
+            }
+        }
+
+
+
+        private void Section_Delete(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                using (con = new SqlConnection(ConString))
+                {
+                    // --> Validations
+                    int sectionidInt;
+
+                    // section id are number
+
+                    if (!Int32.TryParse(sections_id.Text, out sectionidInt))
+                    {
+                        MessageBox.Show("The Section ID must be an Integer!");
+                        return;
+                    }
+
+            
+                    // DELETE THE SECTION
+
+                    string CmdString = "football.sp_deleteSection";
+                    SqlCommand cmd_section = new SqlCommand(CmdString, con);
+                    cmd_section.CommandType = CommandType.StoredProcedure;
+                    cmd_section.Parameters.AddWithValue("@id_section", sectionidInt);
+
+                    try
+                    {
+                        con.Open();
+                        cmd_section.ExecuteNonQuery();
+                        FillDataGridSpots(con);
+
+                        FillDataGridSections(con);
+
+                        con.Close();
+
+                        // limpar as text boxs
+                        sections_id.Text = "";
+                        sections_type.Text = "";
+
+                        MessageBox.Show("The section has been deleted successfully!");
+
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show(exc.Message);
+                    }
+
+                }
+            }
+        }
+         
     }
 }

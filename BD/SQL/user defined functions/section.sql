@@ -3,12 +3,25 @@ use p4g5;
 -- DROP FUNCTION football.udf_sections
 
 go
-CREATE FUNCTION football.udf_sections() 
-RETURNS TABLE
+CREATE FUNCTION football.udf_sections(@id_section int=null) 
+RETURNS @table TABLE ("section name" varchar(75), "section_id" int)
 WITH SCHEMABINDING, ENCRYPTION
 AS
-	RETURN SELECT type, id_section
-		   FROM football.section;
+BEGIN
+	IF(@id_section is null)
+		BEGIN
+			INSERT @table SELECT type, id_section
+		   			      FROM football.section;
+		END;
+
+	ELSE
+		BEGIN
+			INSERT @table SELECT type, id_section
+		   			      FROM football.section
+						  WHERE id_section = @id_section;
+		END;
+	RETURN;
+END;
 
 -- DROP FUNCTION football.udf_sections_annual
 

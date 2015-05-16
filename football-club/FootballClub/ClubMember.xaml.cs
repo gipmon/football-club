@@ -386,7 +386,7 @@ namespace FootballClub
 
             
             // fill the sections of the stadium
-            CmdString = "SELECT * FROM football.udf_sections()";
+            CmdString = "SELECT * FROM football.udf_sections(DEFAULT)";
             cmd = new SqlCommand(CmdString, con);
             sda = new SqlDataAdapter(cmd);
             dt = new DataTable("sections");
@@ -568,7 +568,7 @@ namespace FootballClub
                 }
 
 
-                string CmdString1 = "SELECT * FROM football.udf_sections()";
+                string CmdString1 = "SELECT * FROM football.udf_sections(DEFAULT)";
                 SqlCommand cmd = new SqlCommand(CmdString1, con);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt1 = new DataTable("section_selected");
@@ -665,7 +665,7 @@ namespace FootballClub
                     return;
                 }
 
-                string CmdString1 = "SELECT * FROM football.udf_sections()";
+                string CmdString1 = "SELECT * FROM football.udf_sections(DEFAULT)";
                 SqlCommand cmd = new SqlCommand(CmdString1, con);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt1 = new DataTable("section_selected");
@@ -755,7 +755,7 @@ namespace FootballClub
                         return;
                     }
 
-                    string CmdString1 = "SELECT * FROM football.udf_sections()";
+                    string CmdString1 = "SELECT * FROM football.udf_sections(DEFAULT)";
                     SqlCommand cmd = new SqlCommand(CmdString1, con);
                     SqlDataAdapter sda = new SqlDataAdapter(cmd);
                     DataTable dt1 = new DataTable("section_selected");
