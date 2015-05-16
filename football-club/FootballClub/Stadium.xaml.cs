@@ -381,8 +381,8 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_section.ExecuteNonQuery();
-                    FillDataGridSections(con);
                     FillDataGridSpots(con);
+                    FillDataGridSections(con);
                     con.Close();
                     MessageBox.Show("The section has been inserted successfully!");
 
@@ -428,8 +428,8 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_section.ExecuteNonQuery();
-                    FillDataGridSections(con);
                     FillDataGridSpots(con);
+                    FillDataGridSections(con);
                     con.Close();
                     MessageBox.Show("The section has been updated successfully!");
 
