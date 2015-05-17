@@ -83,7 +83,7 @@ AS
 	RETURN;
 END;
 
-Select * from football.udf_staff_department_stats()
+
 
 
 
