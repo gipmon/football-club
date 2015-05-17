@@ -220,7 +220,104 @@
             </TabItem>
 
             <TabItem Header="Stats">
-                <Label Content="Content goes here1..." />
+                <Grid Grid.Column="0" Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.6*" />
+                        <ColumnDefinition Width="0.4*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <!-- COLUNA DA ESQUERDA -->
+                    <Grid Grid.Column="0" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Column="0" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <!-- Primeiro resultado -->
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Total of teams: ">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="0" Name="total_of_teams">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <!-- Fim Primeiro resultado -->
+                        </Grid>
+                    </Grid>
+                    <!-- COLUNA DA DIREITA -->
+                    <Grid Grid.Column="1" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!-- Primeira Data Grid -->
+                        <Grid Grid.Column="0" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Number of players per team: ">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <DataGrid Grid.Column="0" Grid.Row="1" Name="number_players_per_team"></DataGrid>
+                        </Grid>
+                        <!-- Segunda Data Grid -->
+                        <Grid Grid.Column="0" Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Number of coachs per team: ">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <DataGrid Grid.Column="0" Grid.Row="1" Name="number_coachs_per_team"></DataGrid>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>
