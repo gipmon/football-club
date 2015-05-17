@@ -245,6 +245,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
+                        <!-- resultado -->
                         <Grid Grid.Column="0" Grid.Row="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -253,23 +254,66 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <!-- Primeiro resultado -->
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Total of teams: ">
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Nacionality with more players: ">
                                 <TextBlock.Style>
                                     <Style>
                                         <Setter Property="TextBlock.FontSize" Value="16" />
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="0" Name="total_of_teams">
+                            <TextBlock Grid.Column="1" Grid.Row="0" Name="bigger_nacionality">
                                 <TextBlock.Style>
                                     <Style>
                                         <Setter Property="TextBlock.FontSize" Value="16" />
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <!-- Fim Primeiro resultado -->
                         </Grid>
+                        <!-- Fim resultado -->
+                        <!-- resultado -->
+                        <Grid Grid.Column="0" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Salaries by players: ">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="0" Name="salaries_by_players">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                        <!-- Fim resultado -->
+                        <!-- resultado -->
+                        <Grid Grid.Column="0" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Salaries by coachs: ">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="0" Name="salaries_by_coachs">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                        <!-- Fim resultado -->
                     </Grid>
                     <!-- COLUNA DA DIREITA -->
                     <Grid Grid.Column="1" Grid.Row="0">
