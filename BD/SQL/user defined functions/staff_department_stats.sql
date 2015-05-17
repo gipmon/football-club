@@ -57,7 +57,8 @@ AS
 		person.birth_date, CURRENT_TIMESTAMP), person.birth_date) < CURRENT_TIMESTAMP THEN 1
 		ELSE 0 END,
 		person.birth_date))
-		FROM football.person
+		FROM (football.person JOIN football.internal_people ON person.bi = internal_people.bi)
+		JOIN football.staff oN person.bi = staff.bi
 
 		DECLARE @minDays INT
 		SELECT @minDays = MIN(days) from @daysToBirthday

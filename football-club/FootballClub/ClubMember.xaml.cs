@@ -35,6 +35,8 @@ namespace FootballClub
             {
                 FillDataGridMembers(con);
                 FillDataGridAnnualSpots(con);
+                fillStats(con);
+
                 
             }
         }
@@ -207,6 +209,8 @@ namespace FootballClub
                     cmd_member.ExecuteNonQuery();
                     FillDataGridAnnualSpots(con);
                     FillDataGridMembers(con);
+                    fillStats(con);
+
                     con.Close();
                     MessageBox.Show("The member has been inserted successfully!");
                 }
@@ -305,6 +309,8 @@ namespace FootballClub
                     cmd_member.ExecuteNonQuery();
                     FillDataGridAnnualSpots(con);
                     FillDataGridMembers(con);
+                    fillStats(con);
+
                     con.Close();
                     MessageBox.Show("The member has been updated successfully!");
                 }
@@ -346,6 +352,8 @@ namespace FootballClub
                         cmd_member.ExecuteNonQuery();
                         FillDataGridAnnualSpots(con);
                         FillDataGridMembers(con);
+                        fillStats(con);
+                        
                         con.Close();
 
                         // limpar as text boxs
@@ -611,6 +619,8 @@ namespace FootballClub
                     cmd_annualSpot.ExecuteNonQuery();
                     FillDataGridMembers(con);
                     FillDataGridAnnualSpots(con);
+                    fillStats(con);
+
                     con.Close();
                     MessageBox.Show("The annual spot has been inserted successfully!");
 
@@ -709,6 +719,8 @@ namespace FootballClub
                     cmd_annualSpot.ExecuteNonQuery();
                     FillDataGridMembers(con);
                     FillDataGridAnnualSpots(con);
+                    fillStats(con);
+
                     con.Close();
                     MessageBox.Show("The annual spot has been updated successfully!");
 
@@ -796,6 +808,7 @@ namespace FootballClub
                         cmd_annualSpot.ExecuteNonQuery();
                         FillDataGridMembers(con);
                         FillDataGridAnnualSpots(con);
+                        fillStats(con);
 
                         con.Close();
 
@@ -819,6 +832,55 @@ namespace FootballClub
 
                 }
             }
+        }
+
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+         *  ##########################----------- STATS  TAB -----------############################
+         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+        private void fillStats(SqlConnection con)
+        {
+            string CmdString = "SELECT * FROM football.udf_members_stats()";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("stats");
+            sda.Fill(dt);
+
+            foreach (DataRow counts in dt.Rows)
+            {
+                if (counts["name"].ToString() == "shares_in_day_false")
+                {
+                    without_shares_in_day.Text = counts["result"].ToString();
+                }
+                else if (counts["name"].ToString() == "average_shares")
+                {
+                    average_shares_value.Text = counts["result"].ToString() + "$";
+                }
+                else if (counts["name"].ToString() == "total_of_members")
+                {
+                    number_of_club_members.Text = counts["result"].ToString();
+                }
+                else if (counts["name"].ToString() == "total_of_annual_spots")
+                {
+                    number_of_annual_seats.Text = counts["result"].ToString();
+                }
+              
+            }
+
+            // number annual seats per season
+            CmdString = "SELECT * FROM football.udf_annual_spots_per_season_count()";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("number_of_annual_seats_per_season");
+            sda.Fill(dt);
+            number_of_annual_seats_per_season.ItemsSource = dt.DefaultView;
+
+            // next birthday
+            CmdString = "SELECT * FROM football.udf_members_stats_next_birthday()";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("next_birthday");
+            sda.Fill(dt);
+            next_birthday.ItemsSource = dt.DefaultView;
         }
     }
 }

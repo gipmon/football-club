@@ -35,6 +35,8 @@ namespace FootballClub
             {
                 FillDataGridSpots(con);
                 FillDataGridSections(con);
+                fillStats(con);
+
             }
         }
 
@@ -211,6 +213,8 @@ namespace FootballClub
                     cmd_spot.ExecuteNonQuery();
                     FillDataGridSections(con);
                     FillDataGridSpots(con);
+                    fillStats(con);
+
                     
                     con.Close();
                     MessageBox.Show("The spot has been inserted successfully!");
@@ -288,6 +292,8 @@ namespace FootballClub
                         cmd_spot.ExecuteNonQuery();
                         FillDataGridSections(con);
                         FillDataGridSpots(con);
+                        fillStats(con);
+
 
                         con.Close();
 
@@ -383,6 +389,8 @@ namespace FootballClub
                     cmd_section.ExecuteNonQuery();
                     FillDataGridSpots(con);
                     FillDataGridSections(con);
+                    fillStats(con);
+
                     con.Close();
                     MessageBox.Show("The section has been inserted successfully!");
 
@@ -430,6 +438,8 @@ namespace FootballClub
                     cmd_section.ExecuteNonQuery();
                     FillDataGridSpots(con);
                     FillDataGridSections(con);
+                    fillStats(con);
+
                     con.Close();
                     MessageBox.Show("The section has been updated successfully!");
 
@@ -477,6 +487,7 @@ namespace FootballClub
                         FillDataGridSpots(con);
 
                         FillDataGridSections(con);
+                        fillStats(con);
 
                         con.Close();
 
@@ -495,6 +506,47 @@ namespace FootballClub
                 }
             }
         }
-         
+
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+         *  ##########################----------- STATS  TAB -----------############################
+         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+        private void fillStats(SqlConnection con)
+        {
+            string CmdString = "SELECT * FROM football.udf_stadium_stats()";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("stats");
+            sda.Fill(dt);
+
+            foreach (DataRow counts in dt.Rows)
+            {
+                if (counts["name"].ToString() == "total_Sections")
+                {
+                    total_sections.Text = counts["result"].ToString();
+                }
+                else if (counts["name"].ToString() == "total_of_seats")
+                {
+                    total_seats.Text = counts["result"].ToString();
+                }
+              
+            }
+
+            // number of seats per section
+            CmdString = "SELECT * FROM football.udf_seats_per_section_count()";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("number_seats_per_section");
+            sda.Fill(dt);
+            number_seats_per_section.ItemsSource = dt.DefaultView;
+
+            // number of annual seats per section
+            CmdString = "SELECT * FROM football.udf_annual_seats_per_section_count()";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("number_annual_seats_per_section");
+            sda.Fill(dt);
+            number_of_annual_seats_per_section.ItemsSource = dt.DefaultView;
+        }
+        
     }
 }

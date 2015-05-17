@@ -34,6 +34,7 @@ namespace FootballClub
             {
                 FillDataGridStaff(con);
                 FillDataGridDepartments(con);
+                fillStats(con);
             }
 
         }
@@ -236,6 +237,8 @@ namespace FootballClub
                     cmd_staff.ExecuteNonQuery();
                     FillDataGridDepartments(con);
                     FillDataGridStaff(con);
+                    fillStats(con);
+
                     con.Close();
                     MessageBox.Show("The staff has been inserted successfully!");
 
@@ -350,6 +353,8 @@ namespace FootballClub
                     cmd_staff.ExecuteNonQuery();
                     FillDataGridDepartments(con);
                     FillDataGridStaff(con);
+                    fillStats(con);
+
 
                     con.Close();
                     MessageBox.Show("The staff has been updated successfully!");
@@ -393,6 +398,8 @@ namespace FootballClub
                         cmd_staff.ExecuteNonQuery();
                         FillDataGridDepartments(con);
                         FillDataGridStaff(con);
+                        fillStats(con);
+
 
                         con.Close();
 
@@ -495,6 +502,8 @@ namespace FootballClub
                     cmd_department.ExecuteNonQuery();
                     FillDataGridStaff(con);
                     FillDataGridDepartments(con);
+                    fillStats(con);
+
 
                     con.Close();
                     MessageBox.Show("The department has been inserted successfully!");
@@ -534,6 +543,8 @@ namespace FootballClub
                     cmd_department.ExecuteNonQuery();
                     FillDataGridStaff(con);
                     FillDataGridDepartments(con);
+                    fillStats(con);
+
 
                     con.Close();
                     MessageBox.Show("The department has been updated successfully!");
@@ -569,6 +580,7 @@ namespace FootballClub
                     cmd_department.ExecuteNonQuery();
                     FillDataGridStaff(con);
                     FillDataGridDepartments(con);
+                    fillStats(con);
 
                     con.Close();
                     MessageBox.Show("The department has been deleted successfully!");
@@ -581,21 +593,52 @@ namespace FootballClub
         }
 
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-         *  ##########################----------- TAB CONTROL -----------##########################
+         *  ##########################----------- STATS  TAB -----------############################
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-        private void StaffTabIsSelected(object sender, RoutedEventArgs e)
+        private void fillStats(SqlConnection con)
         {
-            using (con = new SqlConnection(ConString))
+            string CmdString = "SELECT * FROM football.udf_staff_department_stats()";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("stats");
+            sda.Fill(dt);
+
+            foreach (DataRow counts in dt.Rows)
             {
-                FillDataGridStaff(con);
+                if (counts["name"].ToString() == "bigger_nacionality")
+                {
+                    bigger_nacionality.Text = counts["result"].ToString();
+                }
+                else if (counts["name"].ToString() == "total_salary_of_staff")
+                {
+                    salaries_by_staff.Text = counts["result"].ToString() + "$";
+                }
+                else if (counts["name"].ToString() == "total_of_departments")
+                {
+                    total_departments.Text = counts["result"].ToString();
+                }
+                else if (counts["name"].ToString() == "average_age_of_staff")
+                {
+                    average_age.Text = counts["result"].ToString();
+                }
+              
             }
-        }
-        private void DepartmentsTabIsSelected(object sender, RoutedEventArgs e)
-        {
-            using (con = new SqlConnection(ConString))
-            {
-                FillDataGridDepartments(con);
-            }
+
+            // number_staff_per_department
+            CmdString = "SELECT * FROM football.udf_staff_department_count()";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("number_staff_per_department");
+            sda.Fill(dt);
+            number_staff_per_department.ItemsSource = dt.DefaultView;
+
+            // next birthday
+            CmdString = "SELECT * FROM football.udf_staff_department_stats_next_birthday()";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("next_birthday");
+            sda.Fill(dt);
+            next_birthday.ItemsSource = dt.DefaultView;
         }
     }
 }
