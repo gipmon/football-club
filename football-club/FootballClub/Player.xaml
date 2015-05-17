@@ -258,6 +258,7 @@
                                 <TextBlock.Style>
                                     <Style>
                                         <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
@@ -280,6 +281,7 @@
                                 <TextBlock.Style>
                                     <Style>
                                         <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
@@ -302,6 +304,7 @@
                                 <TextBlock.Style>
                                     <Style>
                                         <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
@@ -324,6 +327,7 @@
                                 <TextBlock.Style>
                                     <Style>
                                         <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
@@ -342,10 +346,11 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Tallest player: ">
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Tallest player BI: ">
                                 <TextBlock.Style>
                                     <Style>
                                         <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
@@ -364,10 +369,11 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Heavier player: ">
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Heavier player BI: ">
                                 <TextBlock.Style>
                                     <Style>
                                         <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>

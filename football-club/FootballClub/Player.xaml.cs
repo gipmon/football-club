@@ -35,6 +35,7 @@ namespace FootballClub
                 FillDataGridTeam(con);
                 FillDataGridCoachs(con);
                 FillDataGridPlayer(con);
+                fillStats(con);
             }
         }
 
@@ -1023,6 +1024,46 @@ namespace FootballClub
                 sda.Fill(dt);
                 teamsGrid.ItemsSource = dt.DefaultView;
             }
+        }
+
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+         *  ##########################----------- STATS  TAB -----------############################
+         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+        private void fillStats(SqlConnection con)
+        {
+            string CmdString = "SELECT * FROM football.udf_teams_stats()";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("stats");
+            sda.Fill(dt);
+
+            foreach (DataRow counts in dt.Rows)
+            {
+                if (counts["name"].ToString() == "bigger_nacionality")
+                {
+                    bigger_nacionality.Text = counts["result"].ToString();
+                }
+                else if (counts["name"].ToString() == "salaries_by_players")
+                {
+                    salaries_by_players.Text = counts["result"].ToString() + "$";
+                }
+                else if (counts["name"].ToString() == "salaries_by_coachs")
+                {
+                    salaries_by_coachs.Text = counts["result"].ToString() + "$";
+                }
+                else if (counts["name"].ToString() == "player_with_higher_salary")
+                {
+                    player_with_higher_salary.Text = counts["result"].ToString();
+                }
+                else if (counts["name"].ToString() == "tallest_player")
+                {
+                    tallest_player.Text = counts["result"].ToString();
+                }
+                else if (counts["name"].ToString() == "heavier_player")
+                {
+                    heavier_player.Text = counts["result"].ToString();
+                }
+            }   
         }
     }
 }
