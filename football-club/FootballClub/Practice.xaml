@@ -199,7 +199,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Average our of training by court:">
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Average hour of training by court:">
                                 <TextBlock.Style>
                                     <Style>
                                         <Setter Property="TextBlock.FontSize" Value="16" />
