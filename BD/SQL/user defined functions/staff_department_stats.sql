@@ -2,10 +2,27 @@ use p4g5;
 -- DROP FUNCTION football.udf_staff_department_stats
 go
 CREATE FUNCTION football.udf_staff_department_stats()
-RETURNS @table TABLE ("name" varchar(50), "count" int)
+RETURNS @table TABLE ("name" varchar(50), "result" varchar(120))
 WITH SCHEMABINDING, ENCRYPTION
 AS
 BEGIN
+
+	-- bigger_nacionality
+	DECLARE @counting_table TABLE ("key_search" varchar(125), "count_search" int)
+	
+	INSERT @counting_table SELECT person.nationality as 'key_search', COUNT(person.bi) as 'count_search'
+							FROM (football.staff JOIN (football.internal_people JOIN
+							football.person ON internal_people.bi = person.bi) 
+							ON staff.bi = internal_people.bi)
+							GROUP BY person.nationality
+							
+	DECLARE @max INT;
+
+	SELECT @max = MAX(count_search) FROM @counting_table;
+
+	INSERT @table SELECT 'bigger_nacionality' as 'name', key_search as 'result'
+						  FROM @counting_table
+						  WHERE count_search = @max
 	
 	-- total_salary_of_staff
 	INSERT @table SELECT 'total_salary_of_staff' as 'name', SUM(salary) as 'count'
@@ -65,6 +82,8 @@ AS
 	-- RETURN
 	RETURN;
 END;
+
+Select * from football.udf_staff_department_stats()
 
 
 
