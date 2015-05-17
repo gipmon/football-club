@@ -35,7 +35,7 @@ namespace FootballClub
                 FillDataGridTeam(con);
                 FillDataGridCoachs(con);
                 FillDataGridPlayer(con);
-                fillStats(con);
+                FillStats(con);
             }
         }
 
@@ -275,6 +275,7 @@ namespace FootballClub
                     con.Open();
                     cmd_player.ExecuteNonQuery();
                     sync_teams_player(con, biInt);
+                    FillStats(con);
                     FillDataGridPlayer(con);
                     con.Close();
                     MessageBox.Show("The player has been inserted successfully!");
@@ -375,6 +376,7 @@ namespace FootballClub
                     con.Open();
                     cmd_player.ExecuteNonQuery();
                     sync_teams_player(con, biInt);
+                    FillStats(con);
                     FillDataGridPlayer(con);
                     con.Close();
                     MessageBox.Show("The player has been updated successfully!");
@@ -415,6 +417,7 @@ namespace FootballClub
                     {
                         con.Open();
                         cmd_player.ExecuteNonQuery();
+                        FillStats(con);
                         FillDataGridPlayer(con);
                         con.Close();
 
@@ -642,6 +645,7 @@ namespace FootballClub
                     con.Open();
                     cmd_coach.ExecuteNonQuery();
                     sync_teams_coach(con, biInt);
+                    FillStats(con);
                     FillDataGridCoachs(con);
                     con.Close();
                     MessageBox.Show("The coach has been inserted successfully!");
@@ -735,6 +739,7 @@ namespace FootballClub
                     con.Open();
                     cmd_coach.ExecuteNonQuery();
                     sync_teams_coach(con, biInt);
+                    FillStats(con);
                     FillDataGridCoachs(con);
                     con.Close();
                     MessageBox.Show("The coach has been updated successfully!");
@@ -775,6 +780,7 @@ namespace FootballClub
                     {
                         con.Open();
                         cmd_coach.ExecuteNonQuery();
+                        FillStats(con);
                         FillDataGridCoachs(con);
                         con.Close();
 
@@ -902,11 +908,12 @@ namespace FootballClub
                 try
                 {
                     con.Open();
-                    cmd_team.ExecuteNonQuery(); ;
-                    FillDataGridTeam(con);
+                    cmd_team.ExecuteNonQuery();
                     // player and coach list box needs to be upadted
                     FillDataGridCoachs(con);
                     FillDataGridPlayer(con);
+                    FillStats(con);
+                    FillDataGridTeam(con);
 
                     con.Close();
                     MessageBox.Show("The team has been inserted successfully!");
@@ -932,10 +939,11 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_team.ExecuteNonQuery();
-                    FillDataGridTeam(con);
                     // player and coach list box needs to be upadted
                     FillDataGridCoachs(con);
                     FillDataGridPlayer(con);
+                    FillStats(con);
+                    FillDataGridTeam(con);
 
                     con.Close();
                     MessageBox.Show("The team has been updated successfully!");
@@ -960,10 +968,11 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_team.ExecuteNonQuery();
-                    FillDataGridTeam(con);
                     // player and coach list box needs to be upadted
                     FillDataGridCoachs(con);
                     FillDataGridPlayer(con);
+                    FillStats(con);
+                    FillDataGridTeam(con);
 
                     con.Close();
                     MessageBox.Show("The team has been deleted successfully!");
@@ -1029,7 +1038,7 @@ namespace FootballClub
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          *  ##########################----------- STATS  TAB -----------############################
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-        private void fillStats(SqlConnection con)
+        private void FillStats(SqlConnection con)
         {
             string CmdString = "SELECT * FROM football.udf_teams_stats()";
             SqlCommand cmd = new SqlCommand(CmdString, con);
@@ -1063,7 +1072,23 @@ namespace FootballClub
                 {
                     heavier_player.Text = counts["result"].ToString();
                 }
-            }   
+            }
+
+            // number_players_per_team
+            CmdString = "SELECT * FROM football.udf_number_players_per_team()";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("number_players_per_team");
+            sda.Fill(dt);
+            number_players_per_team.ItemsSource = dt.DefaultView;
+
+            // number_coachs_per_team
+            CmdString = "SELECT * FROM football.udf_number_coachs_per_team()";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("number_coachs_per_team");
+            sda.Fill(dt);
+            number_coachs_per_team.ItemsSource = dt.DefaultView;
         }
     }
 }

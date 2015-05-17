@@ -413,10 +413,10 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <DataGrid Grid.Column="0" Grid.Row="1" Name="number_players_per_team"></DataGrid>
+                            <DataGrid Grid.Column="0" Grid.Row="1" IsReadOnly="True" Name="number_players_per_team"></DataGrid>
                         </Grid>
                         <!-- Segunda Data Grid -->
-                        <Grid Grid.Column="0" Grid.Row="1" Margin="0,10,0,0">
+                        <Grid Grid.Column="0" Grid.Row="1" Margin="0,20,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
@@ -432,7 +432,8 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <DataGrid Grid.Column="0" Grid.Row="1" Name="number_coachs_per_team"></DataGrid>
+                            <DataGrid Grid.Column="0" Grid.Row="1" IsReadOnly="True" Name="number_coachs_per_team">
+                            </DataGrid>
                         </Grid>
                     </Grid>
                 </Grid>
