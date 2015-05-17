@@ -58,7 +58,11 @@ namespace FootballClub
             this.NavigateTo(stadium);
         }
 
-        private void Button_Settings(object sender, RoutedEventArgs e) { }
+        private void Button_Home(object sender, RoutedEventArgs e)
+        {
+            Index index = new Index();
+            this.NavigateTo(index);
+        }
 
         public void NavigateTo(object o)
         {
