@@ -33,6 +33,7 @@ namespace FootballClub
             {
                 FillDataGridCourts(con);
                 FillDataGridPractices(con);
+                FillStats(con);
             }
         }
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -147,6 +148,7 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_practice.ExecuteNonQuery();
+                    FillStats(con);
                     FillDataGridPractices(con);
                     con.Close();
                     MessageBox.Show("The practice has been inserted successfully!");
@@ -205,6 +207,7 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_practice.ExecuteNonQuery();
+                    FillStats(con);
                     FillDataGridPractices(con);
                     con.Close();
                     practice_date.Text = "";
@@ -258,6 +261,7 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_practice.ExecuteNonQuery();
+                    FillStats(con);
                     FillDataGridPractices(con);
                     con.Close();
                     TeamsComboBox.Text = "";
@@ -333,9 +337,10 @@ namespace FootballClub
                 try
                 {
                     con.Open();
-                    cmd_court.ExecuteNonQuery(); ;
-                    FillDataGridCourts(con);
+                    cmd_court.ExecuteNonQuery();
                     FillDataGridPractices(con);
+                    FillStats(con);
+                    FillDataGridCourts(con);
                     con.Close();
                     MessageBox.Show("The court has been inserted successfully!");
                 }
@@ -367,8 +372,9 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_court.ExecuteNonQuery();
-                    FillDataGridCourts(con);
                     FillDataGridPractices(con);
+                    FillStats(con);
+                    FillDataGridCourts(con);
                     con.Close();
                     MessageBox.Show("The court has been updated successfully!");
                 }
@@ -405,8 +411,9 @@ namespace FootballClub
                     {
                         con.Open();
                         cmd_court.ExecuteNonQuery();
-                        FillDataGridCourts(con);
                         FillDataGridPractices(con);
+                        FillStats(con);
+                        FillDataGridCourts(con);
                         con.Close();
 
                         // limpar as text boxs
@@ -420,6 +427,40 @@ namespace FootballClub
                     }
                 }
             }
+        }
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+         *  ##########################----------- STATS  TAB -----------############################
+         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+        private void FillStats(SqlConnection con)
+        {
+            // number_practices_per_court
+            string CmdString = "SELECT * FROM football.udf_number_practices_per_court()";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("number_players_per_team");
+            sda.Fill(dt);
+            number_practices_per_court.ItemsSource = dt.DefaultView;
+
+            CmdString = "SELECT * FROM football.udf_average_hour_of_training_by_court()";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("average_hour_of_training_by_court");
+            sda.Fill(dt);
+            average_hour_of_training_by_court.ItemsSource = dt.DefaultView;
+
+            CmdString = "SELECT * FROM football.udf_latest_team_to_train_in_each_court()";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("latest_team_to_train_in_each_court");
+            sda.Fill(dt);
+            latest_team_to_train_in_each_court.ItemsSource = dt.DefaultView;
+
+            CmdString = "SELECT * FROM football.udf_team_that_trained_more_by_court()";
+            cmd = new SqlCommand(CmdString, con);
+            sda = new SqlDataAdapter(cmd);
+            dt = new DataTable("team_that_trained_more_by_court");
+            sda.Fill(dt);
+            team_that_trained_more_by_court.ItemsSource = dt.DefaultView;
         }
     }
 }

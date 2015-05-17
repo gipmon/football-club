@@ -105,7 +105,114 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Stats">
-                <Label Content="Content goes here1..." />
+                <Grid Margin="10,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.4*" />
+                        <ColumnDefinition Width="0.4*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <!-- COLUNA DA ESQUERDA -->
+                    <Grid Grid.Column="0" Grid.Row="0" Margin="0,0,30,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <!-- Primeira Data Grid -->
+                        <Grid Grid.Column="0" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Latest team to train in each court:">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <DataGrid Grid.Column="0" Grid.Row="1" IsReadOnly="True" Name="latest_team_to_train_in_each_court"></DataGrid>
+                        </Grid>
+                        <!-- Segunda Data Grid -->
+                        <Grid Grid.Column="0" Grid.Row="1" Margin="0,20,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Team that trained more by court:">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <DataGrid Grid.Column="0" Grid.Row="1" IsReadOnly="True" Name="team_that_trained_more_by_court">
+                            </DataGrid>
+                        </Grid>
+                    </Grid>
+                    <!-- COLUNA DA DIREITA -->
+                    <Grid Grid.Column="1" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!-- Primeira Data Grid -->
+                        <Grid Grid.Column="0" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Number practices per court: ">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <DataGrid Grid.Column="0" Grid.Row="1" IsReadOnly="True" Name="number_practices_per_court"></DataGrid>
+                        </Grid>
+                        <!-- Segunda Data Grid -->
+                        <Grid Grid.Column="0" Grid.Row="1" Margin="0,20,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Average our of training by court:">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <DataGrid Grid.Column="0" Grid.Row="1" IsReadOnly="True" Name="average_hour_of_training_by_court">
+                            </DataGrid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                
             </TabItem>
         </TabControl>
     </Grid>

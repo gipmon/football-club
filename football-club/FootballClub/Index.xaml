@@ -35,7 +35,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0" Name="club_name" Text="FC Porto">
+            <TextBlock Grid.Column="0" Grid.Row="0" Name="club_name" Text="SC Beira-Mar">
                 <TextBlock.Style>
                     <Style>
                         <Setter Property="TextBlock.FontSize" Value="36" />
@@ -227,7 +227,7 @@
                 </TextBlock>
             </Grid>
         </Grid>
-        <Image Grid.Column="1" Grid.Row="0" Width="200px" Height="200px" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Source="FC_Porto_logo.png" />
+        <Image Grid.Column="1" Grid.Row="0" Width="200px" Height="200px" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Source="Sport_Clube_Beira-Mar.png" />
         <Grid Grid.Column="0" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -238,13 +238,14 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
-            
+            <!--
             <Controls:Tile Title="FC Porto" 
                     TiltFactor="2"
                     Grid.Column="0" Grid.Row="0"
                     Width="100" Height="100" 
                     Count="78">
             </Controls:Tile>
+            -->
         </Grid>
     </Grid>
 </Page>
