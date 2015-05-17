@@ -79,7 +79,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Anual Spot">
+            <TabItem Header="Anual Seat">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -109,7 +109,7 @@
                         </Grid.RowDefinitions>
                         <Label>BI:</Label>
                         <TextBox Grid.Column="1" Name="spot_bi" Margin="0,0,0,10"  />
-                        <Label Grid.Row="1">Spot Number:</Label>
+                        <Label Grid.Row="1">Seat Number:</Label>
                         <TextBox Grid.Row="1" Name="spot_number" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="2">Row:</Label>
                         <TextBox Grid.Row="2" Name="spot_row"  Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
@@ -122,7 +122,7 @@
                         <TextBox Grid.Row="5" Name="spot_initial_date" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="6">Duration (Months):</Label>
                         <TextBox Grid.Row="6" Name="spot_duration" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
-                        <Label Grid.Row="7">Spot Value:</Label>
+                        <Label Grid.Row="7">Seat Value:</Label>
                         <Controls:NumericUpDown Grid.Row="7" Name="spot_value" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Interval="5" StringFormat="C2"/>
                         <Grid Grid.Row="8">
                             <Grid.ColumnDefinitions>
