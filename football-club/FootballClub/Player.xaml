@@ -197,7 +197,7 @@
                         <Label Grid.Row="8">Role:</Label>
                         <TextBox Grid.Row="8" Grid.Column="1" Name="coach_role" Margin="0,0,0,10" />
                         <Label Grid.Row="9">Salary:</Label>
-                        <Controls:NumericUpDown Grid.Row="9" Name="coach_salary" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
+                        <Controls:NumericUpDown Grid.Row="9" Name="coach_salary"  Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
                         <Label Grid.Row="10">Federation ID:</Label>
                         <TextBox Grid.Row ="10" Grid.Column="1" Name="coach_federation_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="11">Internal ID:</Label>
