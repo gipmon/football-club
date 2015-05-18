@@ -236,8 +236,8 @@ namespace FootballClub
                     con.Open();
                     cmd_staff.ExecuteNonQuery();
                     FillDataGridDepartments(con);
-                    FillDataGridStaff(con);
                     fillStats(con);
+                    FillDataGridStaff(con);
 
                     con.Close();
                     MessageBox.Show("The staff has been inserted successfully!");
@@ -352,8 +352,8 @@ namespace FootballClub
                     con.Open();
                     cmd_staff.ExecuteNonQuery();
                     FillDataGridDepartments(con);
-                    FillDataGridStaff(con);
                     fillStats(con);
+                    FillDataGridStaff(con);
 
 
                     con.Close();
@@ -397,8 +397,8 @@ namespace FootballClub
                         con.Open();
                         cmd_staff.ExecuteNonQuery();
                         FillDataGridDepartments(con);
-                        FillDataGridStaff(con);
                         fillStats(con);
+                        FillDataGridStaff(con);
 
 
                         con.Close();
@@ -501,8 +501,8 @@ namespace FootballClub
                     con.Open();
                     cmd_department.ExecuteNonQuery();
                     FillDataGridStaff(con);
-                    FillDataGridDepartments(con);
                     fillStats(con);
+                    FillDataGridDepartments(con);
 
 
                     con.Close();
@@ -542,8 +542,8 @@ namespace FootballClub
                     con.Open();
                     cmd_department.ExecuteNonQuery();
                     FillDataGridStaff(con);
-                    FillDataGridDepartments(con);
                     fillStats(con);
+                    FillDataGridDepartments(con);
 
 
                     con.Close();
@@ -579,8 +579,8 @@ namespace FootballClub
                     con.Open();
                     cmd_department.ExecuteNonQuery();
                     FillDataGridStaff(con);
-                    FillDataGridDepartments(con);
                     fillStats(con);
+                    FillDataGridDepartments(con);
 
                     con.Close();
                     MessageBox.Show("The department has been deleted successfully!");
