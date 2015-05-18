@@ -208,8 +208,8 @@ namespace FootballClub
                     con.Open();
                     cmd_member.ExecuteNonQuery();
                     FillDataGridAnnualSpots(con);
-                    FillDataGridMembers(con);
                     fillStats(con);
+                    FillDataGridMembers(con);
 
                     con.Close();
                     MessageBox.Show("The member has been inserted successfully!");
@@ -308,8 +308,8 @@ namespace FootballClub
                     con.Open();
                     cmd_member.ExecuteNonQuery();
                     FillDataGridAnnualSpots(con);
-                    FillDataGridMembers(con);
                     fillStats(con);
+                    FillDataGridMembers(con);
 
                     con.Close();
                     MessageBox.Show("The member has been updated successfully!");
@@ -351,8 +351,8 @@ namespace FootballClub
                         con.Open();
                         cmd_member.ExecuteNonQuery();
                         FillDataGridAnnualSpots(con);
-                        FillDataGridMembers(con);
                         fillStats(con);
+                        FillDataGridMembers(con);
                         
                         con.Close();
 
@@ -618,8 +618,8 @@ namespace FootballClub
                     con.Open();
                     cmd_annualSpot.ExecuteNonQuery();
                     FillDataGridMembers(con);
-                    FillDataGridAnnualSpots(con);
                     fillStats(con);
+                    FillDataGridAnnualSpots(con);
 
                     con.Close();
                     MessageBox.Show("The annual spot has been inserted successfully!");
@@ -718,8 +718,8 @@ namespace FootballClub
                     con.Open();
                     cmd_annualSpot.ExecuteNonQuery();
                     FillDataGridMembers(con);
-                    FillDataGridAnnualSpots(con);
                     fillStats(con);
+                    FillDataGridAnnualSpots(con);
 
                     con.Close();
                     MessageBox.Show("The annual spot has been updated successfully!");
@@ -807,8 +807,8 @@ namespace FootballClub
                         con.Open();
                         cmd_annualSpot.ExecuteNonQuery();
                         FillDataGridMembers(con);
-                        FillDataGridAnnualSpots(con);
                         fillStats(con);
+                        FillDataGridAnnualSpots(con);
 
                         con.Close();
 

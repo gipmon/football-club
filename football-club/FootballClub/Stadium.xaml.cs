@@ -212,8 +212,8 @@ namespace FootballClub
                     con.Open();
                     cmd_spot.ExecuteNonQuery();
                     FillDataGridSections(con);
-                    FillDataGridSpots(con);
                     fillStats(con);
+                    FillDataGridSpots(con);
 
                     
                     con.Close();
@@ -291,8 +291,8 @@ namespace FootballClub
                         con.Open();
                         cmd_spot.ExecuteNonQuery();
                         FillDataGridSections(con);
-                        FillDataGridSpots(con);
                         fillStats(con);
+                        FillDataGridSpots(con);
 
 
                         con.Close();
@@ -388,8 +388,8 @@ namespace FootballClub
                     con.Open();
                     cmd_section.ExecuteNonQuery();
                     FillDataGridSpots(con);
-                    FillDataGridSections(con);
                     fillStats(con);
+                    FillDataGridSections(con);
 
                     con.Close();
                     MessageBox.Show("The section has been inserted successfully!");
@@ -437,8 +437,8 @@ namespace FootballClub
                     con.Open();
                     cmd_section.ExecuteNonQuery();
                     FillDataGridSpots(con);
-                    FillDataGridSections(con);
                     fillStats(con);
+                    FillDataGridSections(con);
 
                     con.Close();
                     MessageBox.Show("The section has been updated successfully!");
@@ -485,9 +485,8 @@ namespace FootballClub
                         con.Open();
                         cmd_section.ExecuteNonQuery();
                         FillDataGridSpots(con);
-
-                        FillDataGridSections(con);
                         fillStats(con);
+                        FillDataGridSections(con);
 
                         con.Close();
 
