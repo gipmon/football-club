@@ -276,6 +276,13 @@ namespace FootballClub
                 }
             }
         }
+        private void Practice_Clear(object sender, RoutedEventArgs e)
+        {
+            TeamsComboBox.Text = "";
+            CourtsComboBox.Text = "";
+            practice_date.Text = "";
+            practice_hour.Text = "";
+        }
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
         *  ##########################----------- COURT TAB -----------#############################
         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -428,6 +435,11 @@ namespace FootballClub
                 }
             }
         }
+        private void Court_Clear(object sender, RoutedEventArgs e)
+        {
+            courts_id.Text = "";
+            courts_address.Text = "";
+        }
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          *  ##########################----------- STATS  TAB -----------############################
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -447,14 +459,14 @@ namespace FootballClub
             dt = new DataTable("average_hour_of_training_by_court");
             sda.Fill(dt);
             average_hour_of_training_by_court.ItemsSource = dt.DefaultView;
-
+            /**
             CmdString = "SELECT * FROM football.udf_latest_team_to_train_in_each_court()";
             cmd = new SqlCommand(CmdString, con);
             sda = new SqlDataAdapter(cmd);
             dt = new DataTable("latest_team_to_train_in_each_court");
             sda.Fill(dt);
             latest_team_to_train_in_each_court.ItemsSource = dt.DefaultView;
-
+            */
             CmdString = "SELECT * FROM football.udf_team_that_trained_more_by_court()";
             cmd = new SqlCommand(CmdString, con);
             sda = new SqlDataAdapter(cmd);
