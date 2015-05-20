@@ -238,6 +238,16 @@ namespace FootballClub
                     return;
                 }
 
+                double salary;
+                if (player_salary.Value == null)
+                {
+                    salary = 0;
+                }
+                else
+                {
+                    salary = (double)player_salary.Value;
+                }
+
                 string gender;
                 if (player_GenderFemale.IsChecked == true)
                 {
@@ -265,7 +275,7 @@ namespace FootballClub
                 cmd_player.Parameters.AddWithValue("@nif", nifInt);
                 cmd_player.Parameters.AddWithValue("@gender", gender);
                 cmd_player.Parameters.AddWithValue("@nationality", player_nationality.Text);
-                cmd_player.Parameters.AddWithValue("@salary", (double)player_salary.Value);
+                cmd_player.Parameters.AddWithValue("@salary", salary);
                 cmd_player.Parameters.AddWithValue("@federation_id", fedInt);
                 cmd_player.Parameters.AddWithValue("@weight", weightInt);
                 cmd_player.Parameters.AddWithValue("@height", heightInt);
@@ -356,6 +366,16 @@ namespace FootballClub
                     return;
                 }
 
+                double salary;
+                if (player_salary.Value == null)
+                {
+                    salary = 0;
+                }
+                else
+                {
+                    salary = (double)player_salary.Value;
+                }
+
                 // UPDATE PLAYER
                 string CmdString = "football.sp_modifyPlayer";
                 SqlCommand cmd_player = new SqlCommand(CmdString, con);
@@ -366,7 +386,7 @@ namespace FootballClub
                 cmd_player.Parameters.AddWithValue("@birth_date", dt);
                 cmd_player.Parameters.AddWithValue("@gender", gender);
                 cmd_player.Parameters.AddWithValue("@nationality", player_nationality.Text);
-                cmd_player.Parameters.AddWithValue("@salary", (double)player_salary.Value);
+                cmd_player.Parameters.AddWithValue("@salary", salary);
                 cmd_player.Parameters.AddWithValue("@federation_id", fedInt);
                 cmd_player.Parameters.AddWithValue("@weight", weightInt);
                 cmd_player.Parameters.AddWithValue("@height", heightInt);
@@ -646,6 +666,16 @@ namespace FootballClub
                     return;
                 }
 
+                double salary;
+                if (coach_salary.Value == null)
+                {
+                    salary = 0;
+                }
+                else
+                {
+                    salary = (double)coach_salary.Value;
+                }
+
                 // INSERT COACH
 
                 string CmdString = "football.sp_createCoach";
@@ -658,7 +688,7 @@ namespace FootballClub
                 cmd_coach.Parameters.AddWithValue("@nif", nifInt);
                 cmd_coach.Parameters.AddWithValue("@gender", gender);
                 cmd_coach.Parameters.AddWithValue("@nationality", coach_nationality.Text);
-                cmd_coach.Parameters.AddWithValue("@salary", (double)coach_salary.Value);
+                cmd_coach.Parameters.AddWithValue("@salary", salary);
                 cmd_coach.Parameters.AddWithValue("@federation_id", fedInt);
                 cmd_coach.Parameters.AddWithValue("@role", coach_role.Text);
 
@@ -742,6 +772,16 @@ namespace FootballClub
                     return;
                 }
 
+                double salary;
+                if (coach_salary.Value == null)
+                {
+                    salary = 0;
+                }
+                else
+                {
+                    salary = (double)coach_salary.Value;
+                }
+
                 // UPDATE COACH
                 string CmdString = "football.sp_modifyCoach";
                 SqlCommand cmd_coach = new SqlCommand(CmdString, con);
@@ -752,7 +792,7 @@ namespace FootballClub
                 cmd_coach.Parameters.AddWithValue("@birth_date", dt);
                 cmd_coach.Parameters.AddWithValue("@gender", gender);
                 cmd_coach.Parameters.AddWithValue("@nationality", coach_nationality.Text);
-                cmd_coach.Parameters.AddWithValue("@salary", (double)coach_salary.Value);
+                cmd_coach.Parameters.AddWithValue("@salary", salary);
                 cmd_coach.Parameters.AddWithValue("@federation_id", fedInt);
                 cmd_coach.Parameters.AddWithValue("@role", coach_role.Text);
 

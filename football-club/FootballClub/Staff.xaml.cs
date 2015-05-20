@@ -215,6 +215,16 @@ namespace FootballClub
                     return;
                 }
 
+                double salary;
+                if (staff_salary.Value == null)
+                {
+                    salary = 0;
+                }
+                else
+                {
+                    salary = (double)staff_salary.Value;
+                }
+
                 // INSERT STAFF
 
                 string CmdString = "football.sp_createStaff";
@@ -227,7 +237,7 @@ namespace FootballClub
                 cmd_staff.Parameters.AddWithValue("@nif", nifInt);
                 cmd_staff.Parameters.AddWithValue("@gender", gender);
                 cmd_staff.Parameters.AddWithValue("@nationality", staff_nationality.Text);
-                cmd_staff.Parameters.AddWithValue("@salary", staff_salary.Value);
+                cmd_staff.Parameters.AddWithValue("@salary", salary);
                 cmd_staff.Parameters.AddWithValue("@department_id", depInt);
                 cmd_staff.Parameters.AddWithValue("@role", staff_role.Text);
 
@@ -331,6 +341,16 @@ namespace FootballClub
                     return;
                 }
 
+                double salary;
+                if (staff_salary.Value == null)
+                {
+                    salary = 0;
+                }
+                else
+                {
+                    salary = (double)staff_salary.Value;
+                }
+
 
                 // UPDATE STAFF
 
@@ -343,7 +363,7 @@ namespace FootballClub
                 cmd_staff.Parameters.AddWithValue("@birth_date", dt);
                 cmd_staff.Parameters.AddWithValue("@gender", gender);
                 cmd_staff.Parameters.AddWithValue("@nationality", staff_nationality.Text);
-                cmd_staff.Parameters.AddWithValue("@salary", staff_salary.Value);
+                cmd_staff.Parameters.AddWithValue("@salary", salary);
                 cmd_staff.Parameters.AddWithValue("@department_id", depInt);
                 cmd_staff.Parameters.AddWithValue("@role", staff_role.Text);
 

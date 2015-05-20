@@ -91,6 +91,82 @@
                     </Grid>
                 </Grid>
             </TabItem>
+            <TabItem Header="Coachs">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="0.6*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DataGrid Name="coachsGrid" IsReadOnly="True" SelectionChanged="coachsGrid_SelectionChanged"></DataGrid>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label>Name:</Label>
+                        <TextBox Grid.Column="1" Name="coach_name" Margin="0,0,0,10"  />
+                        <Label Grid.Row="1">BI:</Label>
+                        <TextBox Grid.Row="1" Grid.Column="1" Name="coach_bi" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="2">NIF:</Label>
+                        <TextBox Grid.Row="2" Grid.Column="1" Name="coach_nif" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="3">Gender:</Label>
+                        <RadioButton Grid.Row="3" Grid.Column="1" Name="coach_GenderMale" GroupName="Gender" Content="Male" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <RadioButton Grid.Row="3" Grid.Column="1" Name="coach_GenderFemale" GroupName="Gender" Margin="60,0,0,0" Content="Female" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Label Grid.Row="4">Date of Birth:</Label>
+                        <TextBox Grid.Row="4" Grid.Column="1" Name="coach_birth_date" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="5">Address:</Label>
+                        <TextBox Grid.Row="5" Grid.Column="1" Name="coach_address" Margin="0,0,0,10" />
+                        <Label Grid.Row="6">Nationality:</Label>
+                        <TextBox Grid.Row="6" Grid.Column="1" Name="coach_nationality" Margin="0,0,0,10" />
+                        <Label Grid.Row="7">Teams:</Label>
+                        <ListBox Grid.Row="7"  Grid.Column="1" Name="coach_teams" Height="50px" SelectionMode="Multiple" Margin="0,0,0,10">
+                        </ListBox>
+                        <Label Grid.Row="8">Role:</Label>
+                        <TextBox Grid.Row="8" Grid.Column="1" Name="coach_role" Margin="0,0,0,10" />
+                        <Label Grid.Row="9">Salary:</Label>
+                        <Controls:NumericUpDown Grid.Row="9" Name="coach_salary"  Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Interval="5" StringFormat="C2"/>
+                        <Label Grid.Row="10">Federation ID:</Label>
+                        <TextBox Grid.Row ="10" Grid.Column="1" Name="coach_federation_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="11">Internal ID:</Label>
+                        <TextBox Grid.Row="11" IsReadOnly="True" IsEnabled="False" Grid.Column="1" Name="coach_internal_id" Margin="0,0,0,10"/>
+                        <Grid Grid.Row="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Name="coach_update" Content="Update" Style="{StaticResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Coach_Update"/>
+                            <Button Grid.Row="0" Grid.Column="1" Name="coach_new" Content="New" Style="{DynamicResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Coach_New"/>
+                            <Button Grid.Row="0" Grid.Column="2" Name="coach_delete" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Coach_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="3" Name="coach_clear" Content="Clear" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Coach_Clear"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
             <TabItem Header="Teams">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -149,82 +225,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Coachs">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="0.6*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <DataGrid Name="coachsGrid" IsReadOnly="True" SelectionChanged="coachsGrid_SelectionChanged"></DataGrid>
-                    <Grid Grid.Column="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Label>Name:</Label>
-                        <TextBox Grid.Column="1" Name="coach_name" Margin="0,0,0,10"  />
-                        <Label Grid.Row="1">BI:</Label>
-                        <TextBox Grid.Row="1" Grid.Column="1" Name="coach_bi" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
-                        <Label Grid.Row="2">NIF:</Label>
-                        <TextBox Grid.Row="2" Grid.Column="1" Name="coach_nif" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
-                        <Label Grid.Row="3">Gender:</Label>
-                        <RadioButton Grid.Row="3" Grid.Column="1" Name="coach_GenderMale" GroupName="Gender" Content="Male" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <RadioButton Grid.Row="3" Grid.Column="1" Name="coach_GenderFemale" GroupName="Gender" Margin="60,0,0,0" Content="Female" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <Label Grid.Row="4">Date of Birth:</Label>
-                        <TextBox Grid.Row="4" Grid.Column="1" Name="coach_birth_date" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
-                        <Label Grid.Row="5">Address:</Label>
-                        <TextBox Grid.Row="5" Grid.Column="1" Name="coach_address" Margin="0,0,0,10" />
-                        <Label Grid.Row="6">Nationality:</Label>
-                        <TextBox Grid.Row="6" Grid.Column="1" Name="coach_nationality" Margin="0,0,0,10" />
-                        <Label Grid.Row="7">Teams:</Label>
-                        <ListBox Grid.Row="7"  Grid.Column="1" Name="coach_teams" Height="50px" SelectionMode="Multiple" Margin="0,0,0,10">
-                        </ListBox>
-                        <Label Grid.Row="8">Role:</Label>
-                        <TextBox Grid.Row="8" Grid.Column="1" Name="coach_role" Margin="0,0,0,10" />
-                        <Label Grid.Row="9">Salary:</Label>
-                        <Controls:NumericUpDown Grid.Row="9" Name="coach_salary"  Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Maximum="1000" Interval="5" StringFormat="C2"/>
-                        <Label Grid.Row="10">Federation ID:</Label>
-                        <TextBox Grid.Row ="10" Grid.Column="1" Name="coach_federation_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
-                        <Label Grid.Row="11">Internal ID:</Label>
-                        <TextBox Grid.Row="11" IsReadOnly="True" IsEnabled="False" Grid.Column="1" Name="coach_internal_id" Margin="0,0,0,10"/>
-                        <Grid Grid.Row="12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Grid.Column="0" Name="coach_update" Content="Update" Style="{StaticResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Coach_Update"/>
-                            <Button Grid.Row="0" Grid.Column="1" Name="coach_new" Content="New" Style="{DynamicResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Coach_New"/>
-                            <Button Grid.Row="0" Grid.Column="2" Name="coach_delete" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Coach_Delete"/>
-                            <Button Grid.Row="0" Grid.Column="3" Name="coach_clear" Content="Clear" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Coach_Clear"/>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </TabItem>
-
+            
             <TabItem Header="Stats">
                 <Grid Margin="10,0,0,0">
                     <Grid.ColumnDefinitions>
