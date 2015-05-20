@@ -73,7 +73,7 @@ namespace FootballClub
                 }
                 else if (counts["name"].ToString() == "total_salaries_per_month")
                 {
-                    total_salaries_per_month.Text = counts["count"].ToString();
+                    total_salaries_per_month.Text = counts["count"].ToString() + "$";
                 }
                 else if (counts["name"].ToString() == "total_of_seats")
                 {

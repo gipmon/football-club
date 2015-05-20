@@ -428,6 +428,23 @@ namespace FootballClub
             }
         }
 
+        private void Staff_Clear(object sender, RoutedEventArgs e)
+        {
+            // limpar as text boxs
+            staff_name.Text = "";
+            staff_bi.Text = "";
+            staff_nif.Text = "";
+            staff_address.Text = "";
+            staff_departments.Text = "";
+            staff_role.Text = "";
+            staff_birth_date.Text = "";
+            staff_nationality.Text = "";
+            staff_GenderMale.IsChecked = false;
+            staff_GenderFemale.IsChecked = false;
+            staff_salary.Value = 0;
+            staff_internal_id.Text = "";
+        }
+
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          *  ##########################----------- DEPARTMENT TAB -----------#############################
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

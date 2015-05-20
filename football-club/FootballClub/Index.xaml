@@ -12,7 +12,7 @@
 
     <Grid Margin="20,10,0,0" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="0.55*" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -60,6 +60,7 @@
                 <TextBlock Grid.Column="1" Grid.Row="0" Name="total_of_players">
                     <TextBlock.Style>
                         <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
                             <Setter Property="TextBlock.FontSize" Value="16" />
                         </Style>
                     </TextBlock.Style>
@@ -83,6 +84,7 @@
                 <TextBlock Grid.Column="1" Grid.Row="0" Name="total_of_staff">
                     <TextBlock.Style>
                         <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
                             <Setter Property="TextBlock.FontSize" Value="16" />
                         </Style>
                     </TextBlock.Style>
@@ -106,6 +108,7 @@
                 <TextBlock Grid.Column="1" Grid.Row="0" Name="total_internal_people">
                     <TextBlock.Style>
                         <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
                             <Setter Property="TextBlock.FontSize" Value="16" />
                         </Style>
                     </TextBlock.Style>
@@ -129,6 +132,7 @@
                 <TextBlock Grid.Column="1" Grid.Row="0" Name="total_coachs">
                     <TextBlock.Style>
                         <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
                             <Setter Property="TextBlock.FontSize" Value="16" />
                         </Style>
                     </TextBlock.Style>
@@ -152,6 +156,7 @@
                 <TextBlock Grid.Column="1" Grid.Row="0" Name="total_club_members">
                     <TextBlock.Style>
                         <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
                             <Setter Property="TextBlock.FontSize" Value="16" />
                         </Style>
                     </TextBlock.Style>
@@ -175,6 +180,7 @@
                 <TextBlock Grid.Column="1" Grid.Row="0" Name="total_salaries_per_month">
                     <TextBlock.Style>
                         <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
                             <Setter Property="TextBlock.FontSize" Value="16" />
                         </Style>
                     </TextBlock.Style>
@@ -198,6 +204,7 @@
                 <TextBlock Grid.Column="1" Grid.Row="0" Name="total_of_seats">
                     <TextBlock.Style>
                         <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
                             <Setter Property="TextBlock.FontSize" Value="16" />
                         </Style>
                     </TextBlock.Style>
@@ -221,6 +228,7 @@
                 <TextBlock Grid.Column="1" Grid.Row="0" Name="total_of_teams">
                     <TextBlock.Style>
                         <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
                             <Setter Property="TextBlock.FontSize" Value="16" />
                         </Style>
                     </TextBlock.Style>
