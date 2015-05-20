@@ -599,6 +599,10 @@ namespace FootballClub
                     fillStats(con);
                     FillDataGridDepartments(con);
 
+                    department_address.Text = "";
+                    department_name.Text = "";
+                    department_id.Text = "";
+
                     con.Close();
                     MessageBox.Show("The department has been deleted successfully!");
                 }
@@ -607,6 +611,13 @@ namespace FootballClub
                     MessageBox.Show(exc.Message);
                 }
             }
+        }
+
+        private void Department_Clear(object sender, RoutedEventArgs e)
+        {
+            department_address.Text = "";
+            department_name.Text = "";
+            department_id.Text = "";
         }
 
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
