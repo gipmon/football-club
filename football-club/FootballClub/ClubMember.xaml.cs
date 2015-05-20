@@ -353,6 +353,21 @@ namespace FootballClub
 
         }
 
+        private void Member_Clear(object sender, RoutedEventArgs e)
+        {
+            member_name.Text = "";
+            member_bi.Text = "";
+            member_nif.Text = "";
+            member_address.Text = "";
+            member_shares_in_day.Text = "";
+            member_birth_date.Text = "";
+            member_nationality.Text = "";
+            member_GenderMale.IsChecked = false;
+            member_GenderFemale.IsChecked = false;
+            member_shares_value.Value = 0;
+            member_number.Text = "";
+        }
+
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          *  ##########################----------- ANNUAL SEAT TAB -----------#############################
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -805,6 +820,18 @@ namespace FootballClub
 
                 }
             }
+        }
+        private void AnnualSeat_Clear(object sender, RoutedEventArgs e)
+        {
+            // limpar as text boxs
+            seat_bi.Text = "";
+            seat_number.Text = "";
+            seat_row.Text = "";
+            seat_section.Text = "";
+            seat_value.Value = 0;
+            seat_duration.Text = "";
+            seat_initial_date.Text = "";
+            seat_season.Text = "";
         }
 
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
