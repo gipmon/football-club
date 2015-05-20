@@ -516,24 +516,16 @@ namespace FootballClub
             dt = new DataTable("average_hour_of_training_by_court");
             sda.Fill(dt);
             average_hour_of_training_by_court.ItemsSource = dt.DefaultView;
-<<<<<<< HEAD
+
             /**
             CmdString = "SELECT * FROM football.udf_latest_team_to_train_in_each_court()";
-=======
-
-            /*CmdString = "SELECT * FROM football.udf_latest_team_to_train_in_each_court()";
->>>>>>> origin/master
             cmd = new SqlCommand(CmdString, con);
             sda = new SqlDataAdapter(cmd);
             dt = new DataTable("latest_team_to_train_in_each_court");
             sda.Fill(dt);
-<<<<<<< HEAD
             latest_team_to_train_in_each_court.ItemsSource = dt.DefaultView;
             */
-=======
-            latest_team_to_train_in_each_court.ItemsSource = dt.DefaultView;*/
 
->>>>>>> origin/master
             CmdString = "SELECT * FROM football.udf_team_that_trained_more_by_court()";
             cmd = new SqlCommand(CmdString, con);
             sda = new SqlDataAdapter(cmd);
