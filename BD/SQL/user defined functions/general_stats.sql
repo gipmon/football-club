@@ -26,8 +26,8 @@ BEGIN
 	INSERT @table SELECT 'total_salaries_per_month' as 'name', SUM(salary) as 'count'
 						  FROM football.internal_people
 	-- total_of_seats
-	INSERT @table SELECT 'total_of_seats' as 'name', COUNT(n_spot) as 'count'
-						  FROM football.spot
+	INSERT @table SELECT 'total_of_seats' as 'name', COUNT(n_seat) as 'count'
+						  FROM football.seat
 	-- total_of_teams
 	INSERT @table SELECT 'total_of_teams' as 'name', COUNT(name) as 'count'
 						  FROM football.team

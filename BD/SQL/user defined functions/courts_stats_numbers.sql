@@ -3,7 +3,7 @@ use p4g5;
 --# # #    udf_number_practices_per_court    # # #
 
 go
-DROP FUNCTION football.udf_number_practices_per_court;
+--DROP FUNCTION football.udf_number_practices_per_court;
 
 go
 CREATE FUNCTION football.udf_number_practices_per_court()
@@ -25,7 +25,7 @@ SELECT * FROM football.udf_number_practices_per_court();
 --# # #    udf_average_hour_of_training_by_court    # # #
 
 go
-DROP FUNCTION football.udf_average_hour_of_training_by_court;
+--DROP FUNCTION football.udf_average_hour_of_training_by_court;
 
 go
 CREATE FUNCTION football.udf_average_hour_of_training_by_court()
@@ -47,7 +47,7 @@ SELECT * FROM football.udf_average_hour_of_training_by_court();
 --# # #    udf_latest_team_to_train_in_each_court    # # #
 
 go
-DROP FUNCTION football.udf_latest_team_to_train_in_each_court;
+--DROP FUNCTION football.udf_latest_team_to_train_in_each_court;
 
 go
 CREATE FUNCTION football.udf_latest_team_to_train_in_each_court()
@@ -86,7 +86,7 @@ SELECT * FROM football.udf_latest_team_to_train_in_each_court();
 --# # #    udf_team_that_trained_more_by_court    # # #
 
 go
-DROP FUNCTION football.udf_team_that_trained_more_by_court;
+--DROP FUNCTION football.udf_team_that_trained_more_by_court;
 
 go
 CREATE FUNCTION football.udf_team_that_trained_more_by_court()

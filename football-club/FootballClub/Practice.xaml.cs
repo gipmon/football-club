@@ -25,6 +25,7 @@ namespace FootballClub
     {
         private string ConString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
         private SqlConnection con;
+        private string courtId;
 
         public Practice()
         {
@@ -58,8 +59,8 @@ namespace FootballClub
             CourtsComboBox.Items.Clear();
             foreach (DataRow court in dt.Rows)
             {
-                ListBoxItem itm = new ListBoxItem();
-                itm.Content = court[0].ToString();
+                ComboBoxItem itm = new ComboBoxItem();
+                itm.Content = court[1].ToString();
                 CourtsComboBox.Items.Add(itm);
             }
 
@@ -73,7 +74,7 @@ namespace FootballClub
             TeamsComboBox.Items.Clear();
             foreach (DataRow team in dt.Rows)
             {
-                ListBoxItem itm = new ListBoxItem();
+                ComboBoxItem itm = new ComboBoxItem();
                 itm.Content = team[0].ToString();
                 TeamsComboBox.Items.Add(itm);
             }
@@ -91,13 +92,37 @@ namespace FootballClub
                     DateTime date = DateTime.Parse(row.Row.ItemArray[0].ToString());
                     practice_date.Text = date.ToString("yyyy-MM-dd");
                     practice_hour.Text = row.Row.ItemArray[1].ToString();
-                    CourtsComboBox.Text = row.Row.ItemArray[2].ToString();
                     TeamsComboBox.Text = row.Row.ItemArray[3].ToString();
+
+                    string search_id = row.Row.ItemArray[2].ToString();
+                    
+                    String CmdString1 = "SELECT * FROM football.udf_courts(@id_court)";
+                    SqlCommand cmd1 = new SqlCommand(CmdString1, con);
+                    cmd1.Parameters.AddWithValue("@id_court", Convert.ToInt32(search_id));
+                    SqlDataAdapter sda1 = new SqlDataAdapter(cmd1);
+                    DataTable dt1 = new DataTable("court_selected");
+                    sda1.Fill(dt1);
+
+                    foreach (ComboBoxItem itm in CourtsComboBox.Items)
+                    {
+                        itm.IsSelected = false;
+                        foreach (DataRow court in dt1.Rows)
+                        {
+                            if (court[1].ToString() == itm.Content.ToString())
+                            {
+                                courtId = court[0].ToString();
+                                itm.IsSelected = true;
+                                break;
+                            }
+                        }
+                    }
                 }
                 catch (Exception)
                 {
                     return;
                 }
+
+                
             }
         }
         private void Practice_New(object sender, RoutedEventArgs e)
@@ -116,13 +141,6 @@ namespace FootballClub
                     return;
                 }
 
-                int courtId;
-
-                if (!Int32.TryParse(CourtsComboBox.Text, out courtId))
-                {
-                    MessageBox.Show("The court id must be an Integer!");
-                    return;
-                }
                 DateTime date;
                 if (!DateTime.TryParse(practice_date.Text, out date))
                 {
@@ -136,10 +154,33 @@ namespace FootballClub
                     return;
                 }
 
+                string CmdString1 = "SELECT * FROM football.udf_courts(DEFAULT)";
+                SqlCommand cmd = new SqlCommand(CmdString1, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt1 = new DataTable("court_selected");
+                sda.Fill(dt1);
+                string courts = CourtsComboBox.Text;
+
+                foreach (DataRow court in dt1.Rows)
+                {
+                    if (court[1].ToString() == courts)
+                    {
+                        courtId = court[0].ToString();
+                        break;
+                    }
+                }
+
+                int court_ID;
+                if (!Int32.TryParse(courtId, out court_ID))
+                {
+                    MessageBox.Show("The Court must be valid!");
+                    return;
+                }
+
                 string CmdString = "football.sp_createPractice";
                 SqlCommand cmd_practice = new SqlCommand(CmdString, con);
                 cmd_practice.CommandType = CommandType.StoredProcedure;
-                cmd_practice.Parameters.AddWithValue("@id_court", courtId);
+                cmd_practice.Parameters.AddWithValue("@id_court", court_ID);
                 cmd_practice.Parameters.AddWithValue("@date", date);
                 cmd_practice.Parameters.AddWithValue("@hour", time);
                 cmd_practice.Parameters.AddWithValue("@team_name", TeamsComboBox.Text);
@@ -175,13 +216,6 @@ namespace FootballClub
                     return;
                 }
 
-                int courtId;
-
-                if (!Int32.TryParse(CourtsComboBox.Text, out courtId))
-                {
-                    MessageBox.Show("The court id must be an Integer!");
-                    return;
-                }
                 DateTime date;
                 if (!DateTime.TryParse(practice_date.Text, out date))
                 {
@@ -195,10 +229,33 @@ namespace FootballClub
                     return;
                 }
 
+                string CmdString1 = "SELECT * FROM football.udf_courts(DEFAULT)";
+                SqlCommand cmd = new SqlCommand(CmdString1, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt1 = new DataTable("court_selected");
+                sda.Fill(dt1);
+                string courts = CourtsComboBox.Text;
+
+                foreach (DataRow court in dt1.Rows)
+                {
+                    if (court[0].ToString() == courts)
+                    {
+                        courtId = court[0].ToString();
+                        break;
+                    }
+                }
+
+                int court_ID;
+                if (!Int32.TryParse(courtId, out court_ID))
+                {
+                    MessageBox.Show("The Court must be valid!");
+                    return;
+                }
+
                 string CmdString = "football.sp_modifyPractice";
                 SqlCommand cmd_practice = new SqlCommand(CmdString, con);
                 cmd_practice.CommandType = CommandType.StoredProcedure;
-                cmd_practice.Parameters.AddWithValue("@id_court", courtId);
+                cmd_practice.Parameters.AddWithValue("@id_court", court_ID);
                 cmd_practice.Parameters.AddWithValue("@date", date);
                 cmd_practice.Parameters.AddWithValue("@hour", time);
                 cmd_practice.Parameters.AddWithValue("@team_name", TeamsComboBox.Text);
@@ -448,12 +505,12 @@ namespace FootballClub
             sda.Fill(dt);
             average_hour_of_training_by_court.ItemsSource = dt.DefaultView;
 
-            CmdString = "SELECT * FROM football.udf_latest_team_to_train_in_each_court()";
+            /*CmdString = "SELECT * FROM football.udf_latest_team_to_train_in_each_court()";
             cmd = new SqlCommand(CmdString, con);
             sda = new SqlDataAdapter(cmd);
             dt = new DataTable("latest_team_to_train_in_each_court");
             sda.Fill(dt);
-            latest_team_to_train_in_each_court.ItemsSource = dt.DefaultView;
+            latest_team_to_train_in_each_court.ItemsSource = dt.DefaultView;*/
 
             CmdString = "SELECT * FROM football.udf_team_that_trained_more_by_court()";
             cmd = new SqlCommand(CmdString, con);

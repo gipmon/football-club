@@ -95,8 +95,8 @@ AS
 	BEGIN TRANSACTION;
 
 	BEGIN TRY
-		DELETE FROM football.annual_spot WHERE id_section = @id_section;
-		DELETE FROM football.spot WHERE id_section = @id_section;
+		DELETE FROM football.annual_seat WHERE id_section = @id_section;
+		DELETE FROM football.seat WHERE id_section = @id_section;
 		DELETE FROM football.section WHERE id_section = @id_section;
 		COMMIT TRANSACTION;
 	END TRY

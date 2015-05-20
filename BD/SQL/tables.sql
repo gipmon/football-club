@@ -28,7 +28,7 @@ ON UPDATE CASCADE;
 CREATE TABLE football.members(
     bi INT PRIMARY KEY,
     n_member INT NOT NULL UNIQUE IDENTITY,
-    shares_in_day BIT NOT NULL,
+    shares_in_day INT NOT NULL,
     shares_value MONEY NOT NULL CHECK (shares_value >= 0),
 );
 
@@ -154,22 +154,22 @@ CREATE TABLE football.section(
     type VARCHAR(50)
 );
 
--- spot
-CREATE TABLE football.spot(
-    n_spot INT NOT NULL,
+-- seat
+CREATE TABLE football.seat(
+    n_seat INT NOT NULL,
     row VARCHAR(1) NOT NULL,
     id_section INT NOT NULL,
-    PRIMARY KEY(n_spot, row, id_section)
+    PRIMARY KEY(n_seat, row, id_section)
 );
 
--- ALTER spot
-ALTER TABLE football.spot ADD CONSTRAINT FORLISSIS
+-- ALTER seat
+ALTER TABLE football.seat ADD CONSTRAINT FORLISSIS
 FOREIGN KEY (id_section)  REFERENCES football.section(id_section)
 ON UPDATE CASCADE;
 
--- annual_spot
-CREATE TABLE football.annual_spot(
-  n_spot INT NOT NULL,
+-- annual_seat
+CREATE TABLE football.annual_seat(
+  n_seat INT NOT NULL,
   row VARCHAR(1) NOT NULL,
   id_section INT NOT NULL,
   start_date DATE NOT NULL,
@@ -177,16 +177,16 @@ CREATE TABLE football.annual_spot(
   value INT NOT NULL,
   bi INT NOT NULL,
   season INT NOT NULL,
-  PRIMARY KEY(n_spot, bi, row, id_section, season)
+  PRIMARY KEY(n_seat, bi, row, id_section, season)
 );
 
 
 
--- annual_spot ALTER's
-ALTER TABLE football.annual_spot ADD CONSTRAINT FORLAL
-FOREIGN KEY (n_spot, row, id_section) REFERENCES football.spot(n_spot, row, id_section)
+-- annual_seat ALTER's
+ALTER TABLE football.annual_seat ADD CONSTRAINT FORLAL
+FOREIGN KEY (n_seat, row, id_section) REFERENCES football.seat(n_seat, row, id_section)
 ON UPDATE CASCADE;
 
-ALTER TABLE football.annual_spot ADD CONSTRAINT FORLABISBI
+ALTER TABLE football.annual_seat ADD CONSTRAINT FORLABISBI
 FOREIGN KEY (bi) REFERENCES football.members(bi)
 ON UPDATE CASCADE;

@@ -11,5 +11,5 @@
 11-play
 12-heads
 13-section
-14-spot
-15-annual_spot
+14-seat
+15-annual_seat

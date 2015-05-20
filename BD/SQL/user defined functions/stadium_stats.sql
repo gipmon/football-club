@@ -11,13 +11,14 @@ BEGIN
 	INSERT @table SELECT 'total_Sections' as 'name', COUNT(id_section) as 'count'
 						  FROM football.section
 	-- total_seats
-	INSERT @table SELECT 'total_of_seats' as 'name', COUNT(n_spot) as 'count'
-						  FROM football.spot
+	INSERT @table SELECT 'total_of_seats' as 'name', COUNT(n_seat) as 'count'
+						  FROM football.seat
 
 	-- RETURN
 	RETURN;
 END;
 
+go 
 SELECT * from football.udf_stadium_stats()
 
 --DROP FUNCTION football.udf_seats_per_section_count
@@ -29,8 +30,8 @@ WITH SCHEMABINDING, ENCRYPTION
 AS
 	BEGIN
 
-		INSERT @table SELECT type AS 'section', section.id_section AS 'section id', count(n_spot) AS 'seats' 
-					  FROM football.section JOIN football.spot ON section.id_section = spot.id_section
+		INSERT @table SELECT type AS 'section', section.id_section AS 'section id', count(n_seat) AS 'seats' 
+					  FROM football.section JOIN football.seat ON section.id_section = seat.id_section
 					  GROUP BY type, section.id_section
 
 	-- RETURN
@@ -46,8 +47,8 @@ WITH SCHEMABINDING, ENCRYPTION
 AS
 	BEGIN
 
-		INSERT @table SELECT type AS 'section', section.id_section AS 'section id', count(n_spot) AS 'annual seats' 
-					  FROM football.section JOIN football.annual_spot ON section.id_section = annual_spot.id_section
+		INSERT @table SELECT type AS 'section', section.id_section AS 'section id', count(n_seat) AS 'annual seats' 
+					  FROM football.section JOIN football.annual_seat ON section.id_section = annual_seat.id_section
 					  GROUP BY type, section.id_section
 
 	-- RETURN

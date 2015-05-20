@@ -1,6 +1,6 @@
 use p4g5;
 go
-DROP FUNCTION football.udf_number_players_per_team;
+--DROP FUNCTION football.udf_number_players_per_team;
 
 go
 CREATE FUNCTION football.udf_number_players_per_team()
@@ -20,7 +20,7 @@ go
 SELECT * FROM football.udf_number_players_per_team();
 
 go
-DROP FUNCTION football.udf_number_coachs_per_team;
+--DROP FUNCTION football.udf_number_coachs_per_team;
 
 go
 CREATE FUNCTION football.udf_number_coachs_per_team()

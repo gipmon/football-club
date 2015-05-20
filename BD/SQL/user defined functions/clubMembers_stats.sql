@@ -14,13 +14,9 @@ BEGIN
 	INSERT @table SELECT 'total_of_members' as 'name', COUNT(bi) as 'count'
 						  FROM football.members
 
-	-- total_of_annual_spots
-	INSERT @table SELECT 'total_of_annual_spots' as 'name', COUNT(n_spot) as 'count'
-						  FROM football.annual_spot
-
-	-- total_members_shares_in_day_false
-	INSERT @table SELECT 'shares_in_day_false' as 'name', COUNT(bi) as 'count'
-				         FROM football.members WHERE shares_in_day = 0;
+	-- total_of_annual_seats
+	INSERT @table SELECT 'total_of_annual_seats' as 'name', COUNT(n_seat) as 'count'
+						  FROM football.annual_seat
 	-- RETURN
 	RETURN;
 END;
@@ -55,17 +51,17 @@ AS
 	RETURN;
 END;
 
---DROP FUNCTION football.udf_annual_spots_per_season_count
+--DROP FUNCTION football.udf_annual_seats_per_season_count
 
 go
-CREATE FUNCTION football.udf_annual_spots_per_season_count()
+CREATE FUNCTION football.udf_annual_seats_per_season_count()
 RETURNS @table TABLE ("season" varchar(75), "annual seats" int)
 WITH SCHEMABINDING, ENCRYPTION
 AS
 	BEGIN
 
-		INSERT @table SELECT season as 'season', count(n_spot) as 'number of annual seats' from football.annual_spot
-					  GROUP BY annual_spot.season
+		INSERT @table SELECT season as 'season', count(n_seat) as 'number of annual seats' from football.annual_seat
+					  GROUP BY annual_seat.season
 
 	-- RETURN
 	RETURN;
