@@ -12,62 +12,6 @@
 
     <Grid>
         <TabControl>
-            <TabItem Header="Teams">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="0.6*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <DataGrid IsReadOnly="True" Name="teamsGrid"  SelectionChanged="teamsGrid_SelectionChanged">
-                    </DataGrid>
-                    <Grid Grid.Column="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Label>Name:</Label>
-                        <TextBox Grid.Column="1" Name="teamName" Margin="0,0,0,10"  />
-                        <Label Grid.Row="1">Max age:</Label>
-                        <Controls:NumericUpDown Grid.Row="1" Name="max_age" Value="20" Margin="0,0,0,10" Grid.Column="1" Minimum ="1" Maximum="100" Interval="1"/>
-                        <Grid Grid.Row="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Grid.Column="0" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Team_Update"/>
-                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Team_New"/>
-                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Team_Delete"/>
-                        </Grid>
-                        <Grid Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Grid.Column="0" Name="ListTeamsBtn" Visibility="Hidden" Content="List teams" Style="{DynamicResource SquareButtonStyle}" Margin="0,10,5,0" VerticalAlignment="Top" Click="ListTeams"/>
-                            <Button Grid.Row="0" Grid.Column="1" Name="PlayersBtn" Visibility="Hidden" Content="Players" Style="{DynamicResource SquareButtonStyle}" Margin="0,10,5,0" VerticalAlignment="Top" Click="ShowTeamPlayers"/>
-                            <Button Grid.Row="0" Grid.Column="2" Name="CoachsBtn" Visibility="Hidden"  Content="Coachs" Style="{DynamicResource SquareButtonStyle}"  Margin="0,10,0,0" VerticalAlignment="Top" Click="ShowTeamCoachs"/>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </TabItem>
             <TabItem Header="Players">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -133,14 +77,74 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Grid.Column="0" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Player_Update" />
-                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Player_New"/>
-                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Player_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Update" Style="{StaticResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Player_Update" />
+                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Player_New"/>
+                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Player_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="3" Content="Clear" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Player_Clear"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Teams">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="0.6*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DataGrid IsReadOnly="True" Name="teamsGrid"  SelectionChanged="teamsGrid_SelectionChanged">
+                    </DataGrid>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label>Name:</Label>
+                        <TextBox Grid.Column="1" Name="teamName" Margin="0,0,0,10"  />
+                        <Label Grid.Row="1">Max age:</Label>
+                        <Controls:NumericUpDown Grid.Row="1" Name="max_age" Value="20" Margin="0,0,0,10" Grid.Column="1" Minimum ="1" Maximum="100" Interval="1"/>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Update" Style="{StaticResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Team_Update"/>
+                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Team_New"/>
+                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Team_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="3" Content="Clear" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Team_Clear"/>
+                        </Grid>
+                        <Grid Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Name="ListTeamsBtn" Visibility="Hidden" Content="List teams" Style="{DynamicResource SquareButtonStyle}" Margin="0,10,5,0" VerticalAlignment="Top" Click="ListTeams"/>
+                            <Button Grid.Row="0" Grid.Column="1" Name="PlayersBtn" Visibility="Hidden" Content="Players" Style="{DynamicResource SquareButtonStyle}" Margin="0,10,5,0" VerticalAlignment="Top" Click="ShowTeamPlayers"/>
+                            <Button Grid.Row="0" Grid.Column="2" Name="CoachsBtn" Visibility="Hidden"  Content="Coachs" Style="{DynamicResource SquareButtonStyle}"  Margin="0,10,0,0" VerticalAlignment="Top" Click="ShowTeamCoachs"/>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -206,14 +210,16 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Grid.Column="0" Name="coach_save" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Coach_Update"/>
-                            <Button Grid.Row="0" Grid.Column="1" Name="coach_new" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Coach_New"/>
-                            <Button Grid.Row="0" Grid.Column="2" Name="coach_delete" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Coach_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="0" Name="coach_update" Content="Update" Style="{StaticResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Coach_Update"/>
+                            <Button Grid.Row="0" Grid.Column="1" Name="coach_new" Content="New" Style="{DynamicResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Coach_New"/>
+                            <Button Grid.Row="0" Grid.Column="2" Name="coach_delete" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Coach_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="3" Name="coach_clear" Content="Clear" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Coach_Clear"/>
                         </Grid>
                     </Grid>
                 </Grid>

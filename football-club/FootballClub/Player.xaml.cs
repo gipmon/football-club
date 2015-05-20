@@ -446,6 +446,28 @@ namespace FootballClub
             }
             
         }
+        private void Player_Clear(object sender, RoutedEventArgs e)
+        {
+            // limpar as text boxs
+            player_name.Text = "";
+            player_bi.Text = "";
+            player_nif.Text = "";
+            player_address.Text = "";
+            player_federation_id.Text = "";
+            player_weight.Text = "";
+            player_height.Text = "";
+            player_birth_date.Text = "";
+            player_nationality.Text = "";
+            player_GenderMale.IsChecked = false;
+            player_GenderFemale.IsChecked = false;
+            player_salary.Value = 0;
+            player_internal_id.Text = "";
+
+            foreach (ListBoxItem itm in playerTeams.Items)
+            {
+                itm.IsSelected = false;
+            }
+        }
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          *  ##########################----------- COACH TAB -----------#############################
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -807,6 +829,28 @@ namespace FootballClub
             }
         }
 
+        private void Coach_Clear(object sender, RoutedEventArgs e)
+        {
+            // limpar as text boxs
+            coach_name.Text = "";
+            coach_bi.Text = "";
+            coach_nif.Text = "";
+            coach_address.Text = "";
+            coach_federation_id.Text = "";
+            coach_birth_date.Text = "";
+            coach_nationality.Text = "";
+            coach_GenderMale.IsChecked = false;
+            coach_GenderFemale.IsChecked = false;
+            coach_salary.Value = 0;
+            coach_internal_id.Text = "";
+            coach_role.Text = "";
+
+            foreach (ListBoxItem itm in coach_teams.Items)
+            {
+                itm.IsSelected = false;
+            }
+        }
+
         private void sync_teams_coach(SqlConnection con, Int32 biInt)
         {
             DataTable dt_coachTeams = new DataTable();
@@ -974,6 +1018,9 @@ namespace FootballClub
                     FillStats(con);
                     FillDataGridTeam(con);
 
+                    teamName.Text = "";
+                    max_age.Value = 0;
+
                     con.Close();
                     MessageBox.Show("The team has been deleted successfully!");
                 }
@@ -982,6 +1029,12 @@ namespace FootballClub
                     MessageBox.Show(exc.Message);
                 }
             }
+        }
+
+        private void Team_Clear(object sender, RoutedEventArgs e)
+        {
+            teamName.Text = "";
+            max_age.Value = 0;
         }
 
         private void ListTeams(object sender, RoutedEventArgs e) 
