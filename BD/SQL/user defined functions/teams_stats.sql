@@ -1,6 +1,6 @@
 use p4g5;
 go
-DROP FUNCTION football.udf_teams_stats;
+--DROP FUNCTION football.udf_teams_stats;
 
 go
 CREATE FUNCTION football.udf_teams_stats()

@@ -33,7 +33,7 @@ namespace FootballClub
             InitializeComponent();
             using (con = new SqlConnection(ConString))
             {
-                FillDataGridSpots(con);
+                FillDataGridSeats(con);
                 FillDataGridSections(con);
                 fillStats(con);
 
@@ -41,16 +41,16 @@ namespace FootballClub
         }
 
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-         *  ##########################----------- SPOTS TAB -----------#############################
+         *  ##########################----------- SEATS TAB -----------#############################
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-        private void FillDataGridSpots(SqlConnection con)
+        private void FillDataGridSeats(SqlConnection con)
         {
-            string CmdString = "SELECT * FROM football.udf_spots(DEFAULT, DEFAULT, DEFAULT) ORDER BY 'section name' ASC";
+            string CmdString = "SELECT * FROM football.udf_seats(DEFAULT, DEFAULT, DEFAULT) ORDER BY 'section name' ASC";
             SqlCommand cmd = new SqlCommand(CmdString, con);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable("spots");
+            DataTable dt = new DataTable("seats");
             sda.Fill(dt);
-            spotsGrid.ItemsSource = dt.DefaultView;
+            seatsGrid.ItemsSource = dt.DefaultView;
 
 
             // fill the sections of the stadium
@@ -60,35 +60,35 @@ namespace FootballClub
             dt = new DataTable("sections");
             sda.Fill(dt);
 
-            spot_section.Items.Clear();
+            seat_section.Items.Clear();
             foreach (DataRow section in dt.Rows)
             {
                 ComboBoxItem itm = new ComboBoxItem();
                 itm.Content = section[0].ToString();
-                spot_section.Items.Add(itm);
+                seat_section.Items.Add(itm);
             }
 
         }
 
-        private void spotsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void seatsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             using (con = new SqlConnection(ConString))
             {
-                DataRowView row = (DataRowView)spotsGrid.SelectedItem;
+                DataRowView row = (DataRowView)seatsGrid.SelectedItem;
 
-                string search_spot;
+                string search_seat;
                 try
                 {
                     // este try catch e por causa de quando autalizamos a DataGrid numa segunda vez
                     // e houve algo selecionado antes...
-                    search_spot = row.Row.ItemArray[2].ToString();
+                    search_seat = row.Row.ItemArray[2].ToString();
                 }
                 catch (Exception)
                 {
                     return;
                 }
 
-                spot_number.Text = search_spot;
+                seat_number.Text = search_seat;
 
                 string search_row;
                 try
@@ -116,22 +116,22 @@ namespace FootballClub
                 }
 
 
-                string CmdString = "SELECT * FROM football.udf_spots(@n_spot, @row, @id_section)";
+                string CmdString = "SELECT * FROM football.udf_seats(@n_seat, @row, @id_section)";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
-                cmd.Parameters.AddWithValue("@n_spot", Convert.ToInt32(search_spot));
+                cmd.Parameters.AddWithValue("@n_seat", Convert.ToInt32(search_seat));
                 cmd.Parameters.AddWithValue("@row", search_row);
                 cmd.Parameters.AddWithValue("@id_section", Convert.ToInt32(search_section));
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable("spot");
+                DataTable dt = new DataTable("seat");
                 sda.Fill(dt);
                 DataRow r = dt.Rows[0];
 
-                spot_number.Text = r["spot number"].ToString();
-                spot_row.Text = r["row"].ToString();
+                seat_number.Text = r["seat number"].ToString();
+                seat_row.Text = r["row"].ToString();
 
-                String CmdString1 = "SELECT * FROM football.udf_sections_spots(@n_spot, @row, @id_section)";
+                String CmdString1 = "SELECT * FROM football.udf_sections_seats(@n_seat, @row, @id_section)";
                 SqlCommand cmd1 = new SqlCommand(CmdString1, con);
-                cmd1.Parameters.AddWithValue("@n_spot", Convert.ToInt32(search_spot));
+                cmd1.Parameters.AddWithValue("@n_seat", Convert.ToInt32(search_seat));
                 cmd1.Parameters.AddWithValue("@row", search_row);
                 cmd1.Parameters.AddWithValue("@id_section", Convert.ToInt32(search_section));
 
@@ -139,7 +139,7 @@ namespace FootballClub
                 DataTable dt1 = new DataTable("section_selected");
                 sda1.Fill(dt1);
 
-                foreach (ComboBoxItem itm in spot_section.Items)
+                foreach (ComboBoxItem itm in seat_section.Items)
                 {
                     itm.IsSelected = false;
                     foreach (DataRow section in dt1.Rows)
@@ -156,20 +156,20 @@ namespace FootballClub
             }
         }
 
-        private void Spot_New(object sender, RoutedEventArgs e)
+        private void Seat_New(object sender, RoutedEventArgs e)
         {
             using (con = new SqlConnection(ConString))
             {
                 // --> Validations
-                int nSpotInt, sectionidInt;
+                int nSeatInt, sectionidInt;
 
-                if (!Int32.TryParse(spot_number.Text, out nSpotInt))
+                if (!Int32.TryParse(seat_number.Text, out nSeatInt))
                 {
-                    MessageBox.Show("The Spot Number must be an Integer!");
+                    MessageBox.Show("The Seat Number must be an Integer!");
                     return;
                 }
 
-                if (spot_row.Text.Length == 0)
+                if (seat_row.Text.Length == 0)
                 {
                     MessageBox.Show("The row can't be blank!");
                     return;
@@ -180,7 +180,7 @@ namespace FootballClub
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt1 = new DataTable("section_selected");
                 sda.Fill(dt1);
-                string section_text = spot_section.Text;
+                string section_text = seat_section.Text;
 
                 foreach (DataRow section in dt1.Rows)
                 {
@@ -198,26 +198,26 @@ namespace FootballClub
                     return;
                 }
 
-                // INSERT SPOT
+                // INSERT SEAT
 
-                string CmdString = "football.sp_createSpot";
-                SqlCommand cmd_spot = new SqlCommand(CmdString, con);
-                cmd_spot.CommandType = CommandType.StoredProcedure;
-                cmd_spot.Parameters.AddWithValue("@n_spot", nSpotInt);
-                cmd_spot.Parameters.AddWithValue("@row", spot_row.Text);
-                cmd_spot.Parameters.AddWithValue("@id_section", sectionidInt);
+                string CmdString = "football.sp_createSeat";
+                SqlCommand cmd_seat = new SqlCommand(CmdString, con);
+                cmd_seat.CommandType = CommandType.StoredProcedure;
+                cmd_seat.Parameters.AddWithValue("@n_seat", nSeatInt);
+                cmd_seat.Parameters.AddWithValue("@row", seat_row.Text);
+                cmd_seat.Parameters.AddWithValue("@id_section", sectionidInt);
 
                 try
                 {
                     con.Open();
-                    cmd_spot.ExecuteNonQuery();
+                    cmd_seat.ExecuteNonQuery();
                     FillDataGridSections(con);
                     fillStats(con);
-                    FillDataGridSpots(con);
+                    FillDataGridSeats(con);
 
                     
                     con.Close();
-                    MessageBox.Show("The spot has been inserted successfully!");
+                    MessageBox.Show("The seat has been inserted successfully!");
 
                 }
                 catch (Exception exc)
@@ -229,7 +229,7 @@ namespace FootballClub
         }
 
 
-        private void Spot_Delete(object sender, RoutedEventArgs e)
+        private void Seat_Delete(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
@@ -237,17 +237,17 @@ namespace FootballClub
                 using (con = new SqlConnection(ConString))
                 {
                     // --> Validations
-                    int nSpotInt, sectionidInt;
+                    int nSeatInt, sectionidInt;
 
-                    // spot number and section id are number
+                    // seat number and section id are number
                     
-                    if (!Int32.TryParse(spot_number.Text, out nSpotInt))
+                    if (!Int32.TryParse(seat_number.Text, out nSeatInt))
                     {
-                        MessageBox.Show("The Spot Number must be an Integer!");
+                        MessageBox.Show("The Seat Number must be an Integer!");
                         return;
                     }
 
-                    if (spot_row.Text.Length == 0)
+                    if (seat_row.Text.Length == 0)
                     {
                         MessageBox.Show("The row can't be blank!");
                         return;
@@ -258,7 +258,7 @@ namespace FootballClub
                     SqlDataAdapter sda = new SqlDataAdapter(cmd);
                     DataTable dt1 = new DataTable("section_selected");
                     sda.Fill(dt1);
-                    string section_text = spot_section.Text;
+                    string section_text = seat_section.Text;
 
                     foreach (DataRow section in dt1.Rows)
                     {
@@ -277,32 +277,32 @@ namespace FootballClub
                     }
 
 
-                    // DELETE THE SPOT
+                    // DELETE THE SEAT
 
-                    string CmdString = "football.sp_deleteSpot";
-                    SqlCommand cmd_spot = new SqlCommand(CmdString, con);
-                    cmd_spot.CommandType = CommandType.StoredProcedure;
-                    cmd_spot.Parameters.AddWithValue("@n_spot", nSpotInt);
-                    cmd_spot.Parameters.AddWithValue("@row", spot_row.Text);
-                    cmd_spot.Parameters.AddWithValue("@id_section", sectionidInt);
+                    string CmdString = "football.sp_deleteSeat";
+                    SqlCommand cmd_seat = new SqlCommand(CmdString, con);
+                    cmd_seat.CommandType = CommandType.StoredProcedure;
+                    cmd_seat.Parameters.AddWithValue("@n_seat", nSeatInt);
+                    cmd_seat.Parameters.AddWithValue("@row", seat_row.Text);
+                    cmd_seat.Parameters.AddWithValue("@id_section", sectionidInt);
 
                     try
                     {
                         con.Open();
-                        cmd_spot.ExecuteNonQuery();
+                        cmd_seat.ExecuteNonQuery();
                         FillDataGridSections(con);
                         fillStats(con);
-                        FillDataGridSpots(con);
+                        FillDataGridSeats(con);
 
 
                         con.Close();
 
                         // limpar as text boxs
-                        spot_number.Text = "";
-                        spot_row.Text = "";
-                        spot_section.Text = "";
+                        seat_number.Text = "";
+                        seat_row.Text = "";
+                        seat_section.Text = "";
 
-                        MessageBox.Show("The spot has been deleted successfully!");
+                        MessageBox.Show("The seat has been deleted successfully!");
 
                     }
                     catch (Exception exc)
@@ -387,7 +387,7 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_section.ExecuteNonQuery();
-                    FillDataGridSpots(con);
+                    FillDataGridSeats(con);
                     fillStats(con);
                     FillDataGridSections(con);
 
@@ -436,7 +436,7 @@ namespace FootballClub
                 {
                     con.Open();
                     cmd_section.ExecuteNonQuery();
-                    FillDataGridSpots(con);
+                    FillDataGridSeats(con);
                     fillStats(con);
                     FillDataGridSections(con);
 
@@ -484,7 +484,7 @@ namespace FootballClub
                     {
                         con.Open();
                         cmd_section.ExecuteNonQuery();
-                        FillDataGridSpots(con);
+                        FillDataGridSeats(con);
                         fillStats(con);
                         FillDataGridSections(con);
 

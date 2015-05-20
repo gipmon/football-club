@@ -26,21 +26,21 @@ END;
 -- DROP FUNCTION football.udf_sections_annual
 
 go
-CREATE FUNCTION football.udf_sections_annual(@bi int=null, @n_spot int = null, @row varchar(1) = null, @id_section int = null, @season int = null) 
+CREATE FUNCTION football.udf_sections_annual(@bi int=null, @n_seat int = null, @row varchar(1) = null, @id_section int = null, @season int = null) 
 RETURNS TABLE
 WITH SCHEMABINDING, ENCRYPTION
 AS
 	RETURN SELECT type, section.id_section
-		   FROM football.section JOIN football.annual_spot ON section.id_section=annual_spot.id_section
-		   WHERE annual_spot.bi = @bi AND annual_spot.n_spot = @n_spot AND annual_spot.row = @row AND annual_spot.id_section = @id_section AND annual_spot.season = @season;
+		   FROM football.section JOIN football.annual_seat ON section.id_section=annual_seat.id_section
+		   WHERE annual_seat.bi = @bi AND annual_seat.n_seat = @n_seat AND annual_seat.row = @row AND annual_seat.id_section = @id_section AND annual_seat.season = @season;
 
--- DROP FUNCTION football.udf_sections_spots
+-- DROP FUNCTION football.udf_sections_seats
 
 go
-CREATE FUNCTION football.udf_sections_spots(@n_spot int = null, @row varchar(1) = null, @id_section int = null) 
+CREATE FUNCTION football.udf_sections_seats(@n_seat int = null, @row varchar(1) = null, @id_section int = null) 
 RETURNS TABLE
 WITH SCHEMABINDING, ENCRYPTION
 AS
 	RETURN SELECT type, section.id_section
-		   FROM football.section JOIN football.spot ON section.id_section=spot.id_section
-		   WHERE spot.n_spot = @n_spot AND spot.row = @row AND spot.id_section = @id_section;
+		   FROM football.section JOIN football.seat ON section.id_section=seat.id_section
+		   WHERE seat.n_seat = @n_seat AND seat.row = @row AND seat.id_section = @id_section;

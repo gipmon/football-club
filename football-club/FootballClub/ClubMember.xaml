@@ -60,7 +60,7 @@
                         <Label Grid.Row="7">Nº Member:</Label>
                         <TextBox Grid.Row="7" IsReadOnly="True" IsEnabled="False" Name="member_number" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="8">Shares in day:</Label>
-                        <Controls:ToggleSwitch Grid.Row="8" Name="member_shares_in_day" Grid.Column="1" OnLabel="Yes" OffLabel="No" Margin="0,0,0,10" />
+                        <TextBox Grid.Row="8" Name="member_shares_in_day" Grid.Column="1" Margin="0,0,0,10" />
                         <Label Grid.Row="9">Shares value:</Label>
                         <Controls:NumericUpDown Grid.Row="9" Name="member_shares_value" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Interval="5" StringFormat="C2"/>
                         <Grid Grid.Row="10">
@@ -88,7 +88,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <DataGrid IsReadOnly="True" Name="annualSpotsGrid" SelectionChanged="annualSpotsGrid_SelectionChanged">
+                    <DataGrid IsReadOnly="True" Name="annualSeatsGrid" SelectionChanged="annualSeatsGrid_SelectionChanged">
                     </DataGrid>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
@@ -108,22 +108,22 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label>BI:</Label>
-                        <TextBox Grid.Column="1" Name="spot_bi" Margin="0,0,0,10"  />
+                        <TextBox Grid.Column="1" Name="seat_bi" Margin="0,0,0,10"  />
                         <Label Grid.Row="1">Seat Number:</Label>
-                        <TextBox Grid.Row="1" Name="spot_number" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="1" Name="seat_number" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="2">Row:</Label>
-                        <TextBox Grid.Row="2" Name="spot_row"  Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="2" Name="seat_row"  Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="3">Section:</Label>
-                        <ComboBox Grid.Row="3" Name="spot_section" Grid.Column="1" Margin="0,0,0,10">
+                        <ComboBox Grid.Row="3" Name="seat_section" Grid.Column="1" Margin="0,0,0,10">
                         </ComboBox>
                         <Label Grid.Row="4">Season:</Label>
-                        <TextBox Grid.Row="4" Name="spot_season" Grid.Column="1" Margin="0,0,0,10" />
+                        <TextBox Grid.Row="4" Name="seat_season" Grid.Column="1" Margin="0,0,0,10" />
                         <Label Grid.Row="5">Initial Date:</Label>
-                        <TextBox Grid.Row="5" Name="spot_initial_date" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="5" Name="seat_initial_date" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="6">Duration (Months):</Label>
-                        <TextBox Grid.Row="6" Name="spot_duration" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <TextBox Grid.Row="6" Name="seat_duration" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
                         <Label Grid.Row="7">Seat Value:</Label>
-                        <Controls:NumericUpDown Grid.Row="7" Name="spot_value" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Interval="5" StringFormat="C2"/>
+                        <Controls:NumericUpDown Grid.Row="7" Name="seat_value" Margin="0,0,0,10" Grid.Column="1" Minimum ="0" Interval="5" StringFormat="C2"/>
                         <Grid Grid.Row="8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -133,9 +133,9 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Grid.Column="0" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="AnnualSpot_Update"/>
-                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="AnnualSpot_New"/>
-                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="AnnualSpot_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="AnnualSeat_Update"/>
+                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="AnnualSeat_New"/>
+                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="AnnualSeat_Delete"/>
                         </Grid>
                     </Grid>
                 </Grid>

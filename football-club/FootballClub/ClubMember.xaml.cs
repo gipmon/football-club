@@ -34,7 +34,7 @@ namespace FootballClub
             using (con = new SqlConnection(ConString))
             {
                 FillDataGridMembers(con);
-                FillDataGridAnnualSpots(con);
+                FillDataGridAnnualSeats(con);
                 fillStats(con);
 
                 
@@ -101,15 +101,8 @@ namespace FootballClub
                 member_nationality.Text = r["nationality"].ToString();
                 member_number.Text = r["n_member"].ToString();
                 member_shares_value.Value = Convert.ToDouble(r["shares_value"].ToString());
-                string shares = r["shares_in_day"].ToString();
-                if (r["shares_in_day"].ToString() == "True")
-                {
-                     member_shares_in_day.IsChecked = true;
-                }
-                else
-                {
-                     member_shares_in_day.IsChecked = false;
-                }
+                member_shares_in_day.Text = r["shares_in_day"].ToString();
+               
             }
             
         }
@@ -119,9 +112,9 @@ namespace FootballClub
             using (con = new SqlConnection(ConString))
             {
                 // --> Validations
-                int biInt, nifInt;
+                int biInt, nifInt, shares_in_dayInt;
 
-                // bi, nif and federation id is number
+                // bi, nif and federation id and shares_in_day is number
                 if (!Int32.TryParse(member_bi.Text, out biInt))
                 {
                     MessageBox.Show("The BI must be an Integer!");
@@ -130,6 +123,11 @@ namespace FootballClub
                 if (!Int32.TryParse(member_nif.Text, out nifInt))
                 {
                     MessageBox.Show("The NIF must be an Integer!");
+                    return;
+                }
+                if (!Int32.TryParse(member_shares_in_day.Text, out shares_in_dayInt))
+                {
+                    MessageBox.Show("The Shares In Day must be an Integer!");
                     return;
                 }
 
@@ -172,22 +170,6 @@ namespace FootballClub
                     return;
                 }
 
-                string shares_in_day;
-                if (member_shares_in_day.IsChecked == true)
-                {
-                    shares_in_day = "True";
-                }
-                else if (member_shares_in_day.IsChecked == false)
-                {
-                    shares_in_day = "False";
-                }
-                else
-                {
-                    MessageBox.Show("Please select the shares situation!");
-                    return;
-                }
-
-
                 // INSERT MEMBER
 
                 string CmdString = "football.sp_createMember";
@@ -201,13 +183,13 @@ namespace FootballClub
                 cmd_member.Parameters.AddWithValue("@gender", gender);
                 cmd_member.Parameters.AddWithValue("@nationality", member_nationality.Text);
                 cmd_member.Parameters.AddWithValue("@shares_value", (double)member_shares_value.Value);
-                cmd_member.Parameters.AddWithValue("@shares_in_day", shares_in_day);
+                cmd_member.Parameters.AddWithValue("@shares_in_day", shares_in_dayInt);
 
                 try
                 {
                     con.Open();
                     cmd_member.ExecuteNonQuery();
-                    FillDataGridAnnualSpots(con);
+                    FillDataGridAnnualSeats(con);
                     fillStats(con);
                     FillDataGridMembers(con);
 
@@ -228,12 +210,17 @@ namespace FootballClub
             using (con = new SqlConnection(ConString))
             {
                 // --> Validations
-                int biInt;
+                int biInt, shares_in_dayInt;
 
                 // bi and federation id is number
                 if (!Int32.TryParse(member_bi.Text, out biInt))
                 {
                     MessageBox.Show("The BI must be an Integer!");
+                    return;
+                }
+                if (!Int32.TryParse(member_shares_in_day.Text, out shares_in_dayInt))
+                {
+                    MessageBox.Show("The Shares In Day must be an Integer!");
                     return;
                 }
               
@@ -275,20 +262,6 @@ namespace FootballClub
                     return;
                 }
 
-                string shares_in_day;
-                if (member_shares_in_day.IsChecked == true)
-                {
-                    shares_in_day = "True";
-                }
-                else if (member_shares_in_day.IsChecked == false)
-                {
-                    shares_in_day = "False";
-                }
-                else
-                {
-                    MessageBox.Show("Please select the shares situation!");
-                    return;
-                }
 
                 // UPDATE MEMBER
                 string CmdString = "football.sp_modifyMember";
@@ -301,13 +274,13 @@ namespace FootballClub
                 cmd_member.Parameters.AddWithValue("@gender", gender);
                 cmd_member.Parameters.AddWithValue("@nationality", member_nationality.Text);
                 cmd_member.Parameters.AddWithValue("@shares_value", (double)member_shares_value.Value);
-                cmd_member.Parameters.AddWithValue("@shares_in_day", shares_in_day);
+                cmd_member.Parameters.AddWithValue("@shares_in_day", shares_in_dayInt);
                 
                 try
                 {
                     con.Open();
                     cmd_member.ExecuteNonQuery();
-                    FillDataGridAnnualSpots(con);
+                    FillDataGridAnnualSeats(con);
                     fillStats(con);
                     FillDataGridMembers(con);
 
@@ -350,7 +323,7 @@ namespace FootballClub
                     {
                         con.Open();
                         cmd_member.ExecuteNonQuery();
-                        FillDataGridAnnualSpots(con);
+                        FillDataGridAnnualSeats(con);
                         fillStats(con);
                         FillDataGridMembers(con);
                         
@@ -361,7 +334,7 @@ namespace FootballClub
                         member_bi.Text = "";
                         member_nif.Text = "";
                         member_address.Text = "";
-                        member_shares_in_day.IsChecked = false;
+                        member_shares_in_day.Text = "";
                         member_birth_date.Text = "";
                         member_nationality.Text = "";
                         member_GenderMale.IsChecked = false;
@@ -381,16 +354,16 @@ namespace FootballClub
         }
 
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-         *  ##########################----------- ANNUAL SPOT TAB -----------#############################
+         *  ##########################----------- ANNUAL SEAT TAB -----------#############################
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-        private void FillDataGridAnnualSpots(SqlConnection con)
+        private void FillDataGridAnnualSeats(SqlConnection con)
         {
-            string CmdString = "SELECT * FROM football.udf_annualSpots(DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT)";
+            string CmdString = "SELECT * FROM football.udf_annualSeats(DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT)";
             SqlCommand cmd = new SqlCommand(CmdString, con);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable("annual_spots");
+            DataTable dt = new DataTable("annual_seats");
             sda.Fill(dt);
-            annualSpotsGrid.ItemsSource = dt.DefaultView;
+            annualSeatsGrid.ItemsSource = dt.DefaultView;
 
             
             // fill the sections of the stadium
@@ -400,21 +373,21 @@ namespace FootballClub
             dt = new DataTable("sections");
             sda.Fill(dt);
 
-            spot_section.Items.Clear();
+            seat_section.Items.Clear();
             foreach (DataRow section in dt.Rows)
             {
                 ComboBoxItem itm = new ComboBoxItem();
                 itm.Content = section[0].ToString();
-                spot_section.Items.Add(itm);
+                seat_section.Items.Add(itm);
             }
 
         }
 
-        private void annualSpotsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void annualSeatsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             using (con = new SqlConnection(ConString))
             {
-                DataRowView row = (DataRowView)annualSpotsGrid.SelectedItem;
+                DataRowView row = (DataRowView)annualSeatsGrid.SelectedItem;
                 string search_bi;
                 try
                 {
@@ -427,21 +400,21 @@ namespace FootballClub
                     return;
                 }
 
-                spot_bi.Text = search_bi;
+                seat_bi.Text = search_bi;
 
-                string search_spot;
+                string search_seat;
                 try
                 {
                     // este try catch e por causa de quando autalizamos a DataGrid numa segunda vez
                     // e houve algo selecionado antes...
-                    search_spot = row.Row.ItemArray[6].ToString();
+                    search_seat = row.Row.ItemArray[6].ToString();
                 }
                 catch (Exception)
                 {
                     return;
                 }
 
-                spot_number.Text = search_spot;
+                seat_number.Text = search_seat;
 
                 string search_row;
                 try
@@ -480,34 +453,34 @@ namespace FootballClub
                     return;
                 }
 
-                spot_season.Text = search_season;
+                seat_season.Text = search_season;
 
-                string CmdString = "SELECT * FROM football.udf_annualSpots_full(@n_spot, @row, @id_section, @bi, @season)";
+                string CmdString = "SELECT * FROM football.udf_annualSeats_full(@n_seat, @row, @id_section, @bi, @season)";
                 SqlCommand cmd = new SqlCommand(CmdString, con);
-                cmd.Parameters.AddWithValue("@n_spot", Convert.ToInt32(search_spot));
+                cmd.Parameters.AddWithValue("@n_seat", Convert.ToInt32(search_seat));
                 cmd.Parameters.AddWithValue("@row", search_row);
                 cmd.Parameters.AddWithValue("@id_section", Convert.ToInt32(search_section));
                 cmd.Parameters.AddWithValue("@bi", Convert.ToInt32(search_bi));
                 cmd.Parameters.AddWithValue("@season", Convert.ToInt32(search_season));
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable("annualSpot");
+                DataTable dt = new DataTable("annualSeat");
                 sda.Fill(dt);
                 DataRow r = dt.Rows[0];
 
-                spot_bi.Text = r["bi"].ToString();
-                spot_number.Text = r["spot number"].ToString();
-                spot_row.Text = r["row"].ToString();
-                spot_season.Text = r["season"].ToString();
+                seat_bi.Text = r["bi"].ToString();
+                seat_number.Text = r["seat number"].ToString();
+                seat_row.Text = r["row"].ToString();
+                seat_season.Text = r["season"].ToString();
 
                 DateTime date = DateTime.Parse(r["start_date"].ToString());
-                spot_initial_date.Text = date.ToString("yyyy-MM-dd");
-                spot_duration.Text = r["duration"].ToString();
-                spot_value.Value = Convert.ToDouble(r["value"].ToString());
+                seat_initial_date.Text = date.ToString("yyyy-MM-dd");
+                seat_duration.Text = r["duration"].ToString();
+                seat_value.Value = Convert.ToDouble(r["value"].ToString());
 
-                String CmdString1 = "SELECT * FROM football.udf_sections_annual(@bi, @n_spot, @row, @id_section, @season)";
+                String CmdString1 = "SELECT * FROM football.udf_sections_annual(@bi, @n_seat, @row, @id_section, @season)";
                 SqlCommand cmd1 = new SqlCommand(CmdString1, con);
                 cmd1.Parameters.AddWithValue("@bi", Convert.ToInt32(search_bi));
-                cmd1.Parameters.AddWithValue("@n_spot", Convert.ToInt32(search_spot));
+                cmd1.Parameters.AddWithValue("@n_seat", Convert.ToInt32(search_seat));
                 cmd1.Parameters.AddWithValue("@row", search_row);
                 cmd1.Parameters.AddWithValue("@id_section", Convert.ToInt32(search_section));
                 cmd1.Parameters.AddWithValue("@season", Convert.ToInt32(search_season));
@@ -516,7 +489,7 @@ namespace FootballClub
                 DataTable dt1 = new DataTable("section_selected");
                 sda1.Fill(dt1);
 
-                foreach (ComboBoxItem itm in spot_section.Items)
+                foreach (ComboBoxItem itm in seat_section.Items)
                 {
                     itm.IsSelected = false;
                     foreach (DataRow section in dt1.Rows)
@@ -533,43 +506,43 @@ namespace FootballClub
             }
         }
 
-        private void AnnualSpot_New(object sender, RoutedEventArgs e)
+        private void AnnualSeat_New(object sender, RoutedEventArgs e)
         {
             using (con = new SqlConnection(ConString))
             {
                 // --> Validations
-                int biInt, nSpotInt, sectionidInt, seasonInt, durationInt;
+                int biInt, nSeatInt, sectionidInt, seasonInt, durationInt;
 
-                if (!Int32.TryParse(spot_bi.Text, out biInt))
+                if (!Int32.TryParse(seat_bi.Text, out biInt))
                 {
                     MessageBox.Show("The BI must be an Integer!");
                     return;
                 }
-                if (!Int32.TryParse(spot_number.Text, out nSpotInt))
+                if (!Int32.TryParse(seat_number.Text, out nSeatInt))
                 {
-                    MessageBox.Show("The Spot Number must be an Integer!");
+                    MessageBox.Show("The Seat Number must be an Integer!");
                     return;
                 }
 
-                if (!Int32.TryParse(spot_season.Text, out seasonInt))
+                if (!Int32.TryParse(seat_season.Text, out seasonInt))
                 {
                     MessageBox.Show("The Season must be an Integer!");
                     return;
                 }
-                if (!Int32.TryParse(spot_duration.Text, out durationInt))
+                if (!Int32.TryParse(seat_duration.Text, out durationInt))
                 {
                     MessageBox.Show("The Duration must be an Integer!");
                     return;
                 }
 
-                if (spot_row.Text.Length == 0)
+                if (seat_row.Text.Length == 0)
                 {
                     MessageBox.Show("The row can't be blank!");
                     return;
                 }
 
                 DateTime dt;
-                if (!DateTime.TryParse(spot_initial_date.Text, out dt))
+                if (!DateTime.TryParse(seat_initial_date.Text, out dt))
                 {
                     MessageBox.Show("Please insert a valid date!");
                     return;
@@ -581,7 +554,7 @@ namespace FootballClub
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt1 = new DataTable("section_selected");
                 sda.Fill(dt1);
-                string section_text = spot_section.Text;
+                string section_text = seat_section.Text;
 
                 foreach (DataRow section in dt1.Rows)
                 {
@@ -599,30 +572,30 @@ namespace FootballClub
                     return;
                 }
 
-                // INSERT ANNUAL SPOT
+                // INSERT ANNUAL SEAT
 
-                string CmdString = "football.sp_createAnnualSpot";
-                SqlCommand cmd_annualSpot = new SqlCommand(CmdString, con);
-                cmd_annualSpot.CommandType = CommandType.StoredProcedure;
-                cmd_annualSpot.Parameters.AddWithValue("@bi", biInt);
-                cmd_annualSpot.Parameters.AddWithValue("@start_date", dt);
-                cmd_annualSpot.Parameters.AddWithValue("@n_spot", nSpotInt);
-                cmd_annualSpot.Parameters.AddWithValue("@row", spot_row.Text);
-                cmd_annualSpot.Parameters.AddWithValue("@value", spot_value.Value);
-                cmd_annualSpot.Parameters.AddWithValue("@id_section", sectionidInt);
-                cmd_annualSpot.Parameters.AddWithValue("@season", seasonInt);
-                cmd_annualSpot.Parameters.AddWithValue("@duration", durationInt);
+                string CmdString = "football.sp_createAnnualSeat";
+                SqlCommand cmd_annualSeat = new SqlCommand(CmdString, con);
+                cmd_annualSeat.CommandType = CommandType.StoredProcedure;
+                cmd_annualSeat.Parameters.AddWithValue("@bi", biInt);
+                cmd_annualSeat.Parameters.AddWithValue("@start_date", dt);
+                cmd_annualSeat.Parameters.AddWithValue("@n_seat", nSeatInt);
+                cmd_annualSeat.Parameters.AddWithValue("@row", seat_row.Text);
+                cmd_annualSeat.Parameters.AddWithValue("@value", seat_value.Value);
+                cmd_annualSeat.Parameters.AddWithValue("@id_section", sectionidInt);
+                cmd_annualSeat.Parameters.AddWithValue("@season", seasonInt);
+                cmd_annualSeat.Parameters.AddWithValue("@duration", durationInt);
 
                 try
                 {
                     con.Open();
-                    cmd_annualSpot.ExecuteNonQuery();
+                    cmd_annualSeat.ExecuteNonQuery();
                     FillDataGridMembers(con);
                     fillStats(con);
-                    FillDataGridAnnualSpots(con);
+                    FillDataGridAnnualSeats(con);
 
                     con.Close();
-                    MessageBox.Show("The annual spot has been inserted successfully!");
+                    MessageBox.Show("The annual seat has been inserted successfully!");
 
                 }
                 catch (Exception exc)
@@ -633,43 +606,43 @@ namespace FootballClub
             }
         }
 
-        private void AnnualSpot_Update(object sender, RoutedEventArgs e)
+        private void AnnualSeat_Update(object sender, RoutedEventArgs e)
         {
             using (con = new SqlConnection(ConString))
             {
                 // --> Validations
-                int biInt, nSpotInt, sectionidInt, seasonInt, durationInt;
+                int biInt, nSeatInt, sectionidInt, seasonInt, durationInt;
 
-                if (!Int32.TryParse(spot_bi.Text, out biInt))
+                if (!Int32.TryParse(seat_bi.Text, out biInt))
                 {
                     MessageBox.Show("The BI must be an Integer!");
                     return;
                 }
-                if (!Int32.TryParse(spot_number.Text, out nSpotInt))
+                if (!Int32.TryParse(seat_number.Text, out nSeatInt))
                 {
-                    MessageBox.Show("The Spot Number must be an Integer!");
+                    MessageBox.Show("The Seat Number must be an Integer!");
                     return;
                 }
 
-                if (!Int32.TryParse(spot_season.Text, out seasonInt))
+                if (!Int32.TryParse(seat_season.Text, out seasonInt))
                 {
                     MessageBox.Show("The Season must be an Integer!");
                     return;
                 }
-                if (!Int32.TryParse(spot_duration.Text, out durationInt))
+                if (!Int32.TryParse(seat_duration.Text, out durationInt))
                 {
                     MessageBox.Show("The Duration must be an Integer!");
                     return;
                 }
 
-                if (spot_row.Text.Length == 0)
+                if (seat_row.Text.Length == 0)
                 {
                     MessageBox.Show("The row can't be blank!");
                     return;
                 }
 
                 DateTime dt;
-                if (!DateTime.TryParse(spot_initial_date.Text, out dt))
+                if (!DateTime.TryParse(seat_initial_date.Text, out dt))
                 {
                     MessageBox.Show("Please insert a valid date!");
                     return;
@@ -680,7 +653,7 @@ namespace FootballClub
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataTable dt1 = new DataTable("section_selected");
                 sda.Fill(dt1);
-                string section_text = spot_section.Text;
+                string section_text = seat_section.Text;
 
                 foreach (DataRow section in dt1.Rows)
                 {
@@ -699,30 +672,30 @@ namespace FootballClub
                 }
 
 
-                // UPDATE ANNUAL SPOT
+                // UPDATE ANNUAL SEAT
 
-                string CmdString = "football.sp_modifyAnnualSpot";
-                SqlCommand cmd_annualSpot = new SqlCommand(CmdString, con);
-                cmd_annualSpot.CommandType = CommandType.StoredProcedure;
-                cmd_annualSpot.Parameters.AddWithValue("@bi", biInt);
-                cmd_annualSpot.Parameters.AddWithValue("@start_date", dt);
-                cmd_annualSpot.Parameters.AddWithValue("@n_spot", nSpotInt);
-                cmd_annualSpot.Parameters.AddWithValue("@row", spot_row.Text);
-                cmd_annualSpot.Parameters.AddWithValue("@value", spot_value.Value);
-                cmd_annualSpot.Parameters.AddWithValue("@id_section", sectionidInt);
-                cmd_annualSpot.Parameters.AddWithValue("@season", seasonInt);
-                cmd_annualSpot.Parameters.AddWithValue("@duration", durationInt);
+                string CmdString = "football.sp_modifyAnnualSeat";
+                SqlCommand cmd_annualSeat = new SqlCommand(CmdString, con);
+                cmd_annualSeat.CommandType = CommandType.StoredProcedure;
+                cmd_annualSeat.Parameters.AddWithValue("@bi", biInt);
+                cmd_annualSeat.Parameters.AddWithValue("@start_date", dt);
+                cmd_annualSeat.Parameters.AddWithValue("@n_seat", nSeatInt);
+                cmd_annualSeat.Parameters.AddWithValue("@row", seat_row.Text);
+                cmd_annualSeat.Parameters.AddWithValue("@value", seat_value.Value);
+                cmd_annualSeat.Parameters.AddWithValue("@id_section", sectionidInt);
+                cmd_annualSeat.Parameters.AddWithValue("@season", seasonInt);
+                cmd_annualSeat.Parameters.AddWithValue("@duration", durationInt);
 
                 try
                 {
                     con.Open();
-                    cmd_annualSpot.ExecuteNonQuery();
+                    cmd_annualSeat.ExecuteNonQuery();
                     FillDataGridMembers(con);
                     fillStats(con);
-                    FillDataGridAnnualSpots(con);
+                    FillDataGridAnnualSeats(con);
 
                     con.Close();
-                    MessageBox.Show("The annual spot has been updated successfully!");
+                    MessageBox.Show("The Annual Seat has been updated successfully!");
 
                 }
                 catch (Exception exc)
@@ -733,7 +706,7 @@ namespace FootballClub
             }
         }
 
-        private void AnnualSpot_Delete(object sender, RoutedEventArgs e)
+        private void AnnualSeat_Delete(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
@@ -741,27 +714,27 @@ namespace FootballClub
                 using (con = new SqlConnection(ConString))
                 {
                     // --> Validations
-                    int biInt, nSpotInt, sectionidInt, seasonInt;
+                    int biInt, nSeatInt, sectionidInt, seasonInt;
 
-                    // bi, spot number, section id and season are number
-                    if (!Int32.TryParse(spot_bi.Text, out biInt))
+                    // bi, seat number, section id and season are number
+                    if (!Int32.TryParse(seat_bi.Text, out biInt))
                     {
                         MessageBox.Show("The BI must be an Integer!");
                         return;
                     }
-                    if (!Int32.TryParse(spot_number.Text, out nSpotInt))
+                    if (!Int32.TryParse(seat_number.Text, out nSeatInt))
                     {
-                        MessageBox.Show("The Spot Number must be an Integer!");
+                        MessageBox.Show("The Seat Number must be an Integer!");
                         return;
                     }
 
-                    if (!Int32.TryParse(spot_season.Text, out seasonInt))
+                    if (!Int32.TryParse(seat_season.Text, out seasonInt))
                     {
                         MessageBox.Show("The Season must be an Integer!");
                         return;
                     }
 
-                    if (spot_row.Text.Length == 0)
+                    if (seat_row.Text.Length == 0)
                     {
                         MessageBox.Show("The row can't be blank!");
                         return;
@@ -772,7 +745,7 @@ namespace FootballClub
                     SqlDataAdapter sda = new SqlDataAdapter(cmd);
                     DataTable dt1 = new DataTable("section_selected");
                     sda.Fill(dt1);
-                    string section_text = spot_section.Text;
+                    string section_text = seat_section.Text;
 
                     foreach (DataRow section in dt1.Rows)
                     {
@@ -791,38 +764,38 @@ namespace FootballClub
                     }
 
 
-                    // DELETE THE ANNUAL SPOT
+                    // DELETE THE ANNUAL SEAT
 
-                    string CmdString = "football.sp_deleteAnnualSpot";
-                    SqlCommand cmd_annualSpot = new SqlCommand(CmdString, con);
-                    cmd_annualSpot.CommandType = CommandType.StoredProcedure;
-                    cmd_annualSpot.Parameters.AddWithValue("@bi", biInt);
-                    cmd_annualSpot.Parameters.AddWithValue("@n_spot", nSpotInt);
-                    cmd_annualSpot.Parameters.AddWithValue("@season", seasonInt);
-                    cmd_annualSpot.Parameters.AddWithValue("@row", spot_row.Text);
-                    cmd_annualSpot.Parameters.AddWithValue("@id_section", sectionidInt);
+                    string CmdString = "football.sp_deleteAnnualSeat";
+                    SqlCommand cmd_annualSeat = new SqlCommand(CmdString, con);
+                    cmd_annualSeat.CommandType = CommandType.StoredProcedure;
+                    cmd_annualSeat.Parameters.AddWithValue("@bi", biInt);
+                    cmd_annualSeat.Parameters.AddWithValue("@n_seat", nSeatInt);
+                    cmd_annualSeat.Parameters.AddWithValue("@season", seasonInt);
+                    cmd_annualSeat.Parameters.AddWithValue("@row", seat_row.Text);
+                    cmd_annualSeat.Parameters.AddWithValue("@id_section", sectionidInt);
 
                     try
                     {
                         con.Open();
-                        cmd_annualSpot.ExecuteNonQuery();
+                        cmd_annualSeat.ExecuteNonQuery();
                         FillDataGridMembers(con);
                         fillStats(con);
-                        FillDataGridAnnualSpots(con);
+                        FillDataGridAnnualSeats(con);
 
                         con.Close();
 
                         // limpar as text boxs
-                        spot_bi.Text = "";
-                        spot_number.Text = "";
-                        spot_row.Text = "";
-                        spot_section.Text = "";
-                        spot_value.Value = 0;
-                        spot_duration.Text = "";
-                        spot_initial_date.Text = "";
-                        spot_season.Text = "";
+                        seat_bi.Text = "";
+                        seat_number.Text = "";
+                        seat_row.Text = "";
+                        seat_section.Text = "";
+                        seat_value.Value = 0;
+                        seat_duration.Text = "";
+                        seat_initial_date.Text = "";
+                        seat_season.Text = "";
 
-                        MessageBox.Show("The annual spot has been deleted successfully!");
+                        MessageBox.Show("The annual seat has been deleted successfully!");
 
                     }
                     catch (Exception exc)
@@ -859,7 +832,7 @@ namespace FootballClub
                 {
                     number_of_club_members.Text = counts["result"].ToString();
                 }
-                else if (counts["name"].ToString() == "total_of_annual_spots")
+                else if (counts["name"].ToString() == "total_of_annual_seats")
                 {
                     number_of_annual_seats.Text = counts["result"].ToString();
                 }
@@ -867,7 +840,7 @@ namespace FootballClub
             }
 
             // number annual seats per season
-            CmdString = "SELECT * FROM football.udf_annual_spots_per_season_count()";
+            CmdString = "SELECT * FROM football.udf_annual_seats_per_season_count()";
             cmd = new SqlCommand(CmdString, con);
             sda = new SqlDataAdapter(cmd);
             dt = new DataTable("number_of_annual_seats_per_season");

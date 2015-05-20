@@ -13,7 +13,7 @@ CREATE PROCEDURE football.sp_createMember
   @gender			VARCHAR(1), 
   @nationality		VARCHAR(75),
   @shares_value		MONEY,
-  @shares_in_day	BIT
+  @shares_in_day	INT
  
 WITH ENCRYPTION
 AS 
@@ -90,7 +90,7 @@ CREATE PROCEDURE football.sp_modifyMember
   @gender			VARCHAR(1), 
   @nationality		VARCHAR(75),
   @shares_value		MONEY,
-  @shares_in_day	BIT
+  @shares_in_day	INT
 WITH ENCRYPTION
 AS 
 	IF @bi is null OR @name is null OR @address is null OR @birth_date is null OR 
@@ -134,6 +134,8 @@ AS
 		RAISERROR ('An error occurred when updating the member!', 14, 1)
 		ROLLBACK TRANSACTION;
 	END CATCH;
+
+	go
 
 CREATE PROCEDURE football.sp_deleteMember
   @bi				INT

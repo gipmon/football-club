@@ -21,7 +21,7 @@
             <Button Content="teams/players" Name="players" Click="Button_Player"/>
             <Button Content="practices/courts" Name="practices" Click="Button_Practices"/>
             <Button Content="club members/annual seats" Name="club_members" Click="Button_ClubMember" />
-            <Button Content="stadium sections/spots" Name="stadium" Click="Button_Stadium" />
+            <Button Content="stadium sections/seats" Name="stadium" Click="Button_Stadium" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Grid>
