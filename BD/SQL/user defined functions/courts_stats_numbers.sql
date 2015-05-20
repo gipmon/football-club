@@ -34,7 +34,7 @@ WITH SCHEMABINDING, ENCRYPTION
 AS
 BEGIN
 	INSERT @table SELECT court.id_court as 'court id', court.address as "court address",
-					CAST(DATEADD(ms, AVG(DATEDIFF(ms, '00:00:00', practice.hour)), '00:00:00') AS time(7)) as "hour"
+					CAST(DATEADD(HOUR, AVG(DATEDIFF(HOUR, '00:00:00', practice.hour)), '00:00:00') AS time(7)) as "hour"
 					FROM football.court JOIN football.practice
 					ON court.id_court = practice.id_court
 					GROUP BY court.id_court, court.address;
@@ -58,8 +58,8 @@ BEGIN
 	-- table com id_court, date_int e team_name
 	DECLARE @counting_table_time TABLE ("id_court" int, "address" varchar(150), "date_int" int, "team_name" varchar(50))
 	
-	INSERT @counting_table_time SELECT court.id_court, court.address, DATEDIFF(ms, '00:00:00', practice.hour) +
-								DATEDIFF(ms, GETDATE(), practice.date) as "date_int", 
+	INSERT @counting_table_time SELECT court.id_court, court.address, DATEDIFF(HOUR, '00:00:00', practice.hour) +
+								DATEDIFF(DAY, GETDATE(), practice.date) as "date_int", 
 								practice.team_name
 								FROM football.court JOIN football.practice
 								ON court.id_court = practice.id_court;
