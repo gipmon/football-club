@@ -46,13 +46,15 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Seat_New"/>
-                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Seat_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Seat_New"/>
+                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Seat_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="3" Content="Clear" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Seat_Clear"/>
                         </Grid>
 
                     </Grid>
@@ -88,14 +90,16 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <Button Grid.Row="0" Grid.Column="0" Content="Save" Style="{StaticResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Section_Update"/>
-                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Section_New"/>
-                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Section_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Update" Style="{StaticResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Section_Update"/>
+                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Section_New"/>
+                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Section_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="3" Content="Clear" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Section_Clear"/>
                         </Grid>
 
                     </Grid>

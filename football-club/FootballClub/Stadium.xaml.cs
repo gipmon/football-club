@@ -313,6 +313,13 @@ namespace FootballClub
                 }
             }
         }
+        private void Seat_Clear(object sender, RoutedEventArgs e)
+        {
+            // limpar as text boxs
+            seat_number.Text = "";
+            seat_row.Text = "";
+            seat_section.Text = "";
+        }
 
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
         *  ##########################----------- SECTIONS TAB -----------#############################
@@ -452,6 +459,13 @@ namespace FootballClub
             }
         }
 
+
+        private void Section_Clear(object sender, RoutedEventArgs e)
+        {  
+            // limpar as text boxs
+            sections_id.Text = "";
+            sections_type.Text = "";
+        }
 
 
         private void Section_Delete(object sender, RoutedEventArgs e)
