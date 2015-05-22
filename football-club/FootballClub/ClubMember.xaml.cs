@@ -847,11 +847,8 @@ namespace FootballClub
 
             foreach (DataRow counts in dt.Rows)
             {
-                if (counts["name"].ToString() == "shares_in_day_false")
-                {
-                    without_shares_in_day.Text = counts["result"].ToString();
-                }
-                else if (counts["name"].ToString() == "average_shares")
+                
+                if (counts["name"].ToString() == "average_shares")
                 {
                     average_shares_value.Text = counts["result"].ToString() + "$";
                 }
