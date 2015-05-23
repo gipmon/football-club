@@ -238,7 +238,7 @@ namespace FootballClub
 
                 foreach (DataRow court in dt1.Rows)
                 {
-                    if (court[0].ToString() == courts)
+                    if (court[1].ToString() == courts)
                     {
                         courtId = court[0].ToString();
                         break;
@@ -287,13 +287,6 @@ namespace FootballClub
                     return;
                 }
 
-                int courtId;
-
-                if (!Int32.TryParse(CourtsComboBox.Text, out courtId))
-                {
-                    MessageBox.Show("The court id must be an Integer!");
-                    return;
-                }
                 DateTime date;
                 if (!DateTime.TryParse(practice_date.Text, out date))
                 {
@@ -307,10 +300,33 @@ namespace FootballClub
                     return;
                 }
 
+                string CmdString1 = "SELECT * FROM football.udf_courts(DEFAULT)";
+                SqlCommand cmd = new SqlCommand(CmdString1, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt1 = new DataTable("court_selected");
+                sda.Fill(dt1);
+                string courts = CourtsComboBox.Text;
+
+                foreach (DataRow court in dt1.Rows)
+                {
+                    if (court[1].ToString() == courts)
+                    {
+                        courtId = court[0].ToString();
+                        break;
+                    }
+                }
+
+                int court_ID;
+                if (!Int32.TryParse(courtId, out court_ID))
+                {
+                    MessageBox.Show("The Court must be valid!");
+                    return;
+                }
+
                 string CmdString = "football.sp_deletePractice";
                 SqlCommand cmd_practice = new SqlCommand(CmdString, con);
                 cmd_practice.CommandType = CommandType.StoredProcedure;
-                cmd_practice.Parameters.AddWithValue("@id_court", courtId);
+                cmd_practice.Parameters.AddWithValue("@id_court", court_ID);
                 cmd_practice.Parameters.AddWithValue("@date", date);
                 cmd_practice.Parameters.AddWithValue("@hour", time);
 
