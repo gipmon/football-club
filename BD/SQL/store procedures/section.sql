@@ -14,17 +14,13 @@ AS
 		RETURN
 	END
 
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		INSERT INTO football.section 
 					([type]) 
-		VALUES      ( @type) 
-		COMMIT TRANSACTION;
+		VALUES      ( @type)
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when creating the section!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;
 
 go 
@@ -53,18 +49,13 @@ AS
 		RETURN
 	END
 
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		UPDATE  football.section SET
 				type = @type
 		WHERE id_section = @id_section;
-
-		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when updating the section!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;
 
 go 

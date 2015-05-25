@@ -62,8 +62,6 @@ AS
 		RETURN
 	END
 
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		INSERT INTO football.annual_seat 
 					([n_seat], 
@@ -81,12 +79,10 @@ AS
 					  @duration, 
 					  @value,
 					  @bi,
-					  @season) 
-		COMMIT TRANSACTION;
+					  @season)
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when creating the annual seat!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;
 
 
@@ -133,8 +129,6 @@ AS
 		RETURN
 	END
 
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		UPDATE  football.annual_seat SET
 				start_date = @start_date,
@@ -142,15 +136,12 @@ AS
 				duration = @duration,
 				value = @value
 		WHERE n_seat = @n_seat AND row = @row AND id_section = @id_section AND bi = @bi AND season = @season;
-
-		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when updating the annual seat!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;
 
-		go 
+go 
 
 -- DROP PROC football.sp_deleteAnnualSeat
 
@@ -167,14 +158,10 @@ AS
 		PRINT 'The bi, n_seat, id_section, row and season can not be null!'
 		RETURN
 	END
-	
-	BEGIN TRANSACTION;
 
 	BEGIN TRY
 		DELETE FROM football.annual_seat WHERE bi = @bi AND n_seat = @n_seat AND id_section = @id_section AND row = @row AND season = @season;
-		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when try delete the annual seat!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;

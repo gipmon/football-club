@@ -15,19 +15,15 @@ AS
 		RETURN
 	END
 
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		INSERT INTO football.department 
 					([name], 
 					 [address]) 
 		VALUES      ( @name, 
-					  @address) 
-		COMMIT TRANSACTION;
+					  @address)
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when creating the department!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;
 
 go 
@@ -57,19 +53,14 @@ AS
 		RETURN
 	END
 
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		UPDATE  football.department SET
 				name = @name,
 				address = @address
 		WHERE department_id = @department_id;
-
-		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when updating the department!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;
 
 go 
@@ -97,13 +88,9 @@ AS
 		RETURN
 	END
 	
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		DELETE FROM football.department WHERE department_id = @department_id;
-		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when try delete the department!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;

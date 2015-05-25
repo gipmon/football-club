@@ -78,7 +78,7 @@ AS
 		ROLLBACK TRANSACTION;
 	END CATCH;
 
-	go
+go
 
 -- DROP PROC football.sp_modifyMember
 
@@ -135,7 +135,7 @@ AS
 		ROLLBACK TRANSACTION;
 	END CATCH;
 
-	go
+go
 
 CREATE PROCEDURE football.sp_deleteMember
   @bi				INT
@@ -158,4 +158,3 @@ AS
 		RAISERROR ('An error occurred when try delete the member!', 14, 1)
 		ROLLBACK TRANSACTION;
 	END CATCH;
-

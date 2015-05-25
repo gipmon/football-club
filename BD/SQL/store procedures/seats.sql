@@ -28,8 +28,6 @@ AS
 		RETURN
 	END
 
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		INSERT INTO football.seat
 					([n_seat], 
@@ -38,11 +36,9 @@ AS
 		VALUES      ( @n_seat, 
 					  @row, 
 					  @id_section) 
-		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when creating the seat!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;
 
 
@@ -82,13 +78,9 @@ AS
 		RETURN
 	END
 	
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		DELETE FROM football.seat WHERE n_seat = @n_seat AND id_section = @id_section AND row = @row;
-		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when try delete the seat!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;

@@ -14,17 +14,13 @@ AS
 		RETURN
 	END
 	
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		INSERT INTO football.court 
 					([address]) 
 		VALUES      ( @address) 
-		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when creating the court!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;
 
 go 
@@ -53,18 +49,13 @@ AS
 		RETURN
 	END
 
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		UPDATE  football.court SET
 				address = @address
 		WHERE id_court = @id_court;
-
-		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when updating the court!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;
 
 go 
@@ -92,13 +83,9 @@ AS
 		RETURN
 	END
 
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		DELETE FROM football.court WHERE id_court = @id_court;
-		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when try delete the court!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;

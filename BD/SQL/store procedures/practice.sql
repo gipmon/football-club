@@ -41,8 +41,6 @@ AS
 		RETURN
 	END
 
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		INSERT INTO football.practice 
 					([date],
@@ -52,12 +50,10 @@ AS
 		VALUES      ( @date,
 					  @hour,
 					  @id_court,
-					  @team_name) 
-		COMMIT TRANSACTION;
+					  @team_name)
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when creating the practice!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;
 
 go 
@@ -100,20 +96,15 @@ AS
 		RETURN
 	END
 
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		UPDATE  football.practice SET
 				team_name = @team_name
 		WHERE id_court = @id_court
 			  AND date = @date
 			  AND hour = @hour;
-
-		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when updating the practice!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;
 
 go 
@@ -151,15 +142,11 @@ AS
 		RETURN
 	END
 
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		DELETE FROM football.practice WHERE id_court = @id_court
 											AND date = @date
 											AND hour = @hour;
-		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when try delete the practice!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;

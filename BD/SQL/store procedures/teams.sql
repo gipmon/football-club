@@ -26,19 +26,15 @@ AS
 		RETURN
 	END
 
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		INSERT INTO football.team 
 					([name], 
 					 [max_age]) 
 		VALUES      ( @name, 
 					  @max_age) 
-		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when creating the team!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;
 
 go 
@@ -67,18 +63,13 @@ AS
 		RETURN
 	END
 
-	BEGIN TRANSACTION;
-
 	BEGIN TRY
 		UPDATE  football.team SET
 				max_age = @max_age
 		WHERE name = @name;
-
-		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		RAISERROR ('An error occurred when updating the team!', 14, 1)
-		ROLLBACK TRANSACTION;
 	END CATCH;
 
 go 
