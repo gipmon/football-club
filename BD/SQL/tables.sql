@@ -163,6 +163,7 @@ CREATE TABLE football.seat(
 );
 
 -- ALTER seat
+ALTER TABLE football.seat ADD active BIT DEFAULT 1
 ALTER TABLE football.seat ADD CONSTRAINT FORLISSIS
 FOREIGN KEY (id_section)  REFERENCES football.section(id_section)
 ON UPDATE CASCADE;
