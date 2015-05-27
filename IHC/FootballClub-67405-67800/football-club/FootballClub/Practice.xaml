@@ -1,0 +1,223 @@
+﻿<Page x:Class="FootballClub.Practice"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+      mc:Ignorable="d"
+      d:DesignHeight="300"
+      d:DesignWidth="300"
+      Title="Football Club Manager" 
+      Style="{DynamicResource MetroPage}">
+
+    <Grid>
+        <TabControl>
+            <TabItem Header="Practices">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="0.6*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DataGrid IsReadOnly="True" Name="practices_grid" SelectionChanged="practicesGrid_SelectionChanged">
+                    </DataGrid>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label>Court:</Label>
+                        <ComboBox Grid.Row="0" Name="CourtsComboBox" Grid.Column="1" Margin="0,0,0,10"></ComboBox>
+                        <Label Grid.Row="1">Date:</Label>
+                        <TextBox Name="practice_date" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="DD-MM-AAAA" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="2">Hour:</Label>
+                        <TextBox Name="practice_hour" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.Watermark="HH:MM" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="3">Team:</Label>
+                        <ComboBox Grid.Row="3" Name="TeamsComboBox" Grid.Column="1" Margin="0,0,0,10"></ComboBox>
+                        <Grid Grid.Row="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Update" Style="{StaticResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Practice_Update"/>
+                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Practice_New"/>
+                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Practice_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="3" Content="Clear" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Practice_Clear"/>
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Courts">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="0.6*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DataGrid IsReadOnly="True" Name="courts_grid"  SelectionChanged="courtsGrid_SelectionChanged">
+                    </DataGrid>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label>Address:</Label>
+                        <TextBox Name="courts_address" Grid.Column="1" Margin="0,0,0,10"  />
+                        <Label Grid.Row="1">ID:</Label>
+                        <TextBox Name="courts_id" IsReadOnly="True" IsEnabled="False" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"  />
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Update" Style="{StaticResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Court_Update"/>
+                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Court_New"/>
+                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Court_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="3" Content="Clear" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Court_Clear"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Stats">
+                <Grid Margin="10,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.4*" />
+                        <ColumnDefinition Width="0.4*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <!-- COLUNA DA ESQUERDA -->
+                    <Grid Grid.Column="0" Grid.Row="0" Margin="0,0,30,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <!-- Primeira Data Grid -->
+                        <Grid Grid.Column="0" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Latest team to train in each court:">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <DataGrid Grid.Column="0" Grid.Row="1" IsReadOnly="True" Name="latest_team_to_train_in_each_court"></DataGrid>
+                        </Grid>
+                        <!-- Segunda Data Grid -->
+                        <Grid Grid.Column="0" Grid.Row="1" Margin="0,20,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Team that trained more by court:">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <DataGrid Grid.Column="0" Grid.Row="1" IsReadOnly="True" Name="team_that_trained_more_by_court">
+                            </DataGrid>
+                        </Grid>
+                    </Grid>
+                    <!-- COLUNA DA DIREITA -->
+                    <Grid Grid.Column="1" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!-- Primeira Data Grid -->
+                        <Grid Grid.Column="0" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Number practices per court: ">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <DataGrid Grid.Column="0" Grid.Row="1" IsReadOnly="True" Name="number_practices_per_court"></DataGrid>
+                        </Grid>
+                        <!-- Segunda Data Grid -->
+                        <Grid Grid.Column="0" Grid.Row="1" Margin="0,20,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Average hour of training by court:">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <DataGrid Grid.Column="0" Grid.Row="1" IsReadOnly="True" Name="average_hour_of_training_by_court">
+                            </DataGrid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>

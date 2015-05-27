@@ -1,0 +1,241 @@
+﻿<Page x:Class="FootballClub.Stadium"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+      mc:Ignorable="d"
+      d:DesignHeight="450"
+      d:DesignWidth="300"
+      Title="Football Club Manager" 
+      Style="{DynamicResource MetroPage}">
+
+    <Grid>
+        <TabControl>
+            <TabItem Header="Seats">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="0.6*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DataGrid IsReadOnly="True" Name="seatsGrid"  SelectionChanged="seatsGrid_SelectionChanged">
+                    </DataGrid>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label>Seat Number:</Label>
+                        <TextBox Grid.Column="1" Name="seat_number" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="1">Row:</Label>
+                        <TextBox Grid.Row="1" Name="seat_row" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="2">Section:</Label>
+                        <ComboBox Grid.Row="2" Name="seat_section"  Grid.Column="1" Margin="0,0,0,10">
+                        </ComboBox>
+                        <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Seat_New"/>
+                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Seat_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="3" Content="Clear" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Seat_Clear"/>
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Sections">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="0.6*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DataGrid IsReadOnly="True" Name="sectionsGrid" SelectionChanged="sectionsGrid_SelectionChanged">
+                    </DataGrid>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label>ID Section:</Label>
+                        <TextBox Grid.Column="1" IsReadOnly="True" IsEnabled="False" Name="sections_id" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Label Grid.Row="1">Type:</Label>
+                        <TextBox Grid.Row="1" Name="sections_type" Grid.Column="1" Margin="0,0,0,10" Controls:TextBoxHelper.ClearTextButton="True" />
+                        <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0" Grid.Column="0" Content="Update" Style="{StaticResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Section_Update"/>
+                            <Button Grid.Row="0" Grid.Column="1" Content="New" Style="{DynamicResource AccentedSquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Section_New"/>
+                            <Button Grid.Row="0" Grid.Column="2" Content="Delete" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,5,0" VerticalAlignment="Top" Click="Section_Delete"/>
+                            <Button Grid.Row="0" Grid.Column="3" Content="Clear" Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="Section_Clear"/>
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Stats">
+                <Grid Margin="10,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.6*" />
+                        <ColumnDefinition Width="0.4*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <!-- COLUNA DA ESQUERDA -->
+                    <Grid Grid.Column="0" Grid.Row="0" Margin="0,0,100,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <!-- resultado -->
+                        <Grid Grid.Column="0" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Total of Sections: ">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="0" Name="total_sections">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
+
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                        <!-- Fim resultado -->
+                        <!-- resultado -->
+                        <Grid Grid.Column="0" Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Total Of Seats: ">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="0" Name="total_seats">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
+
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                        <!-- Fim resultado -->
+
+                    </Grid>
+                    <!-- COLUNA DA DIREITA -->
+                    <Grid Grid.Column="1" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!-- Primeira Data Grid -->
+                        <Grid Grid.Column="0" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Number of Seats Per Section: ">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <DataGrid Grid.Column="0" Grid.Row="1" IsReadOnly="True" Name="number_seats_per_section"></DataGrid>
+                        </Grid>
+                        <!-- Segunda Data Grid -->
+                        <Grid Grid.Column="0" Grid.Row="1" Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Number Of Annual Seats Per Section: ">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.FontSize" Value="16" />
+                                        <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <DataGrid Grid.Column="0" IsReadOnly="True" Grid.Row="1" Name="number_of_annual_seats_per_section"></DataGrid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>

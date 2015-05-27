@@ -62,7 +62,15 @@ Para a criação deste projeto foi seguido o processo leccionado nas aulas, send
 \newpage
 \section{Análise de Requisitos}
 
-A análise de requisitos foi uma das partes mais importantes  
+A análise de requisitos foi uma das partes mais importantes do processo de concepção do projeto uma vez que ajudou a ter uma visão clara do que o sistema teria de suportar. Após realizado um "brainstorming", estas são as características que o sistema deve suportar:
+
+Uma pessoa que pode ser sócio ou assalariado, pertence ao clube. Uma pessoa é caracterizada por Nome, Data de nascimento, Nacionalidade, B.I., Endereço e NIF.
+
+Um assalariado tem salário e um ID Interno que o identifica no clube. 
+
+Um sócio tem nº sócio, quotas em dia ou não, valor das quotas do sócio que podem depende de sócio para sócio. Um sócio pode ter um lugar anual para assistir aos jogos. Este lugar anual tem um valor, data início, duração e ID Lugar e este lugar anual senta-se num lugar que é caracterizado por um nº de lugar que pertence a uma Secção e esta secção tem um ID da secção e nº de lugares.
+Um assalariado faz parte dos trabalhadores do clube e é uma pessoa. Um assalariado pode ser um Jogador, Técnicos ou Staff do clube. Um jogador tem ID da federação, peso e altura e pertence a um escalão. Um técnico, que é um assalariado, pode ter um ID da federação e função. Staff da clube, que é um assalariado que tem um cargo e que trabalha num Departamento que é caracterizado por um Endereço e ID do Departamento. 
+
 
 
 \end{document}
