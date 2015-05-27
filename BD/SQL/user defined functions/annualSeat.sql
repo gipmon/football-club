@@ -40,7 +40,7 @@ BEGIN
 	RETURN;
 END;
 
--- DROP FUNCTION football.udf_annualSeats
+-- DROP FUNCTION football.udf_annualSeats_full
 
 go
 CREATE FUNCTION football.udf_annualSeats_full(@n_seat INT=null, @row VARCHAR(1)=null, @id_section INT=null, @bi INT=null, @season INT=null)
