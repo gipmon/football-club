@@ -124,11 +124,62 @@ As entidades e os seus atributos correspondem à análise de requisitos realizad
 \newpage
 \section{Esquema Relacional da BD}
 Após a construção do nosso desenho conceptual procedeu-se à elaboração do Modelo Relacional. Este modelo foi construído tendo por base o diagrama entidade relação e as regras para a realização desta tarefa. Cada entidade e cada relação irá gerar uma única tabela e após realizados os passos para conversão do desenho conceptual no modelo relacional 
-foi criado o modelo relacional.
+foi criado o modelo relacional\ref{fig:mr}.
 
 \begin{figure}[!htb]
- \includegraphics[width=135mm,scale=1]{modelo_relacional.pdf}
- \caption{\\Diagrama entidade relação}\label{fig:eer}
+ \includegraphics[width=115mm,scale=1]{modelo_relacional.pdf}
+ \caption{\\Modelo relacional}\label{fig:mr}
 \end{figure}
+
+\newpage
+\section{Normalização}
+Para garantir a eficiência, a não existência de redundâncias e permitir a integridade referencial entre relações tive-se de usar normalizações.
+
+Para realizar a normalização do nosso projeto teve-se em conta alguns conceitos. Inicialmente começa-se por garantir a 1FN, seguido da 2FN e usualmente terminando na 3FN. No entanto, em algumas situações a 3FN ainda apresenta algumas anomalias.
+\\
+
+Uma relação diz-se na 1FN quando:
+
+- Os atributos são atómicos (simples e  indivisíveis), ou seja, não permite atributos composto ou multivalor.
+
+- Não suporta relações dentro de relações, ou seja, não é possível utilizar uma relação como valor de um atributo de um tuplo.
+\\
+
+Uma relação diz-se na 2FN quando:
+
+- Está na 1FN.
+
+- Todos os atributos não pertencentes a qualquer chave candidata dependem totalmente da chave e não de parte dela.
+\\
+
+Uma relação diz-se na 3FN quando:
+
+- Está na 2FN.
+
+- Todos os atributos não chave não dependem funcionalmente uns dos outros, ou seja, são funcionalmente dependentes só e apenas da chave da relação.
+\\
+
+Uma relação diz-se na BCNF quando:
+
+- Está na 3FN.
+
+- Todos os atributos são funcionalmente dependentes da chave da relação, de toda a chave e de nada mais.
+\\
+
+Após a análise do nosso projecto pôde-se concluir que já se encontrava na 3FN pois não tem dependências transitivas e todos os atributos dependem da chave primária da sua relação.
+\\
+
+Como forma de demonstrar como foi realizada esta análise temos o seguinte exemplo:
+
+\begin{figure}[!htb]
+ \includegraphics[width=40mm,scale=0.5]{exemplo_normalizacao.pdf}
+\end{figure}
+
+Neste exemplo temos a nossa relação Membro, que como pode-se verificar não existem atributos repetidos, multivalores ou compostos, estando assim na 1FN.
+
+Esta relação também se encontra na 2FN, pois está na 1FN e todos os atributos dependem da chave primária da relação, ou seja, do BI.
+
+Já está portanto na 3FN porque não tem dependências transitivas e todos os atributos dependem da chave primária.
+
 
 \end{document}
