@@ -6,6 +6,9 @@
 *.user
 *.sln.docstates
 
+#latex files
+*.pdf
+
 # Build results
 
 [Dd]ebug/
