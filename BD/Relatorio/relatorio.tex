@@ -181,5 +181,13 @@ Esta relação também se encontra na 2FN, pois está na 1FN e todos os atributo
 
 Já está portanto na 3FN porque não tem dependências transitivas e todos os atributos dependem da chave primária.
 
+\section{View's}
+Foi decidido não usar views no desenvolvimento do nosso sistema. 
+
+Em contra partida decidiu-se usar UDF's por estas serem mais seguras, serem compiladas e optimizadas, serem boas para ser utilizadas para incorporar lógica complexa dentro de uma consulta. 
+
+As udf's também previnem a alteração ou remoção de objetos/tabelas utilizadas pela função.
+
+Já as views não permitem esta camada de segurança, sendo assim, decidiu-se apenas usar UDF's para consulta de dados.
 
 \end{document}
