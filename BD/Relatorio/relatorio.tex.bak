@@ -121,4 +121,14 @@ Depois da análise de requisitos desenhou-se o diagrama entidade relação do no
 
 As entidades e os seus atributos correspondem à análise de requisitos realizada anteriormente. As relações são todas binárias.
 
+\newpage
+\section{Esquema Relacional da BD}
+Após a construção do nosso desenho conceptual procedeu-se à elaboração do Modelo Relacional. Este modelo foi construído tendo por base o diagrama entidade relação e as regras para a realização desta tarefa. Cada entidade e cada relação irá gerar uma única tabela e após realizados os passos para conversão do desenho conceptual no modelo relacional 
+foi criado o modelo relacional.
+
+\begin{figure}[!htb]
+ \includegraphics[width=135mm,scale=1]{modelo_relacional.pdf}
+ \caption{\\Diagrama entidade relação}\label{fig:eer}
+\end{figure}
+
 \end{document}
