@@ -17,7 +17,8 @@ BEGIN
 								 
 								
 						  FROM (football.seat JOIN 
-						  football.section ON seat.id_section = section.id_section);
+						  football.section ON seat.id_section = section.id_section)
+						  WHERE seat.active = 1;
 		END;
 	ELSE
 		BEGIN
@@ -28,7 +29,7 @@ BEGIN
 								
 						  FROM (football.seat JOIN 
 						  football.section ON seat.id_section = section.id_section)
-						  WHERE n_seat = @n_seat AND row = @row AND seat.id_section = @id_section;
+						  WHERE n_seat = @n_seat AND row = @row AND seat.id_section = @id_section AND seat.active = 1;
 		END;
 	RETURN;
 END;
