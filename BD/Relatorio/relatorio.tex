@@ -15,6 +15,23 @@
 \usepackage{fixltx2e}
 \usepackage{mathtools}
 \usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{CadetBlue}{rgb}{0.37, 0.62, 0.63}
+\definecolor{OliveGreen}{rgb}{0,0.6,0}
+
+\lstset{
+  breaklines=true,                                     % line wrapping on
+  language=SQL,
+  frame=ltrb,
+  framesep=5pt,
+  basicstyle=\normalsize,
+  keywordstyle=\ttfamily\color{OliveGreen},
+  identifierstyle=\ttfamily\color{CadetBlue}\bfseries,
+  commentstyle=\color{Brown},
+  stringstyle=\ttfamily,
+  showstringspaces=ture
+}
 
 \pagestyle{fancy}
 \renewcommand*\thesection{\thechapter\arabic{section}}
@@ -134,5 +151,31 @@ foi criado o modelo relacional\ref{fig:mr}.
 \newpage
 \section{Normalização}
 
+\newpage
+\section{Índices}
+Com o aumento do volume de dados, os pedidos de consulta começam a ter tempos de resposta maiores, pois os dados que existem nas tabelas encontram-se desorganizados. Para contrariar este aumento dos tempos de resposta devemos manter as tabelas organizadas de forma a que as consultas sejam efetuadas mais rapidamente. A utilização de índices nos campos que mais frequentemente serão utilizados é a maneira indicada, onde um ponteiro é criado para a posição real de cada registo.
+\\
+
+	Para tornar as nossas pesquisas mais eficientes introduzimos vários índices que achamos necessários (pesquisas feitas por dados não primários), do tipo NonClustered, pois os índices do tipo Clustered são automaticamente criados aquando da criação de uma tabela pois vai corresponder às chaves primárias.
+\\
+
+Índice "indexactiveseat", exemplo:
+\\
+
+\begin{lstlisting}
+go
+
+CREATE NONCLUSTERED INDEX indexactiveseat ON football.seat(active)
+WITH (FILLFACTOR=75,pad_index=ON);
+\end{lstlisting}
+ \vspace{0,5in}
+Restantes índices (em anexo):
+\\
+
+indexsalaryinternalpeople
+
+indexheightplayer
+
+indexweigthplayer
 
 \end{document}
