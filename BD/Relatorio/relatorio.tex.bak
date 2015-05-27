@@ -64,13 +64,61 @@ Para a criação deste projeto foi seguido o processo leccionado nas aulas, send
 
 A análise de requisitos foi uma das partes mais importantes do processo de concepção do projeto uma vez que ajudou a ter uma visão clara do que o sistema teria de suportar. Após realizado um "brainstorming", estas são as características que o sistema deve suportar:
 
-Uma pessoa que pode ser sócio ou assalariado, pertence ao clube. Uma pessoa é caracterizada por Nome, Data de nascimento, Nacionalidade, B.I., Endereço e NIF.
+Uma \textbf{pessoa} é identificada por um nome, B.I. (sendo que este B.I. é único), endereço, NIF, Sexo, Data de Nascimento e Nacionalidade. Esta pessoa pode ser uma Pessoa que pertença ao pessoal interno do clube (Staff) ou ser sócio do clube. 
 
-Um assalariado tem salário e um ID Interno que o identifica no clube. 
+Uma \textbf{pessoa interna} ao clube tem salário e um ID que é automaticamente atribuído e o identifica dentro do clube.
 
-Um sócio tem nº sócio, quotas em dia ou não, valor das quotas do sócio que podem depende de sócio para sócio. Um sócio pode ter um lugar anual para assistir aos jogos. Este lugar anual tem um valor, data início, duração e ID Lugar e este lugar anual senta-se num lugar que é caracterizado por um nº de lugar que pertence a uma Secção e esta secção tem um ID da secção e nº de lugares.
-Um assalariado faz parte dos trabalhadores do clube e é uma pessoa. Um assalariado pode ser um Jogador, Técnicos ou Staff do clube. Um jogador tem ID da federação, peso e altura e pertence a um escalão. Um técnico, que é um assalariado, pode ter um ID da federação e função. Staff da clube, que é um assalariado que tem um cargo e que trabalha num Departamento que é caracterizado por um Endereço e ID do Departamento. 
+Um \textbf{sócio do clube} tem um nº de sócio, o ano até que as suas cotas estão pagas (são cotas anuais) e um valor de cotas que tem de pagar todos os anos. Um sócio pode ter ou não um \textbf{lugar anual}, tendo este, um valor, data de início, duração, Nº Lugar e Nº Fila e ID da secção.
 
+Um \textbf{lugar} tem um nº de lugar e fila. Uma \textbf{secção} tem um ID de secção e tipo. 
 
+Um \textbf{jogador} é uma pessoa interna ao clube e é identificado com um ID da federação, peso e altura. Este joga em equipas do clube.
+
+Um \textbf{treinador} é uma pessoa interna do clube e é identificado com um ID da federação e cargo. Este tem equipas do clube.
+
+Uma \textbf{equipa} tem uma idade máxima de jogadores que podem pertencer à mesma e um nome único.
+
+Uma equipa pode ter \textbf{treinos} que são caracterizados por uma data e uma hora e são realizados num determinado campo.
+
+Um \textbf{campo} tem um endereço e um ID.
+
+Uma pessoa interna ao clube (\textbf{Staff}) tem um cargo e pode trabalhar um Departamento.
+
+Um \textbf{departamento} tem um endereço, ID de departamento e um nome.
+
+\newpage
+
+Foram também registadas algumas especificações para o desenho conceptual:
+
+- Uma pessoa pode ser um sócio e uma pessoa interna.
+
+- Uma pessoa interna ao clube pode ser um jogador, um coach ou um membro do staff.
+
+- Um sócio pode ter vários lugares anuais mas um lugar anual apenas pertence a um membro.
+
+- Um lugar pode ter vários lugares anuais mas um lugar anual apenas tem um lugar.
+
+- Uma secção pode ter vários lugares mas um lugar pode ter apenas uma secção.
+
+- Um membro do staff apenas pode trabalhar num departamento e um departamento pode ter vários membros do staff.
+
+- Um jogador pode jogar em várias equipas e uma equipa pode ter vários jogadores.
+
+- Um treinador pode jogar em várias equipas e uma equipa pode ter vários treinadores.
+
+- Uma equipa pode ter vários treinos mas um treino apenas pode ter uma equipa.
+
+- Um treino apenas pode ter um campo e um campo pode ter vários treinos.
+
+\newpage
+\section{Diagrama entidade relação}
+Depois da análise de requisitos desenhou-se o diagrama entidade relação do nosso sistema. Este desenho foi descrito através de um diagrama ER\ref{fig:eer}. No diagrama, foram definidas entidades, atributos, relações, cardinalidades e dependências.
+
+\begin{figure}[!htb]
+ \includegraphics[width=135mm,scale=1]{EER.pdf}
+ \caption{\\Diagrama entidade relação}\label{fig:eer}
+\end{figure}
+
+As entidades e os seus atributos correspondem à análise de requisitos realizada anteriormente. As relações são todas binárias.
 
 \end{document}
