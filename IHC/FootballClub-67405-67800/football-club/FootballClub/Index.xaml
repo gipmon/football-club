@@ -1,0 +1,259 @@
+﻿<Page x:Class="FootballClub.Index"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+      mc:Ignorable="d"
+      d:DesignHeight="450"
+      d:DesignWidth="300"
+	  Title="Index"
+      Style="{DynamicResource MetroPage}">
+
+    <Grid Margin="20,10,0,0" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.55*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.7*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Name="club_name" Text="SC Beira-Mar">
+                <TextBlock.Style>
+                    <Style>
+                        <Setter Property="TextBlock.FontSize" Value="36" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <Grid Grid.Column="0" Grid.Row="1" Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Total of players: ">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="0" Name="total_of_players">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Total of staff: ">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="0" Name="total_of_staff">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Total of internal staff: ">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="0" Name="total_internal_people">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Total of coaches: ">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="0" Name="total_coachs">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Total of club members: ">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="0" Name="total_club_members">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Total of salaries per month: ">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="0" Name="total_salaries_per_month">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="7">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Total of seats in the stadium: ">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="0" Name="total_of_seats">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Total of teams: ">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="0" Name="total_of_teams">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.HorizontalAlignment" Value="Right"></Setter>
+                            <Setter Property="TextBlock.FontSize" Value="16" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+        </Grid>
+        <Image Grid.Column="1" Grid.Row="0" Width="200px" Height="200px" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Source="Sport_Clube_Beira-Mar.png" />
+        <Grid Grid.Column="0" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <!--
+            <Controls:Tile Title="FC Porto" 
+                    TiltFactor="2"
+                    Grid.Column="0" Grid.Row="0"
+                    Width="100" Height="100" 
+                    Count="78">
+            </Controls:Tile>
+            -->
+        </Grid>
+    </Grid>
+</Page>
