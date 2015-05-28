@@ -247,6 +247,8 @@ As stored procedures ao contrário de um uso do nosso modelo de dados em DML per
 
 Sendo assim, o principal foco em todas as stored procedures que se desenvolveu foi procurar garantir um bom controlo de erro para a camada aplicacional e que a criação, alteração ou remoção de dados do nosso modelo de dados fosse realizada de forma consistente.
 
+De forma a garantir que as stored procedures responsáveis pela manipulação de dados em caso de erro na inserção de um grupo de instruções, os dados continuem consistentes  decidiu-se usar "Transactions".
+
 \begin{lstlisting}
 go 
 
@@ -321,7 +323,7 @@ AS
 
 	BEGIN TRANSACTION;
 	
-	-- Abordamos este topico com mais detalhe na seccao. Contudo para garantir a integridade do nosso modelo de dados e ncessario garantir que este conjunto de instrucoes sejam executadas e concluidas corretamente em conjunto e caso uma delas nao seja concluida com sucesso deve ser feito um RollBack garantindo assim que apenas serao inseridos dados de forma correta.
+	--  Para garantir a integridade do nosso modelo de dados e necessario garantir que este conjunto de instrucoes sejam executadas e concluidas corretamente em conjunto e caso uma delas nao seja concluida com sucesso deve ser feito um RollBack garantindo assim que apenas serao inseridos dados de forma correta.
 	
 	BEGIN TRY
 		INSERT INTO football.person 
@@ -366,7 +368,6 @@ AS
  \vspace{0,5in}
 
 Restantes stored procedures estão disponíveis em anexo. (ref)
-
 
 
 \end{document}
