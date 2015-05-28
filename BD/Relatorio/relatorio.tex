@@ -218,7 +218,7 @@ Com o aumento do volume de dados, os pedidos de consulta começam a ter tempos d
 Para tornar as nossas pesquisas mais eficientes introduzimos vários índices que achamos necessários (pesquisas feitas por dados não primários), do tipo NonClustered, pois os índices do tipo Clustered são automaticamente criados aquando da criação de uma tabela pois vai corresponder às chaves primárias.
 \\
 
-Foram utilizados em todos os índices, um FILLFACTOR=75 com pad_index, sendo que o primeiro determina a percentagem de espaço em cada página , quando um índice é criado, e o segundo, aplica às páginas de nível intermediário do índice a percentagem especificada pelo FILLFACTOR.
+Foram utilizados em todos os índices, um FILLFACTOR=75 com pad{\textunderscore}index, sendo que o primeiro determina a percentagem de espaço em cada página , quando um índice é criado, e o segundo, aplica às páginas de nível intermediário do índice a percentagem especificada pelo FILLFACTOR.
 \\
 
 Índice "indexactiveseat", exemplo:
@@ -378,6 +378,6 @@ De forma a garantir uma maior consistência e integridade da base de dados, fora
 \\
 
 No nosso caso, foi criado, por exemplo, um  trigger que ocorre quando existe um pedido de delete na tabela "seat", este em vez de ser removido, altera o valor da variável "active" para 0 (INSTEAD OF).
-O resto dos triggers utilizados resumem-se a verificações, no nosso caso, verificar se determinado "federation_id" já existe aquando de um create ou de um update nas tabelas "coach" e "player".
+O resto dos triggers utilizados resumem-se a verificações, no nosso caso, verificar se determinado "federation{\textunderscore}id" já existe aquando de um create ou de um update nas tabelas "coach" e "player".
 
 \end{document}
