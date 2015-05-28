@@ -17,8 +17,11 @@
 \usepackage{fancyhdr}
 \usepackage{listings}
 \usepackage{color}
-\definecolor{CadetBlue}{rgb}{0.37, 0.62, 0.63}
-\definecolor{OliveGreen}{rgb}{0,0.6,0}
+
+\definecolor{Black}{rgb}{0.0, 0.0, 0.0}
+\definecolor{Blue}{rgb}{0.0, 0.0, 1.0}
+\definecolor{DarkGreen}{rgb}{0.0, 0.42, 0.24}
+\definecolor{Red}{rgb}{0.89, 0.0, 0.13}
 
 \lstset{
   breaklines=true,                                     % line wrapping on
@@ -26,10 +29,10 @@
   frame=ltrb,
   framesep=5pt,
   basicstyle=\normalsize,
-  keywordstyle=\ttfamily\color{OliveGreen},
-  identifierstyle=\ttfamily\color{CadetBlue}\bfseries,
-  commentstyle=\color{Brown},
-  stringstyle=\ttfamily,
+  keywordstyle=\ttfamily\color{Blue},
+  identifierstyle=\ttfamily\color{Black}\bfseries,
+  commentstyle=\color{DarkGreen},
+  stringstyle=\ttfamily\color{Red},
   showstringspaces=ture
 }
 
@@ -233,5 +236,137 @@ indexsalaryinternalpeople
 indexheightplayer
 
 indexweigthplayer
+
+\newpage
+\section{Stored Procedures}
+Dicidiu-se usar stored procedures para criar uma camada de abstracção entre o modelo de dados, a sua manipulação e a camada aplicacional. A adopção desta abordagem permite-nos criar de forma segura, com boa performance e que garante a integridade dos dados, métodos para criar, modificar e apagar modelo de dados do nosso sistema de base de dados.
+
+Outro dos motivos foi garantir um contrato de utilização entre o "developer" da aplicação e a utilização do nosso modelo de dados, permitindo assim especificar que parâmetros são necessários para realizar cada operação e garantindo também um bom controlo de erro avisando-o com T-SQL Raise Error quando este não estiver a cumprir o contrato.
+
+As stored procedures ao contrário de um uso do nosso modelo de dados em DML permite que o conjunto de instruções compiladas na Stored Procedure  não tenham de ser recompiladas cada vez que o procedimento é invocado, sendo estas, apenas compiladas na primeira vez que são executadas e depois disso são guardadas em cache, sendo que isto permite maior rapidez no acesso ao modelo de dados.
+
+Sendo assim, o principal foco em todas as stored procedures que se desenvolveu foi procurar garantir um bom controlo de erro para a camada aplicacional e que a criação, alteração ou remoção de dados do nosso modelo de dados fosse realizada de forma consistente.
+
+\begin{lstlisting}
+go 
+
+CREATE PROCEDURE football.sp_createPlayer
+  @bi				INT, 
+  @name				VARCHAR(75),
+  @address			VARCHAR(75), 
+  @birth_date		DATE, 
+  @nif				INT, 
+  @gender			VARCHAR(1), 
+  @nationality		VARCHAR(75),
+  @salary			MONEY,
+  @federation_id	INT,
+  @weight			INT,
+  @height			INT
+WITH ENCRYPTION
+AS 
+	--Para garantir que todos os parametros enviados nao sao NULL decidiu-se garantir primeiro este contrato com um IF.
+	 
+	IF @bi is null OR @name is null OR @address is null OR @birth_date is null OR @nif is null OR 
+		@gender is null OR @nationality is null OR @salary is null OR @federation_id is null OR
+		@weight is null OR @height is null
+	BEGIN
+		-- Como este erro normalmente e causado pelo developer aplicacional optou-se por nao fazer um RAISE ERROR, contudo tambem poderia-se ter sido feito
+		
+		PRINT 'The bi, name, address, birth_date, nif, nationality, salary, federation_id, weight and height can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- Uma das restricoes no nosso modelo de dados e que nao podem existir pessoas com o mesmo BI, com este trexo de codigo garantimos isso e caso 
+	-- check if the BI is already in use
+	SELECT @count = count(bi) FROM football.person WHERE bi = @bi;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The BI id is already in use!', 14, 1)
+		RETURN
+	END
+		
+	-- Nao faz sentido que um jogador e um treinador tenham o mesmo ID dentro da federacao, sendo assim tambem tem de ser comprido este contrato. Tambem se fez um Trigger para garantir este contrato num possivel manipulamento direto do modelo de dados
+	
+	-- check if the federation id is already in use
+	SELECT @count = count(federation_id) FROM football.player WHERE federation_id = @federation_id;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use!', 14, 1)
+		RETURN
+	END
+	
+	-- check if the federation id is already in use
+	SELECT @count = count(federation_id) FROM football.coach WHERE federation_id = @federation_id;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use by one coach!', 14, 1)
+		RETURN
+	END
+	
+	-- NIF e sempre unico
+	
+	-- check if the NIF is already in use
+	SELECT @count = count(nif) FROM football.person WHERE nif = @nif;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The NIF id is already in use!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRANSACTION;
+	
+	-- Abordamos este topico com mais detalhe na seccao. Contudo para garantir a integridade do nosso modelo de dados e ncessario garantir que este conjunto de instrucoes sejam executadas e concluidas corretamente em conjunto e caso uma delas nao seja concluida com sucesso deve ser feito um RollBack garantindo assim que apenas serao inseridos dados de forma correta.
+	
+	BEGIN TRY
+		INSERT INTO football.person 
+					([bi], 
+					 [name], 
+					 [address], 
+					 [birth_date], 
+					 [nif], 
+					 [gender],
+					 [nationality]) 
+		VALUES      ( @bi, 
+					  @name, 
+					  @address, 
+					  @birth_date, 
+					  @nif, 
+					  @gender,
+					  @nationality) 
+
+		INSERT INTO football.internal_people 
+					([bi], 
+					 [salary]) 
+		VALUES      ( @bi, 
+					  @salary) 
+
+		INSERT INTO football.player 
+					([bi], 
+					 [federation_id], 
+					 [weight],
+					 [height]) 
+		VALUES      ( @bi, 
+					  @federation_id, 
+					  @weight,
+					  @height)
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when creating the player!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+
+\end{lstlisting}
+ \vspace{0,5in}
+
+Restantes stored procedures estão disponíveis em anexo. (ref)
+
+
 
 \end{document}
