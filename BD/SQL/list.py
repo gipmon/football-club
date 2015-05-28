@@ -1,7 +1,7 @@
 from os import listdir
 from os.path import isfile, join
 
-dirtory = './store procedures/'
+dirtory = './user defined functions/'
 
 onlyfiles = [ f for f in listdir(dirtory) if isfile(join(dirtory,f)) and f.endswith('.sql')  ]
 

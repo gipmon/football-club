@@ -2662,7 +2662,1232 @@ AS
 	END CATCH;
 \end{lstlisting}
 
+\newpage
+\subsection*{Trigger}
+federation{\textunderscore}id{\textunderscore}coach.sql
+\begin{lstlisting} 
+CREATE Trigger federation_coach_insert ON football.coach
+AFTER INSERT
+AS
+	SET NOCOUNT ON;
+
+	DECLARE @count int
+
+	-- check if the federation id is already in use
+	SELECT @count = count(coach.federation_id) FROM football.coach JOIN inserted ON coach.federation_id = inserted.federation_id ;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use!', 14, 1)
+		RETURN
+	END
+
+	-- check if the federation id is already in use
+	SELECT @count = count(player.federation_id) FROM football.player JOIN inserted ON player.federation_id = inserted.federation_id;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use by one player!', 14, 1)
+		RETURN
+	END
+go
+
+CREATE Trigger federation_coach_update ON football.coach
+AFTER UPDATE
+AS
+	SET NOCOUNT ON;
+
+	DECLARE @count int
+
+	-- check if the federation id is already in use
+	SELECT @count = count(coach.federation_id) FROM football.coach JOIN inserted ON coach.federation_id = inserted.federation_id AND coach.bi != inserted.bi;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use!', 14, 1)
+		RETURN
+	END
+
+	-- check if the federation id is already in use player
+	SELECT @count = count(player.federation_id) FROM football.player JOIN inserted ON player.federation_id = inserted.federation_id AND player.bi != inserted.bi;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use by one player!', 14, 1)
+		RETURN
+	END
+\end{lstlisting}
+
+federation{\textunderscore}id{\textunderscore}player.sql
+\begin{lstlisting} 
+CREATE Trigger federation_player_insert ON football.player
+AFTER INSERT
+AS
+	SET NOCOUNT ON;
+
+	DECLARE @count int
+	-- check if the federation id is already in use
+	SELECT @count = count(player.federation_id) FROM football.player JOIN inserted ON player.federation_id = inserted.federation_id;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use!', 14, 1)
+		RETURN
+	END
+
+	-- check if the federation id is already in use
+	SELECT @count = count(coach.federation_id) FROM football.coach JOIN inserted ON coach.federation_id = inserted.federation_id;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use by one coach!', 14, 1)
+		RETURN
+	END
+
+go
+
+CREATE Trigger federation_player_update ON football.player
+AFTER UPDATE
+AS
+	SET NOCOUNT ON;
+
+	DECLARE @count int
+	-- check if the federation id is already in use
+	SELECT @count = count(player.federation_id) FROM football.player JOIN inserted ON player.federation_id = inserted.federation_id AND player.bi != inserted.bi;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use!', 14, 1)
+		RETURN
+	END
+
+	-- check if the federation id is already in use
+	SELECT @count = count(coach.federation_id) FROM football.coach JOIN inserted ON coach.federation_id = inserted.federation_id AND coach.bi != inserted.bi;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use by one coach!', 14, 1)
+		RETURN
+	END
+\end{lstlisting}
+
+seat.sql
+\begin{lstlisting} 
+CREATE Trigger seatTrigger ON football.seat
+INSTEAD OF DELETE
+AS
+	SET NOCOUNT ON;
+	DECLARE @n_seat INT;
+	DECLARE @row VARCHAR(1);
+	DECLARE @id_Section INT;
+
+	SELECT @n_seat = deleted.n_seat FROM deleted;
+	SELECT @row = deleted.row FROM deleted;
+	SELECT @id_section = deleted.id_section FROM deleted;
+
+	BEGIN
+		UPDATE football.seat SET
+			   active = 0
+			   WHERE seat.n_seat = @n_seat AND seat.row = @row AND seat.id_section = @id_section;
+	END
+\end{lstlisting}
+
+\newpage
+\subsection*{User defined functions}
+annualSeat.sql
+\begin{lstlisting} 
+use p4g5;
+
+-- DROP FUNCTION football.udf_annualSeats
+
+go
+CREATE FUNCTION football.udf_annualSeats(@n_seat INT=null, @row VARCHAR(1)=null, @id_section INT=null, @bi INT=null, @season INT=null)
+RETURNS @table TABLE ("member number" int, "name" varchar(75), "bi" int, "section name" varchar(50), "section id" int, "row" varchar(1), "seat number" int, "season" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	IF (@n_seat is null OR @row is null OR @id_section is null OR @bi is null OR @season is null)
+		BEGIN
+			INSERT @table SELECT n_member AS 'member number',
+								 name,
+								 annual_seat.bi,
+								 type AS 'section name',
+								 annual_seat.id_section,
+								 row, 
+								 n_seat AS 'seat number', 
+								 season
+						  FROM (football.annual_seat JOIN 
+						  (football.members JOIN football.person ON members.bi = person.bi) ON annual_seat.bi = members.bi) JOIN
+						  football.section ON annual_seat.id_section = section.id_section;
+		END;
+	ELSE
+		BEGIN
+			INSERT @table SELECT n_member AS 'member number',
+								 name, 
+								 annual_seat.bi, 
+								 type AS 'section name', 
+								 annual_seat.id_section,
+								 row, 
+								 n_seat AS 'seat number', 
+								 season
+						  FROM (football.annual_seat JOIN 
+						  (football.members JOIN football.person ON members.bi = person.bi) ON annual_seat.bi = members.bi) JOIN
+						  football.section ON annual_seat.id_section = section.id_section
+						  WHERE n_seat = @n_seat AND row = @row AND annual_seat.id_section = @id_section AND annual_seat.bi = @bi AND season = @season;
+		END;
+	RETURN;
+END;
+
+-- DROP FUNCTION football.udf_annualSeats_full
+
+go
+CREATE FUNCTION football.udf_annualSeats_full(@n_seat INT=null, @row VARCHAR(1)=null, @id_section INT=null, @bi INT=null, @season INT=null)
+RETURNS @table TABLE ("member number" int, "name" varchar(75), "bi" int, "section name" varchar(50), "section id" int, "row" varchar(1), "seat number" int, "season" int, duration int, value int, start_date date)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	IF (@n_seat is null OR @row is null OR @id_section is null OR @bi is null OR @season is null)
+		BEGIN
+			INSERT @table SELECT n_member AS 'member number',
+								 name,
+								 annual_seat.bi,
+								 type AS 'section name',
+								 annual_seat.id_section,
+								 row, 
+								 n_seat AS 'seat number', 
+								 season,
+								 duration,
+								 value,
+								 start_date
+						  FROM (football.annual_seat JOIN 
+						  (football.members JOIN football.person ON members.bi = person.bi) ON annual_seat.bi = members.bi) JOIN
+						  football.section ON annual_seat.id_section = section.id_section;
+		END;
+	ELSE
+		BEGIN
+			INSERT @table SELECT n_member AS 'member number',
+								 name, 
+								 annual_seat.bi, 
+								 type AS 'section name', 
+								 annual_seat.id_section,
+								 row, 
+								 n_seat AS 'seat number', 
+								 season,
+								 duration,
+								 value,
+								 start_date
+						  FROM (football.annual_seat JOIN 
+						  (football.members JOIN football.person ON members.bi = person.bi) ON annual_seat.bi = members.bi) JOIN
+						  football.section ON annual_seat.id_section = section.id_section
+						  WHERE n_seat = @n_seat AND row = @row AND annual_seat.id_section = @id_section AND annual_seat.bi = @bi AND season = @season;
+		END;
+	RETURN;
+END;
+\end{lstlisting}
+
+clubMembers.sql
+\begin{lstlisting} 
+use p4g5;
+
+go
+
+-- DROP FUNCTION football.udf_members_data_grid
+
+CREATE FUNCTION football.udf_members_data_grid(@bi INT = null)
+RETURNS @table TABLE ( "member number" int, "name" varchar(75), "bi" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	IF (@bi is null)
+		BEGIN
+			INSERT @table SELECT	members.n_member AS 'member number',
+									person.name,
+									members.bi
+							FROM	(football.members JOIN 
+									 football.person ON members.bi = person.bi);
+									
+		END;
+	ELSE
+		BEGIN
+			INSERT @table SELECT	person.name,
+									members.n_member AS 'member number',
+									person.bi
+							FROM	(football.members JOIN 
+										(football.internal_people JOIN
+										football.person ON internal_people.bi = person.bi)
+									ON members.bi = football.internal_people.bi)
+							WHERE person.bi = @bi;
+		END;
+	RETURN;
+END;
+
+go
+CREATE FUNCTION football.udf_member(@bi int=null) 
+RETURNS TABLE
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	RETURN (SELECT					members.n_member,
+									person.bi,
+									person.name, 
+									person.birth_date AS 'birth date',
+									person.gender,
+									members.shares_in_day,
+									members.shares_value,
+									person.address,
+									person.nif,
+									person.nationality
+								
+			FROM	(football.members JOIN 
+					football.person ON members.bi = person.bi)
+					
+			WHERE person.bi = @bi);
+
+\end{lstlisting}
+
+clubMembers{\textunderscore}stats.sql
+\begin{lstlisting} 
+use p4g5;
+-- DROP FUNCTION football.udf_members_stats
+go
+CREATE FUNCTION football.udf_members_stats()
+RETURNS @table TABLE ("name" varchar(50), "result" varchar(120))
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	
+	-- average_shares
+	INSERT @table SELECT 'average_shares' as 'name', AVG(shares_value) as 'count'
+						  FROM football.members
+	-- total_of_members
+	INSERT @table SELECT 'total_of_members' as 'name', COUNT(bi) as 'count'
+						  FROM football.members
+
+	-- total_of_annual_seats
+	INSERT @table SELECT 'total_of_annual_seats' as 'name', COUNT(n_seat) as 'count'
+						  FROM football.annual_seat
+	-- RETURN
+	RETURN;
+END;
+
+-- DROP FUNCTION football.udf_staff_department_stats_next_birthday
+
+go
+CREATE FUNCTION football.udf_members_stats_next_birthday()
+RETURNS @table TABLE ("name" varchar(75), "bi" int, "day" int, "month" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	BEGIN
+	
+		DECLARE @daysToBirthday TABLE ("bi" int, "name" varchar(75), "birth" date, "days" int)
+		INSERT @daysToBirthday SELECT person.bi, person.name, person.birth_date, DATEDIFF(day,
+		CURRENT_TIMESTAMP,
+		DATEADD(year,
+		DATEDIFF(year, person.birth_date, CURRENT_TIMESTAMP)
+		+ CASE WHEN DATEADD(year, DATEDIFF(year,
+		person.birth_date, CURRENT_TIMESTAMP), person.birth_date) < CURRENT_TIMESTAMP THEN 1
+		ELSE 0 END,
+		person.birth_date))
+		FROM football.person JOIN football.members ON person.bi = members.bi
+
+		DECLARE @minDays INT
+		SELECT @minDays = MIN(days) from @daysToBirthday
+
+		INSERT @table SELECT name, bi, day(birth) as day, month(birth) as month from @daysToBirthday
+		WHERE days = @minDays
+
+	-- RETURN
+	RETURN;
+END;
+
+--DROP FUNCTION football.udf_annual_seats_per_season_count
+
+go
+CREATE FUNCTION football.udf_annual_seats_per_season_count()
+RETURNS @table TABLE ("season" varchar(75), "annual seats" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	BEGIN
+
+		INSERT @table SELECT season as 'season', count(n_seat) as 'number of annual seats' from football.annual_seat
+					  GROUP BY annual_seat.season
+
+	-- RETURN
+	RETURN;
+END;
 
 
+
+
+
+
+\end{lstlisting}
+
+coachs.sql
+\begin{lstlisting} 
+use p4g5;
+
+go
+
+-- DROP FUNCTION football.udf_coachs_data_grid
+
+CREATE FUNCTION football.udf_coachs_data_grid(@team_name VARCHAR(50)=null)
+RETURNS @table TABLE ("internal id" int, "bi" int, "name" varchar(75), 
+					  "salary" money, "gender" varchar(1), "federation_id" int,
+					  "role" varchar(50))
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	IF (@team_name is null)
+		BEGIN
+			INSERT @table SELECT	internal_people.internal_id AS 'internal id',
+									person.bi, 
+									person.name, 
+									internal_people.salary,
+									person.gender,
+									coach.federation_id AS 'federation id',
+									coach.role
+							FROM	(football.coach JOIN 
+										(football.internal_people JOIN
+										football.person ON internal_people.bi = person.bi)
+									ON coach.bi = football.internal_people.bi);
+		END;
+	ELSE
+		BEGIN
+			INSERT @table SELECT	internal_people.internal_id AS 'internal id',
+									person.bi, 
+									person.name, 
+									internal_people.salary,
+									person.gender,
+									coach.federation_id AS 'federation id',
+									coach.role
+							FROM	(football.heads JOIN (football.coach JOIN 
+										(football.internal_people JOIN
+										football.person ON internal_people.bi = person.bi)
+									ON coach.bi = football.internal_people.bi)
+									ON heads.bi = coach.bi);
+		END;
+	RETURN;
+END;
+
+go
+CREATE FUNCTION football.udf_coach(@coach_bi int=null) 
+RETURNS TABLE
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	RETURN (SELECT	internal_people.internal_id AS 'internal id',
+									person.bi,
+									person.name, 
+									person.birth_date AS 'birth date',
+									person.gender,
+									coach.federation_id AS 'federation id',
+									internal_people.salary,
+									person.address,
+									person.nif,
+									person.nationality,
+									coach.role
+			FROM	(football.coach JOIN 
+						(football.internal_people JOIN
+						football.person ON internal_people.bi = person.bi)
+					ON coach.bi = internal_people.bi)
+			WHERE person.bi = @coach_bi);
+\end{lstlisting}
+
+courts.sql
+\begin{lstlisting} 
+use p4g5;
+
+-- DROP FUNCTION football.udf_courts
+
+go
+CREATE FUNCTION football.udf_courts(@id_court int=null)
+RETURNS @table TABLE ("id" int, "address" varchar(150))
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	IF (@id_court is null)
+		BEGIN
+			INSERT @table SELECT id_court AS 'id', address
+						  FROM football.court;
+		END;
+	ELSE
+		BEGIN
+			INSERT @table SELECT id_court AS 'id', address
+						  FROM football.court
+						  WHERE id_court = @id_court;
+		END;
+	RETURN;
+END;
+\end{lstlisting}
+
+courts{\textunderscore}stats{\textunderscore}numbers.sql
+\begin{lstlisting} 
+use p4g5;
+
+--# # #    udf_number_practices_per_court    # # #
+
+go
+--DROP FUNCTION football.udf_number_practices_per_court;
+
+go
+CREATE FUNCTION football.udf_number_practices_per_court()
+RETURNS @table TABLE ("court id" int, "court address" varchar(150),  "practices" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	INSERT @table SELECT court.id_court as 'court id', court.address as "court address", 
+					COUNT(practice.team_name) as "practices"
+					FROM football.court FULL OUTER JOIN football.practice
+					ON court.id_court = practice.id_court
+					GROUP BY court.id_court, court.address;
+	RETURN;
+END;
+
+go
+SELECT * FROM football.udf_number_practices_per_court();
+
+--# # #    udf_average_hour_of_training_by_court    # # #
+
+go
+--DROP FUNCTION football.udf_average_hour_of_training_by_court;
+
+go
+CREATE FUNCTION football.udf_average_hour_of_training_by_court()
+RETURNS @table TABLE ("court id" int, "court address" varchar(150),  "hour" time(7))
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	INSERT @table SELECT court.id_court as 'court id', court.address as "court address",
+					CAST(DATEADD(HOUR, AVG(DATEDIFF(HOUR, '00:00:00', practice.hour)), '00:00:00') AS time(7)) as "hour"
+					FROM football.court JOIN football.practice
+					ON court.id_court = practice.id_court
+					GROUP BY court.id_court, court.address;
+	RETURN;
+END;
+
+go
+SELECT * FROM football.udf_average_hour_of_training_by_court();
+
+--# # #    udf_latest_team_to_train_in_each_court    # # #
+
+go
+--DROP FUNCTION football.udf_latest_team_to_train_in_each_court;
+
+go
+CREATE FUNCTION football.udf_latest_team_to_train_in_each_court()
+RETURNS @table TABLE ("court id" int, "court address" varchar(150),  "team name" varchar(50))
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	-- table com id_court, date_int e team_name
+	DECLARE @counting_table_time TABLE ("id_court" int, "address" varchar(150), "date_int" int, "team_name" varchar(50))
+	
+	INSERT @counting_table_time SELECT court.id_court, court.address, DATEDIFF(HOUR, '00:00:00', practice.hour) +
+								DATEDIFF(DAY, GETDATE(), practice.date) as "date_int", 
+								practice.team_name
+								FROM football.court JOIN football.practice
+								ON court.id_court = practice.id_court;
+
+	-- get max for each court
+	DECLARE @counting_table TABLE ("id_court" int, "date_int" int)
+
+	INSERT @counting_table SELECT id_court, MAX(date_int)
+						   FROM @counting_table_time
+						   GROUP BY id_court;
+
+	-- result
+	INSERT @table SELECT tmp1.id_court as 'court id', tmp1.address as "court address",
+					tmp1.team_name as 'team name'
+					FROM @counting_table_time as "tmp1" JOIN @counting_table as "tmp2"
+					ON tmp1.id_court = tmp2.id_court AND tmp1.date_int = tmp2.date_int;
+	RETURN;
+END;
+
+go
+SELECT * FROM football.udf_latest_team_to_train_in_each_court();
+
+
+--# # #    udf_team_that_trained_more_by_court    # # #
+
+go
+--DROP FUNCTION football.udf_team_that_trained_more_by_court;
+
+go
+CREATE FUNCTION football.udf_team_that_trained_more_by_court()
+RETURNS @table TABLE ("court id" int, "court address" varchar(150),  "team name" varchar(50))
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	-- table com id_court, practice_count e team_name
+	DECLARE @counting_table_practices TABLE ("id_court" int, "address" varchar(150), "practice_count" int, "team_name" varchar(50))
+	
+	INSERT @counting_table_practices SELECT court.id_court, court.address,
+										COUNT(practice.date) + COUNT(practice.hour) as "practice_count",
+										practice.team_name
+										FROM football.court JOIN football.practice
+										ON court.id_court = practice.id_court
+										GROUP BY court.id_court, court.address, practice.team_name;
+
+	-- get max for each court
+	DECLARE @counting_table TABLE ("id_court" int, "practice_count" int)
+
+	INSERT @counting_table SELECT id_court, MAX(practice_count)
+						   FROM @counting_table_practices
+						   GROUP BY id_court;
+
+	-- result
+	INSERT @table SELECT tmp1.id_court as 'court id', tmp1.address as "court address",
+					tmp1.team_name as 'team name'
+					FROM @counting_table_practices as "tmp1" JOIN @counting_table as "tmp2"
+					ON tmp1.id_court = tmp2.id_court AND tmp1.practice_count = tmp2.practice_count;
+	RETURN;
+END;
+
+go
+SELECT * FROM football.udf_team_that_trained_more_by_court();
+
+\end{lstlisting}
+
+department.sql
+\begin{lstlisting} 
+use p4g5;
+
+-- DROP FUNCTION football.udf_departments_names
+
+go
+CREATE FUNCTION football.udf_department_names(@staff_bi int=null) 
+RETURNS @table TABLE ("department_name" varchar(75), "department_id" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	IF (@staff_bi is null)
+		BEGIN
+			INSERT @table SELECT name, department_id
+						  FROM football.department;
+		END;
+	ELSE
+		BEGIN
+			INSERT @table SELECT department.name, staff.department_id
+						  FROM (football.department JOIN football.staff
+						  ON department.department_id = staff.department_id)
+						  WHERE staff.bi = @staff_bi;
+		END;
+	RETURN;
+END;
+
+go
+CREATE FUNCTION football.udf_departments(@department_id int=null)
+RETURNS @table TABLE ("department_name" varchar(75), "department_id" int, "address" varchar(75))
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	IF (@department_id is null)
+		BEGIN
+			INSERT @table SELECT name, department_id, address
+						  FROM football.department
+		END;
+	ELSE
+		BEGIN
+			INSERT @table SELECT name, department_id, address
+						  FROM football.department
+						  WHERE department.department_id = @department_id
+		END;
+	RETURN;
+END;
+\end{lstlisting}
+
+general{\textunderscore}stats.sql
+\begin{lstlisting} 
+use p4g5;
+-- DROP FUNCTION football.udf_general_stats
+go
+CREATE FUNCTION football.udf_general_stats()
+RETURNS @table TABLE ("name" varchar(50), "count" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	
+	-- total_of_players
+	INSERT @table SELECT 'total_of_players' as 'name', COUNT(bi) as 'count'
+						  FROM football.player
+	-- total_of_staff
+	INSERT @table SELECT 'total_of_staff' as 'name', COUNT(bi) as 'count'
+						  FROM football.staff
+	-- total_internal_people
+	INSERT @table SELECT 'total_internal_people' as 'name', COUNT(bi) as 'count'
+						  FROM football.internal_people
+	-- total_coachs
+	INSERT @table SELECT 'total_coachs' as 'name', COUNT(bi) as 'count'
+						  FROM football.coach
+	-- total_club_members
+	INSERT @table SELECT 'total_club_members' as 'name', COUNT(bi) as 'count'
+						  FROM football.members
+	-- total_salaries_per_month
+	INSERT @table SELECT 'total_salaries_per_month' as 'name', SUM(salary) as 'count'
+						  FROM football.internal_people
+	-- total_of_seats
+	INSERT @table SELECT 'total_of_seats' as 'name', COUNT(n_seat) as 'count'
+						  FROM football.seat
+	-- total_of_teams
+	INSERT @table SELECT 'total_of_teams' as 'name', COUNT(name) as 'count'
+						  FROM football.team
+
+	-- RETURN
+	RETURN;
+END;
+\end{lstlisting}
+
+player.sql
+\begin{lstlisting} 
+use p4g5;
+
+go
+
+-- DROP FUNCTION football.udf_players_data_grid
+
+CREATE FUNCTION football.udf_players_data_grid(@team_name VARCHAR(50)=null)
+RETURNS @table TABLE ("internal id" int, "bi" int, "name" varchar(75), 
+					  "salary" money, "gender" varchar(1), "federation_id" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	IF (@team_name is null)
+		BEGIN
+			INSERT @table SELECT	internal_people.internal_id AS 'internal id',
+									person.bi, 
+									person.name, 
+									internal_people.salary,
+									person.gender,
+									player.federation_id AS 'federation id'
+							FROM	(football.player JOIN 
+										(football.internal_people JOIN
+										football.person ON internal_people.bi = person.bi)
+									ON player.bi = football.internal_people.bi);
+		END;
+	ELSE
+		BEGIN
+			INSERT @table SELECT	internal_people.internal_id AS 'internal id',
+									person.bi, 
+									person.name, 
+									internal_people.salary,
+									person.gender,
+									player.federation_id AS 'federation id'
+							FROM	(football.play JOIN	(football.player JOIN 
+										(football.internal_people JOIN
+										football.person ON internal_people.bi = person.bi)
+									ON player.bi = football.internal_people.bi)
+									ON play.bi = player.bi)
+							WHERE team_name = @team_name;
+		END;
+	RETURN;
+END;
+
+go
+CREATE FUNCTION football.udf_player(@player_bi int=null) 
+RETURNS TABLE
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	RETURN (SELECT	internal_people.internal_id AS 'internal id',
+									person.bi,
+									person.name, 
+									person.birth_date AS 'birth date',
+									person.gender,
+									player.federation_id AS 'federation id',
+									internal_people.salary,
+									person.address,
+									person.nif,
+									person.nationality,
+									player.weight,
+									player.height
+			FROM	(football.player JOIN 
+						(football.internal_people JOIN
+						football.person ON internal_people.bi = person.bi)
+					ON player.bi = football.internal_people.bi)
+			WHERE person.bi = @player_bi);
+\end{lstlisting}
+
+practice.sql
+\begin{lstlisting} 
+use p4g5;
+
+-- DROP FUNCTION football.udf_practices
+
+go
+CREATE FUNCTION football.udf_practices(@date date=null, @hour time(7)=null, @id_court int=null)
+RETURNS @table TABLE ("date" date, "hour" time(7), "id_court" int, "team_name" varchar(50))
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	IF (@date is null OR @hour is null OR @id_court is null)
+		BEGIN
+			INSERT @table SELECT date, hour, id_court AS 'id court', team_name
+						  FROM football.practice;
+		END;
+	ELSE
+		BEGIN
+			INSERT @table SELECT date, hour, id_court AS 'id court', team_name
+						  FROM football.practice
+						  WHERE date=@date AND hour=@hour AND id_court=@id_court;
+		END;
+	RETURN;
+END;
+\end{lstlisting}
+
+seat.sql
+\begin{lstlisting} 
+use p4g5;
+
+-- DROP FUNCTION football.udf_seats
+
+go
+CREATE FUNCTION football.udf_seats(@n_seat INT=null, @row VARCHAR(1)=null, @id_section INT=null)
+RETURNS @table TABLE ("section name" varchar(50), "section id" int, "seat number" int, "row" varchar(1))
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	IF (@n_seat is null OR @row is null OR @id_section is null)
+		BEGIN
+			INSERT @table SELECT section.type,
+								 seat.id_section,
+								 n_seat AS 'seat number', row
+								 
+								
+						  FROM (football.seat JOIN 
+						  football.section ON seat.id_section = section.id_section)
+						  WHERE seat.active = 1;
+		END;
+	ELSE
+		BEGIN
+			INSERT @table SELECT section.type,
+						seat.id_section,
+								 n_seat AS 'seat number', 
+								 row
+								
+						  FROM (football.seat JOIN 
+						  football.section ON seat.id_section = section.id_section)
+						  WHERE n_seat = @n_seat AND row = @row AND seat.id_section = @id_section AND seat.active = 1;
+		END;
+	RETURN;
+END;
+
+\end{lstlisting}
+
+section.sql
+\begin{lstlisting} 
+use p4g5;
+
+-- DROP FUNCTION football.udf_sections
+
+go
+CREATE FUNCTION football.udf_sections(@id_section int=null) 
+RETURNS @table TABLE ("section name" varchar(75), "section_id" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	IF(@id_section is null)
+		BEGIN
+			INSERT @table SELECT type, id_section
+		   			      FROM football.section;
+		END;
+
+	ELSE
+		BEGIN
+			INSERT @table SELECT type, id_section
+		   			      FROM football.section
+						  WHERE id_section = @id_section;
+		END;
+	RETURN;
+END;
+
+-- DROP FUNCTION football.udf_sections_annual
+
+go
+CREATE FUNCTION football.udf_sections_annual(@bi int=null, @n_seat int = null, @row varchar(1) = null, @id_section int = null, @season int = null) 
+RETURNS TABLE
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	RETURN SELECT type, section.id_section
+		   FROM football.section JOIN football.annual_seat ON section.id_section=annual_seat.id_section
+		   WHERE annual_seat.bi = @bi AND annual_seat.n_seat = @n_seat AND annual_seat.row = @row AND annual_seat.id_section = @id_section AND annual_seat.season = @season;
+
+-- DROP FUNCTION football.udf_sections_seats
+
+go
+CREATE FUNCTION football.udf_sections_seats(@n_seat int = null, @row varchar(1) = null, @id_section int = null) 
+RETURNS TABLE
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	RETURN SELECT type, section.id_section
+		   FROM football.section JOIN football.seat ON section.id_section=seat.id_section
+		   WHERE seat.n_seat = @n_seat AND seat.row = @row AND seat.id_section = @id_section;
+
+\end{lstlisting}
+
+stadium{\textunderscore}stats.sql
+\begin{lstlisting} 
+use p4g5;
+-- DROP FUNCTION football.udf_stadium_stats
+go
+CREATE FUNCTION football.udf_stadium_stats()
+RETURNS @table TABLE ("name" varchar(50), "result" varchar(120))
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	
+	-- total_sections
+	INSERT @table SELECT 'total_Sections' as 'name', COUNT(id_section) as 'count'
+						  FROM football.section
+	-- total_seats
+	INSERT @table SELECT 'total_of_seats' as 'name', COUNT(n_seat) as 'count'
+						  FROM football.seat
+
+	-- RETURN
+	RETURN;
+END;
+
+go 
+SELECT * from football.udf_stadium_stats()
+
+--DROP FUNCTION football.udf_seats_per_section_count
+
+go
+CREATE FUNCTION football.udf_seats_per_section_count()
+RETURNS @table TABLE ("section" varchar(75), "section id" int, "seats" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	BEGIN
+
+		INSERT @table SELECT type AS 'section', section.id_section AS 'section id', count(n_seat) AS 'seats' 
+					  FROM football.section JOIN football.seat ON section.id_section = seat.id_section
+					  GROUP BY type, section.id_section
+
+	-- RETURN
+	RETURN;
+END;
+
+--DROP FUNCTION football.udf_annual_seats_per_section_count
+
+go
+CREATE FUNCTION football.udf_annual_seats_per_section_count()
+RETURNS @table TABLE ("section" varchar(75), "section id" int, "annual seats" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	BEGIN
+
+		INSERT @table SELECT type AS 'section', section.id_section AS 'section id', count(n_seat) AS 'annual seats' 
+					  FROM football.section JOIN football.annual_seat ON section.id_section = annual_seat.id_section
+					  GROUP BY type, section.id_section
+
+	-- RETURN
+	RETURN;
+END;
+\end{lstlisting}
+
+staff.sql
+\begin{lstlisting} 
+use p4g5;
+
+go
+CREATE FUNCTION football.udf_staff_data_grid()
+RETURNS TABLE
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	RETURN (SELECT	internal_people.internal_id AS 'internal id', person.bi, person.name, staff.role, department.name AS 'department name', person.birth_date AS 'birth date', person.gender
+			FROM	((football.staff JOIN 
+				(football.internal_people JOIN
+				football.person ON internal_people.bi = person.bi)
+			ON staff.bi = football.internal_people.bi)) JOIN football.department
+			ON football.staff.department_id = department.department_id);
+			
+go
+CREATE FUNCTION football.udf_staff(@staff_bi int=null) 
+RETURNS TABLE
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	RETURN (SELECT	internal_people.internal_id AS 'internal id', person.bi, person.name, person.birth_date AS 'birth date', person.gender,	department.department_id AS 'department id',	internal_people.salary,person.address,person.nif, person.nationality,staff.role						
+			FROM	((football.staff JOIN 
+				(football.internal_people JOIN
+				football.person ON internal_people.bi = person.bi)
+			ON staff.bi = football.internal_people.bi)) JOIN football.department
+			ON football.staff.department_id = department.department_id
+			WHERE person.bi = @staff_bi);
+\end{lstlisting}
+
+staff{\textunderscore}department{\textunderscore}stats.sql
+\begin{lstlisting} 
+use p4g5;
+-- DROP FUNCTION football.udf_staff_department_stats
+go
+CREATE FUNCTION football.udf_staff_department_stats()
+RETURNS @table TABLE ("name" varchar(50), "result" varchar(120))
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+
+	-- bigger_nacionality
+	DECLARE @counting_table TABLE ("key_search" varchar(125), "count_search" int)
+	
+	INSERT @counting_table SELECT person.nationality as 'key_search', COUNT(person.bi) as 'count_search'
+							FROM (football.staff JOIN (football.internal_people JOIN
+							football.person ON internal_people.bi = person.bi) 
+							ON staff.bi = internal_people.bi)
+							GROUP BY person.nationality
+							
+	DECLARE @max INT;
+
+	SELECT @max = MAX(count_search) FROM @counting_table;
+
+	INSERT @table SELECT 'bigger_nacionality' as 'name', key_search as 'result'
+						  FROM @counting_table
+						  WHERE count_search = @max
+	
+	-- total_salary_of_staff
+	INSERT @table SELECT 'total_salary_of_staff' as 'name', SUM(salary) as 'count'
+						  FROM football.staff JOIN football.internal_people ON staff.bi = internal_people.bi
+	-- total_of_staff
+	INSERT @table SELECT 'total_of_departments' as 'name', COUNT(department_id) as 'count'
+						  FROM football.department
+
+	-- average_age_of_staff
+	INSERT @table SELECT 'average_age_of_staff' as 'name', AVG(Age) as 'count'
+				         FROM (SELECT person.bi, DATEDIFF(hour,birth_date,GETDATE())/8766 AS Age FROM football.person JOIN football.internal_people ON person.bi = internal_people.bi) AS tmp JOIN
+						 football.staff ON tmp.bi = staff.bi
+	-- RETURN
+	RETURN;
+END;
+
+-- DROP FUNCTION football.udf_staff_department_stats_next_birthday
+
+go
+CREATE FUNCTION football.udf_staff_department_stats_next_birthday()
+RETURNS @table TABLE ("name" varchar(75), "bi" int, "day" int, "month" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	BEGIN
+	
+		DECLARE @daysToBirthday TABLE ("bi" int, "name" varchar(75), "birth" date, "days" int)
+		INSERT @daysToBirthday SELECT person.bi, person.name, person.birth_date, DATEDIFF(day,
+		CURRENT_TIMESTAMP,
+		DATEADD(year,
+		DATEDIFF(year, person.birth_date, CURRENT_TIMESTAMP)
+		+ CASE WHEN DATEADD(year, DATEDIFF(year,
+		person.birth_date, CURRENT_TIMESTAMP), person.birth_date) < CURRENT_TIMESTAMP THEN 1
+		ELSE 0 END,
+		person.birth_date))
+		FROM (football.person JOIN football.internal_people ON person.bi = internal_people.bi)
+		JOIN football.staff oN person.bi = staff.bi
+
+		DECLARE @minDays INT
+		SELECT @minDays = MIN(days) from @daysToBirthday
+
+		INSERT @table SELECT name, bi, day(birth) as day, month(birth) as month from @daysToBirthday
+		WHERE days = @minDays
+
+	-- RETURN
+	RETURN;
+END;
+
+go
+CREATE FUNCTION football.udf_staff_department_count()
+RETURNS @table TABLE ("name" varchar(75), "count" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	BEGIN
+
+		INSERT @table SELECT name, count(bi) from football.department JOIN football.staff ON department.department_id = staff.department_id
+					  GROUP BY department.name
+
+	-- RETURN
+	RETURN;
+END;
+
+
+
+
+
+
+\end{lstlisting}
+
+team.sql
+\begin{lstlisting} 
+use p4g5;
+
+-- DROP FUNCTION football.udf_team_names
+
+go
+CREATE FUNCTION football.udf_team_names() 
+RETURNS TABLE
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	RETURN SELECT name
+		   FROM football.team;
+
+-- DROP FUNCTION football.udf_team_names_player
+
+go
+CREATE FUNCTION football.udf_team_names_player(@player_bi int=null) 
+RETURNS TABLE
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	RETURN	SELECT	play.team_name
+						  FROM	(football.play JOIN football.player
+								 ON play.bi = player.bi)
+						  WHERE player.bi = @player_bi;
+
+-- DROP FUNCTION football.udf_team_names_coach
+
+go
+CREATE FUNCTION football.udf_team_names_coach(@coach_bi int=null) 
+RETURNS TABLE
+WITH SCHEMABINDING, ENCRYPTION
+AS
+	RETURN	SELECT	heads.team_name
+						  FROM	(football.heads JOIN football.coach
+								 ON heads.bi = coach.bi)
+						  WHERE heads.bi = @coach_bi;
+
+go
+CREATE FUNCTION football.udf_teams(@team_name varchar(50)=null)
+RETURNS @table TABLE ("name" varchar(50), "max_age" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	IF (@team_name is null)
+		BEGIN
+			INSERT @table SELECT name, max_age
+						  FROM football.team
+		END;
+	ELSE
+		BEGIN
+			INSERT @table SELECT name, max_age
+						  FROM football.team
+						  WHERE name = @team_name
+		END;
+	RETURN;
+END;
+\end{lstlisting}
+
+teams{\textunderscore}stats.sql
+\begin{lstlisting} 
+use p4g5;
+go
+--DROP FUNCTION football.udf_teams_stats;
+
+go
+CREATE FUNCTION football.udf_teams_stats()
+RETURNS @table TABLE ("name" varchar(50), "result" varchar(120))
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	-- bigger_nacionality
+	DECLARE @counting_table TABLE ("key_search" varchar(125), "count_search" int)
+	
+	INSERT @counting_table SELECT person.nationality as 'key_search', COUNT(person.bi) as 'count_search'
+							FROM (football.player JOIN (football.internal_people JOIN
+							football.person ON internal_people.bi = person.bi) 
+							ON player.bi = internal_people.bi)
+							GROUP BY person.nationality
+							
+	DECLARE @max INT;
+
+	SELECT @max = MAX(count_search) FROM @counting_table;
+
+	INSERT @table SELECT 'bigger_nacionality' as 'name', key_search as 'result'
+						  FROM @counting_table
+						  WHERE count_search = @max
+
+	-- salaries_by_players
+	INSERT @table SELECT 'salaries_by_players' as 'name', AVG(salary)
+					FROM (football.player JOIN (football.internal_people JOIN
+						football.person ON internal_people.bi = person.bi)
+						 ON player.bi = person.bi)
+
+	-- salaries_by_coachs
+	INSERT @table SELECT 'salaries_by_coachs' as 'name', AVG(salary)
+					FROM (football.coach JOIN (football.internal_people JOIN
+						football.person ON internal_people.bi = person.bi)
+						 ON coach.bi = person.bi)
+
+	-- player_with_higher_salary
+	SELECT @max = MAX(salary) FROM (football.player JOIN (football.internal_people JOIN
+							football.person ON internal_people.bi = person.bi) 
+							ON player.bi = internal_people.bi)
+
+	INSERT @table SELECT TOP 1 'player_with_higher_salary' as 'name', person.bi as 'result'
+						  FROM (football.player JOIN (football.internal_people JOIN
+							football.person ON internal_people.bi = person.bi) 
+							ON player.bi = internal_people.bi)
+						  WHERE internal_people.salary = @max
+
+	-- tallest_player
+	SELECT @max = MAX(height) FROM (football.player JOIN (football.internal_people JOIN
+							football.person ON internal_people.bi = person.bi) 
+							ON player.bi = internal_people.bi)
+
+	INSERT @table SELECT TOP 1 'tallest_player' as 'name', person.bi as 'result'
+						  FROM (football.player JOIN (football.internal_people JOIN
+							football.person ON internal_people.bi = person.bi) 
+							ON player.bi = internal_people.bi)
+						  WHERE player.height = @max
+
+	-- heavier_player
+	SELECT @max = MAX(weight) FROM (football.player JOIN (football.internal_people JOIN
+							football.person ON internal_people.bi = person.bi) 
+							ON player.bi = internal_people.bi)
+
+	INSERT @table SELECT TOP 1 'heavier_player' as 'name', person.bi as 'result'
+						  FROM (football.player JOIN (football.internal_people JOIN
+							football.person ON internal_people.bi = person.bi) 
+							ON player.bi = internal_people.bi)
+						  WHERE player.weight = @max
+	RETURN;
+END;
+
+go
+SELECT * FROM football.udf_teams_stats();
+\end{lstlisting}
+
+teams{\textunderscore}stats{\textunderscore}numbers.sql
+\begin{lstlisting} 
+use p4g5;
+go
+--DROP FUNCTION football.udf_number_players_per_team;
+
+go
+CREATE FUNCTION football.udf_number_players_per_team()
+RETURNS @table TABLE ("team name" varchar(50), "result" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	-- number_players_per_team
+	INSERT @table SELECT team.name as 'team name', COUNT(play.bi) as 'result'
+					FROM football.play FULL OUTER JOIN football.team
+					ON team.name = play.team_name
+					GROUP BY team.name;
+	RETURN;
+END;
+
+go
+SELECT * FROM football.udf_number_players_per_team();
+
+go
+--DROP FUNCTION football.udf_number_coachs_per_team;
+
+go
+CREATE FUNCTION football.udf_number_coachs_per_team()
+RETURNS @table TABLE ("team name" varchar(50), "result" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	-- number_coachs_per_team
+	INSERT @table SELECT team.name as 'team name', COUNT(heads.bi) as 'result'
+					FROM football.heads FULL OUTER JOIN football.team
+					ON team.name = heads.team_name
+					GROUP BY team.name;
+	RETURN;
+END;
+
+go
+SELECT * FROM football.udf_number_coachs_per_team();
+\end{lstlisting}
 
 \end{document}
