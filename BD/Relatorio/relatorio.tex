@@ -215,7 +215,10 @@ Já as views não permitem esta camada de segurança, sendo assim, decidiu-se ap
 Com o aumento do volume de dados, os pedidos de consulta começam a ter tempos de resposta maiores, pois os dados que existem nas tabelas encontram-se desorganizados. Para contrariar este aumento dos tempos de resposta devemos manter as tabelas organizadas de forma a que as consultas sejam efetuadas mais rapidamente. A utilização de índices nos campos que mais frequentemente serão utilizados é a maneira indicada, onde um ponteiro é criado para a posição real de cada registo.
 \\
 
-	Para tornar as nossas pesquisas mais eficientes introduzimos vários índices que achamos necessários (pesquisas feitas por dados não primários), do tipo NonClustered, pois os índices do tipo Clustered são automaticamente criados aquando da criação de uma tabela pois vai corresponder às chaves primárias.
+Para tornar as nossas pesquisas mais eficientes introduzimos vários índices que achamos necessários (pesquisas feitas por dados não primários), do tipo NonClustered, pois os índices do tipo Clustered são automaticamente criados aquando da criação de uma tabela pois vai corresponder às chaves primárias.
+\\
+
+Foram utilizados em todos os índices, um FILLFACTOR=75 com pad_index, sendo que o primeiro determina a percentagem de espaço em cada página , quando um índice é criado, e o segundo, aplica às páginas de nível intermediário do índice a percentagem especificada pelo FILLFACTOR.
 \\
 
 Índice "indexactiveseat", exemplo:
@@ -238,6 +241,7 @@ indexheightplayer
 indexweigthplayer
 
 \newpage
+
 \section{Stored Procedures}
 Dicidiu-se usar stored procedures para criar uma camada de abstracção entre o modelo de dados, a sua manipulação e a camada aplicacional. A adopção desta abordagem permite-nos criar de forma segura, com boa performance e que garante a integridade dos dados, métodos para criar, modificar e apagar modelo de dados do nosso sistema de base de dados.
 
@@ -369,5 +373,11 @@ AS
 
 Restantes stored procedures estão disponíveis em anexo. (ref)
 
+\section{Triggers}
+De forma a garantir uma maior consistência e integridade da base de dados, foram utilizados alguns triggers. Estes são funções que são ativadas aquando de um insert, update ou delete numa determinada tabela de dados.
+\\
+
+No nosso caso, foi criado, por exemplo, um  trigger que ocorre quando existe um pedido de delete na tabela "seat", este em vez de ser removido, altera o valor da variável "active" para 0 (INSTEAD OF).
+O resto dos triggers utilizados resumem-se a verificações, no nosso caso, verificar se determinado "federation_id" já existe aquando de um create ou de um update nas tabelas "coach" e "player".
 
 \end{document}
