@@ -489,7 +489,7 @@ annual{\textunderscore}seat.sql
 use p4g5;
 
 
-INSERT INTO football.annual{\textunderscore}seat (n{\textunderscore}seat, row, id{\textunderscore}section, start{\textunderscore}date, duration, value, bi, season) VALUES (11, 'H', 2, '2014/09/02', 10, 95, 15672829, 2014);
+INSERT INTO football.annual_seat (n_seat, row, id_section, start_date, duration, value, bi, season) VALUES (11, 'H', 2, '2014/09/02', 10, 95, 15672829, 2014);
 
 \end{lstlisting}
 
@@ -500,10 +500,10 @@ use p4g5;
 
 --Seniores Masculinos
 
-INSERT INTO football.coach(bi, federation{\textunderscore}id, role) VALUES (16728392, 132, 'Treinador');
+INSERT INTO football.coach(bi, federation_id, role) VALUES (16728392, 132, 'Treinador');
 
 --Seniores Femininos
-INSERT INTO football.coach (bi, federation{\textunderscore}id, role) VALUES (49102019, 245, 'Treinador');
+INSERT INTO football.coach (bi, federation_id, role) VALUES (49102019, 245, 'Treinador');
 \end{lstlisting}
 
 court.sql
@@ -536,10 +536,10 @@ use p4g5;
 
 --Seniores Masculinos
 
-INSERT INTO football.heads(bi, team{\textunderscore}name) VALUES (16728392, 'Seniores Masculinos');
+INSERT INTO football.heads(bi, team_name) VALUES (16728392, 'Seniores Masculinos');
 
 --Seniores Femininos
-INSERT INTO football.heads (bi, team{\textunderscore}name) VALUES (49102019, 'Seniores Femininos');
+INSERT INTO football.heads (bi, team_name) VALUES (49102019, 'Seniores Femininos');
 \end{lstlisting}
 
 internal{\textunderscore}people.sql
@@ -549,30 +549,30 @@ use p4g5;
 
 --Jogadores
 
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (12345678, 50000);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (77777777, 10000);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (12445678, 0);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (39522123, 250);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (40128390, 50);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (52131283, 0);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (43123123, 0);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (12895726, 300);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (46728109, 0);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (90872134, 0);
+INSERT INTO football.internal_people (bi, salary) VALUES (12345678, 50000);
+INSERT INTO football.internal_people (bi, salary) VALUES (77777777, 10000);
+INSERT INTO football.internal_people (bi, salary) VALUES (12445678, 0);
+INSERT INTO football.internal_people (bi, salary) VALUES (39522123, 250);
+INSERT INTO football.internal_people (bi, salary) VALUES (40128390, 50);
+INSERT INTO football.internal_people (bi, salary) VALUES (52131283, 0);
+INSERT INTO football.internal_people (bi, salary) VALUES (43123123, 0);
+INSERT INTO football.internal_people (bi, salary) VALUES (12895726, 300);
+INSERT INTO football.internal_people (bi, salary) VALUES (46728109, 0);
+INSERT INTO football.internal_people (bi, salary) VALUES (90872134, 0);
 
 --Treinadores
 
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (16728392, 40000);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (49102019, 250);
+INSERT INTO football.internal_people (bi, salary) VALUES (16728392, 40000);
+INSERT INTO football.internal_people (bi, salary) VALUES (49102019, 250);
 
 --Staff
 
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (13124523, 100);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (14563792, 1000);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (29675821, 1250);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (16758290, 30000);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (19283847, 850);
-INSERT INTO football.internal{\textunderscore}people (bi, salary) VALUES (39821392, 1500);
+INSERT INTO football.internal_people (bi, salary) VALUES (13124523, 100);
+INSERT INTO football.internal_people (bi, salary) VALUES (14563792, 1000);
+INSERT INTO football.internal_people (bi, salary) VALUES (29675821, 1250);
+INSERT INTO football.internal_people (bi, salary) VALUES (16758290, 30000);
+INSERT INTO football.internal_people (bi, salary) VALUES (19283847, 850);
+INSERT INTO football.internal_people (bi, salary) VALUES (39821392, 1500);
 
 \end{lstlisting}
 
@@ -584,12 +584,12 @@ use p4g5;
 
 --Sem Lugar Anual
 
-INSERT INTO football.members(bi, shares{\textunderscore}in{\textunderscore}day, shares{\textunderscore}value) VALUES (26718293, 2014, 20);
-INSERT INTO football.members (bi, shares{\textunderscore}in{\textunderscore}day, shares{\textunderscore}value) VALUES (28372192, 2015, 30);
+INSERT INTO football.members(bi, shares_in_day, shares_value) VALUES (26718293, 2014, 20);
+INSERT INTO football.members (bi, shares_in_day, shares_value) VALUES (28372192, 2015, 30);
 
 --Com Lugar Anual
 
-INSERT INTO football.members (bi, shares{\textunderscore}in{\textunderscore}day, shares{\textunderscore}value) VALUES (15672829, 2015, 50);
+INSERT INTO football.members (bi, shares_in_day, shares_value) VALUES (15672829, 2015, 50);
 
 \end{lstlisting}
 
@@ -599,36 +599,36 @@ person.sql
 use p4g5;
 
 --Jogadores
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (12345678, 'Cristiano Ronaldo', 'Rua das bananas', '1985/02/05', 12345678, 'M', 'Portuguesa');
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (77777777, 'Ricardo Quaresma', 'Avenida do Dragao', '1983/09/26', 77777777, 'M', 'Portuguesa'); 
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (12445678, 'Pedro Costa', 'Rua das cavacas', '1995/06/05', 12344678, 'M', 'Portuguesa'); 
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (39522123, 'Eduardo Santos', 'Travessa do Rio', '1990/02/25', 15326722, 'M', 'Portuguesa'); 
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (40128390, 'Bernardo Pires', 'Avenida Principal', '1997/02/16', 22146758, 'M', 'Portuguesa'); 
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (52131283, 'Rita Marques', 'Travessa do Rossio', '1997/01/02', 21321421, 'F', 'Portuguesa');
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (43123123, 'Luisa Norte', 'Rua da fonte', '1990/07/06', 23113123, 'F', 'Portuguesa'); 
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (12895726, 'Manuel Flores', 'Avenida do Bom-Samaritano', '1981/09/16', 12349882, 'M', 'Portuguesa');
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (46728109, 'Miguel Oliveira', 'Avenida do Paraiso', '1993/01/18', 32138211, 'M', 'Portuguesa');
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (90872134, 'Mara Luis', 'Rua da marisqueira', '1995/01/13', 67526192, 'F', 'Portuguesa'); 
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (12345678, 'Cristiano Ronaldo', 'Rua das bananas', '1985/02/05', 12345678, 'M', 'Portuguesa');
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (77777777, 'Ricardo Quaresma', 'Avenida do Dragao', '1983/09/26', 77777777, 'M', 'Portuguesa'); 
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (12445678, 'Pedro Costa', 'Rua das cavacas', '1995/06/05', 12344678, 'M', 'Portuguesa'); 
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (39522123, 'Eduardo Santos', 'Travessa do Rio', '1990/02/25', 15326722, 'M', 'Portuguesa'); 
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (40128390, 'Bernardo Pires', 'Avenida Principal', '1997/02/16', 22146758, 'M', 'Portuguesa'); 
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (52131283, 'Rita Marques', 'Travessa do Rossio', '1997/01/02', 21321421, 'F', 'Portuguesa');
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (43123123, 'Luisa Norte', 'Rua da fonte', '1990/07/06', 23113123, 'F', 'Portuguesa'); 
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (12895726, 'Manuel Flores', 'Avenida do Bom-Samaritano', '1981/09/16', 12349882, 'M', 'Portuguesa');
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (46728109, 'Miguel Oliveira', 'Avenida do Paraiso', '1993/01/18', 32138211, 'M', 'Portuguesa');
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (90872134, 'Mara Luis', 'Rua da marisqueira', '1995/01/13', 67526192, 'F', 'Portuguesa'); 
 
 --Treinadores
 
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (16728392, 'Jos Mourinho', 'Avenida de Inglaterra', '1965/08/05', 12324940, 'M', 'Portuguesa');
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (49102019, 'Carlos Ferreira', 'Rua da praia', '1977/01/30', 21837329, 'M', 'Portuguesa'); 
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (16728392, 'Jos Mourinho', 'Avenida de Inglaterra', '1965/08/05', 12324940, 'M', 'Portuguesa');
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (49102019, 'Carlos Ferreira', 'Rua da praia', '1977/01/30', 21837329, 'M', 'Portuguesa'); 
 
 --Staff
 
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (13124523, 'Luis Pais', 'Rua Padre Xavier', '1965/08/29', 14052123, 'M', 'Portuguesa'); 
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (14563792, 'Maria Campos', 'Travessa das Camlias', '1977/09/06', 34520921, 'F', 'Portuguesa');
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (29675821, 'Eduarda Olivais', 'Rua das Bolas', '1965/01/20', 23156782, 'F', 'Portuguesa'); 
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (16758290, 'Jorge Nuno Pinto da Costa', 'Avenida do Dragao', '1937/12/28', 02134123, 'M', 'Portuguesa'); 
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (19283847, 'Pedro Paulo', 'Avenida do Doutor Luis', '1965/09/10', 47282910, 'M', 'Portuguesa');
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (39821392, 'Fernanda Pascoal', 'Rua de Maio', '1965/06/01', 21238291, 'F', 'Portuguesa');
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (13124523, 'Luis Pais', 'Rua Padre Xavier', '1965/08/29', 14052123, 'M', 'Portuguesa'); 
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (14563792, 'Maria Campos', 'Travessa das Camlias', '1977/09/06', 34520921, 'F', 'Portuguesa');
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (29675821, 'Eduarda Olivais', 'Rua das Bolas', '1965/01/20', 23156782, 'F', 'Portuguesa'); 
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (16758290, 'Jorge Nuno Pinto da Costa', 'Avenida do Dragao', '1937/12/28', 02134123, 'M', 'Portuguesa'); 
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (19283847, 'Pedro Paulo', 'Avenida do Doutor Luis', '1965/09/10', 47282910, 'M', 'Portuguesa');
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (39821392, 'Fernanda Pascoal', 'Rua de Maio', '1965/06/01', 21238291, 'F', 'Portuguesa');
 
 --Socios
 
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (15672829, 'Jorge Jesus', 'Rua de Benfica', '1956/01/01', 21324124, 'M', 'Portuguesa'); 
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (26718293, 'Luis Simoes', 'Avenida do Macaco', '1993/11/22', 12383492, 'M', 'Portuguesa'); 
-INSERT INTO football.person (bi, name, address, birth{\textunderscore}date, nif, gender, nationality) VALUES (28372192, 'Rafael Luis', 'Avenida do Caloteiro', '1973/12/22', 32142422, 'M', 'Portuguesa');
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (15672829, 'Jorge Jesus', 'Rua de Benfica', '1956/01/01', 21324124, 'M', 'Portuguesa'); 
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (26718293, 'Luis Simoes', 'Avenida do Macaco', '1993/11/22', 12383492, 'M', 'Portuguesa'); 
+INSERT INTO football.person (bi, name, address, birth_date, nif, gender, nationality) VALUES (28372192, 'Rafael Luis', 'Avenida do Caloteiro', '1973/12/22', 32142422, 'M', 'Portuguesa');
 
 
 
@@ -643,19 +643,19 @@ use p4g5;
 
 --Seniores Femininos
 
-INSERT INTO football.play (bi, team{\textunderscore}name) VALUES (52131283, 'Seniores Femininos');
-INSERT INTO football.play (bi, team{\textunderscore}name) VALUES (43123123, 'Seniores Femininos');
-INSERT INTO football.play (bi, team{\textunderscore}name) VALUES (90872134, 'Seniores Femininos');
+INSERT INTO football.play (bi, team_name) VALUES (52131283, 'Seniores Femininos');
+INSERT INTO football.play (bi, team_name) VALUES (43123123, 'Seniores Femininos');
+INSERT INTO football.play (bi, team_name) VALUES (90872134, 'Seniores Femininos');
 
 --Seniores Masculinos
 
-INSERT INTO football.play (bi, team{\textunderscore}name) VALUES (12345678, 'Seniores Masculinos');
-INSERT INTO football.play (bi, team{\textunderscore}name) VALUES (77777777, 'Seniores Masculinos');
-INSERT INTO football.play (bi, team{\textunderscore}name) VALUES (12445678, 'Seniores Masculinos');
-INSERT INTO football.play (bi, team{\textunderscore}name) VALUES (39522123, 'Seniores Masculinos');
-INSERT INTO football.play (bi, team{\textunderscore}name) VALUES (40128390, 'Seniores Masculinos');
-INSERT INTO football.play (bi, team{\textunderscore}name) VALUES (12895726, 'Seniores Masculinos');
-INSERT INTO football.play (bi, team{\textunderscore}name) VALUES (46728109, 'Seniores Masculinos');
+INSERT INTO football.play (bi, team_name) VALUES (12345678, 'Seniores Masculinos');
+INSERT INTO football.play (bi, team_name) VALUES (77777777, 'Seniores Masculinos');
+INSERT INTO football.play (bi, team_name) VALUES (12445678, 'Seniores Masculinos');
+INSERT INTO football.play (bi, team_name) VALUES (39522123, 'Seniores Masculinos');
+INSERT INTO football.play (bi, team_name) VALUES (40128390, 'Seniores Masculinos');
+INSERT INTO football.play (bi, team_name) VALUES (12895726, 'Seniores Masculinos');
+INSERT INTO football.play (bi, team_name) VALUES (46728109, 'Seniores Masculinos');
 \end{lstlisting}
 
 player.sql
@@ -666,19 +666,19 @@ use p4g5;
 
 --Seniores Femininos
 
-INSERT INTO football.player (bi, federation{\textunderscore}id, weight, height) VALUES (52131283, 1234, 59, 160);
-INSERT INTO football.player (bi, federation{\textunderscore}id, weight, height) VALUES (43123123, 09382, 58, 170);
-INSERT INTO football.player (bi, federation{\textunderscore}id, weight, height) VALUES (90872134, 23234, 52, 162);
+INSERT INTO football.player (bi, federation_id, weight, height) VALUES (52131283, 1234, 59, 160);
+INSERT INTO football.player (bi, federation_id, weight, height) VALUES (43123123, 09382, 58, 170);
+INSERT INTO football.player (bi, federation_id, weight, height) VALUES (90872134, 23234, 52, 162);
 
 --Seniores Masculinos
 
-INSERT INTO football.player(bi, federation{\textunderscore}id, weight, height) VALUES (12345678, 201, 77, 189);
-INSERT INTO football.player (bi, federation{\textunderscore}id, weight, height) VALUES (77777777, 30012, 75, 182);
-INSERT INTO football.player (bi, federation{\textunderscore}id, weight, height) VALUES (12445678, 2001, 70, 177);
-INSERT INTO football.player (bi, federation{\textunderscore}id, weight, height) VALUES (39522123, 3482, 72, 175);
-INSERT INTO football.player (bi, federation{\textunderscore}id, weight, height) VALUES (40128390, 1859, 69, 167);
-INSERT INTO football.player (bi, federation{\textunderscore}id, weight, height) VALUES (12895726, 2394, 80, 192);
-INSERT INTO football.player (bi, federation{\textunderscore}id, weight, height) VALUES (46728109, 19283, 82, 184);
+INSERT INTO football.player(bi, federation_id, weight, height) VALUES (12345678, 201, 77, 189);
+INSERT INTO football.player (bi, federation_id, weight, height) VALUES (77777777, 30012, 75, 182);
+INSERT INTO football.player (bi, federation_id, weight, height) VALUES (12445678, 2001, 70, 177);
+INSERT INTO football.player (bi, federation_id, weight, height) VALUES (39522123, 3482, 72, 175);
+INSERT INTO football.player (bi, federation_id, weight, height) VALUES (40128390, 1859, 69, 167);
+INSERT INTO football.player (bi, federation_id, weight, height) VALUES (12895726, 2394, 80, 192);
+INSERT INTO football.player (bi, federation_id, weight, height) VALUES (46728109, 19283, 82, 184);
 
 
 
@@ -690,8 +690,8 @@ practices.sql
 -- use p4g5;
 use p4g5;
 
-INSERT INTO football.practice(date, hour, id{\textunderscore}court, team{\textunderscore}name) VALUES ('2015/05/21', '21:00', 1, 'Seniores Masculinos');
-INSERT INTO football.practice(date, hour, id{\textunderscore}court, team{\textunderscore}name) VALUES ('2015/05/22', '19:00', 2, 'Seniores Femininos');
+INSERT INTO football.practice(date, hour, id_court, team_name) VALUES ('2015/05/21', '21:00', 1, 'Seniores Masculinos');
+INSERT INTO football.practice(date, hour, id_court, team_name) VALUES ('2015/05/22', '19:00', 2, 'Seniores Femininos');
 \end{lstlisting}
 
 seat.sql
@@ -701,13 +701,13 @@ use p4g5;
 
 --Topo Norte
 
-INSERT INTO football.seat(n{\textunderscore}seat, row, id{\textunderscore}section) VALUES (10, 'B', 1);
-INSERT INTO football.seat(n{\textunderscore}seat, row, id{\textunderscore}section) VALUES (17, 'C', 1);
+INSERT INTO football.seat(n_seat, row, id_section) VALUES (10, 'B', 1);
+INSERT INTO football.seat(n_seat, row, id_section) VALUES (17, 'C', 1);
 
 --Central
 
-INSERT INTO football.seat(n{\textunderscore}seat, row, id{\textunderscore}section) VALUES (11, 'H', 2);
-INSERT INTO football.seat(n{\textunderscore}seat, row, id{\textunderscore}section) VALUES (2, 'I', 2);
+INSERT INTO football.seat(n_seat, row, id_section) VALUES (11, 'H', 2);
+INSERT INTO football.seat(n_seat, row, id_section) VALUES (2, 'I', 2);
 \end{lstlisting}
 
 section.sql
@@ -728,53 +728,56 @@ use p4g5;
 
 --Direccao
 
-INSERT INTO football.staff (bi, role, department{\textunderscore}id) VALUES (16758290, 'Presidente', 1);
-INSERT INTO football.staff (bi, role, department{\textunderscore}id) VALUES (13124523, 'Vice-Presidente', 1);
+INSERT INTO football.staff (bi, role, department_id) VALUES (16758290, 'Presidente', 1);
+INSERT INTO football.staff (bi, role, department_id) VALUES (13124523, 'Vice-Presidente', 1);
 
 --Departamento Financeiro
 
-INSERT INTO football.staff (bi, role, department{\textunderscore}id) VALUES (19283847, 'Director Financeiro', 2);
-INSERT INTO football.staff (bi, role, department{\textunderscore}id) VALUES (14563792, 'Gestor Financeiro', 2);
+INSERT INTO football.staff (bi, role, department_id) VALUES (19283847, 'Director Financeiro', 2);
+INSERT INTO football.staff (bi, role, department_id) VALUES (14563792, 'Gestor Financeiro', 2);
 
 --Departamento Comercial
 
-INSERT INTO football.staff (bi, role, department{\textunderscore}id) VALUES (29675821, 'Director de Vendas', 3);
-INSERT INTO football.staff (bi, role, department{\textunderscore}id) VALUES (39821392, 'Vendedor', 3);
+INSERT INTO football.staff (bi, role, department_id) VALUES (29675821, 'Director de Vendas', 3);
+INSERT INTO football.staff (bi, role, department_id) VALUES (39821392, 'Vendedor', 3);
 
 
 \end{lstlisting}
 
 tables.sql
 \begin{lstlisting} 
+-- CREATE SCHEMA football;
+use p4g5;
+
 -- person
 CREATE TABLE football.person(
     bi INT PRIMARY KEY CHECK(bi>0),
     name VARCHAR(75) NOT NULL,
     address VARCHAR(75) NOT NULL,
-    birth{\textunderscore}date DATE NOT NULL,
+    birth_date DATE NOT NULL,
     nif INT UNIQUE NOT NULL,
 	gender VARCHAR(1) NOT NULL CHECK (gender IN('M','F')),
 	nationality VARCHAR(75) NOT NULL
 );
 
 -- internal people
-CREATE TABLE football.internal{\textunderscore}people(
+CREATE TABLE football.internal_people(
     bi INT PRIMARY KEY,
     salary MONEY NOT NULL CHECK (salary >= 0),
-    internal{\textunderscore}id INT UNIQUE NOT NULL IDENTITY
+    internal_id INT UNIQUE NOT NULL IDENTITY
 );
 
 -- ALTERs internal people
-ALTER TABLE football.internal{\textunderscore}people ADD CONSTRAINT FORPIBIPBI
+ALTER TABLE football.internal_people ADD CONSTRAINT FORPIBIPBI
 FOREIGN KEY (bi) REFERENCES football.person(bi)
 ON UPDATE CASCADE;
 
 -- members
 CREATE TABLE football.members(
     bi INT PRIMARY KEY,
-    n{\textunderscore}member INT NOT NULL UNIQUE IDENTITY,
-    shares{\textunderscore}in{\textunderscore}day INT NOT NULL,
-    shares{\textunderscore}value MONEY NOT NULL CHECK (shares{\textunderscore}value >= 0),
+    n_member INT NOT NULL UNIQUE IDENTITY,
+    shares_in_day INT NOT NULL,
+    shares_value MONEY NOT NULL CHECK (shares_value >= 0),
 );
 
 -- ALTERs members
@@ -785,63 +788,63 @@ ON UPDATE CASCADE;
 -- player
 CREATE TABLE football.player(
     bi INT PRIMARY KEY,
-    federation{\textunderscore}id INT UNIQUE NOT NULL CHECK(federation{\textunderscore}id >= 0),
+    federation_id INT UNIQUE NOT NULL CHECK(federation_id >= 0),
     weight int NOT NULL CHECK(weight > 0),
     height int NOT NULL CHECK(height > 0)
 );
 
 -- player ALTERs
 ALTER TABLE football.player ADD CONSTRAINT FORJBIPIBI
-FOREIGN KEY (bi) REFERENCES football.internal{\textunderscore}people(bi)
+FOREIGN KEY (bi) REFERENCES football.internal_people(bi)
 ON UPDATE CASCADE;
 
 -- coach
 CREATE TABLE football.coach(
     bi INT PRIMARY KEY,
-    federation{\textunderscore}id INT NOT NULL CHECK(federation{\textunderscore}id >= 0),
+    federation_id INT NOT NULL CHECK(federation_id >= 0),
     role VARCHAR(50) NOT NULL
 );
 
 -- coach ALTERs
 ALTER TABLE football.coach ADD CONSTRAINT FORTBIPIBI
-FOREIGN KEY (bi) REFERENCES football.internal{\textunderscore}people(bi)
+FOREIGN KEY (bi) REFERENCES football.internal_people(bi)
 ON UPDATE CASCADE;
 
 -- STAFF CLUBE
 CREATE TABLE football.staff(
     bi INT PRIMARY KEY,
     role VARCHAR(50) NOT NULL,
-    department{\textunderscore}id INT NOT NULL
+    department_id INT NOT NULL
 );
 
 -- STAFF ALTERs
 ALTER TABLE football.staff ADD CONSTRAINT FORSCBIPIBI
-FOREIGN KEY (bi) REFERENCES football.internal{\textunderscore}people(bi)
+FOREIGN KEY (bi) REFERENCES football.internal_people(bi)
 ON UPDATE CASCADE;
 
 -- department
 CREATE TABLE football.department(
-    department{\textunderscore}id INT PRIMARY KEY IDENTITY,
+    department_id INT PRIMARY KEY IDENTITY,
     address VARCHAR(75) NOT NULL,
     name VARCHAR(75) NOT NULL
 );
 
 -- STAFF ALTERs
 ALTER TABLE football.staff ADD CONSTRAINT FORSCIDDID
-FOREIGN KEY (department{\textunderscore}id) REFERENCES football.department(department{\textunderscore}id)
+FOREIGN KEY (department_id) REFERENCES football.department(department_id)
 ON UPDATE CASCADE;
 
 -- ESCALAO
 CREATE TABLE football.team(
     name VARCHAR(50) PRIMARY KEY,
-    max{\textunderscore}age INT NOT NULL CHECK(max{\textunderscore}age > 0)
+    max_age INT NOT NULL CHECK(max_age > 0)
 );
 
 -- play
 CREATE TABLE football.play(
     bi INT,
-    team{\textunderscore}name VARCHAR(50),
-	PRIMARY KEY(bi, team{\textunderscore}name)
+    team_name VARCHAR(50),
+	PRIMARY KEY(bi, team_name)
 );
 
 -- ALTER play
@@ -850,14 +853,14 @@ FOREIGN KEY (bi) REFERENCES football.player(bi)
 ON UPDATE CASCADE;
 
 ALTER TABLE football.play ADD CONSTRAINT FORJEEE
-FOREIGN KEY (team{\textunderscore}name) REFERENCES football.team(name)
+FOREIGN KEY (team_name) REFERENCES football.team(name)
 ON UPDATE CASCADE;
 
 -- heads
 CREATE TABLE football.heads(
     bi int,
-    team{\textunderscore}name VARCHAR(50),
-	PRIMARY KEY(bi, team{\textunderscore}name)
+    team_name VARCHAR(50),
+	PRIMARY KEY(bi, team_name)
 );
 
 -- ALTER heads
@@ -866,12 +869,12 @@ FOREIGN KEY (bi) REFERENCES football.coach(bi)
 ON UPDATE CASCADE;
 
 ALTER TABLE football.heads ADD CONSTRAINT FORDEEE
-FOREIGN KEY (team{\textunderscore}name) REFERENCES football.team(name)
+FOREIGN KEY (team_name) REFERENCES football.team(name)
 ON UPDATE CASCADE;
 
 -- court
 CREATE TABLE football.court(
-    id{\textunderscore}court INT PRIMARY KEY IDENTITY,
+    id_court INT PRIMARY KEY IDENTITY,
     address VARCHAR(150) NOT NULL
 );
 
@@ -879,59 +882,61 @@ CREATE TABLE football.court(
 CREATE TABLE football.practice(
     date DATE NOT NULL,
     hour TIME NOT NULL,
-    id{\textunderscore}court INT NOT NULL,
-    team{\textunderscore}name VARCHAR(50) NOT NULL,
-    PRIMARY KEY(date, hour, id{\textunderscore}court)
+    id_court INT NOT NULL,
+    team_name VARCHAR(50) NOT NULL,
+    PRIMARY KEY(date, hour, id_court)
 );
 
 -- ALTERs practice
 ALTER TABLE football.practice ADD CONSTRAINT FORTICCIC
-FOREIGN KEY (id{\textunderscore}court) REFERENCES football.court(id{\textunderscore}court)
+FOREIGN KEY (id_court) REFERENCES football.court(id_court)
 ON UPDATE CASCADE;
 
 ALTER TABLE football.practice ADD CONSTRAINT FORTNEEN
-FOREIGN KEY (team{\textunderscore}name) REFERENCES football.team(name)
+FOREIGN KEY (team_name) REFERENCES football.team(name)
 ON UPDATE CASCADE;
 
 -- section
 CREATE TABLE football.section(
-    id{\textunderscore}section INT PRIMARY KEY IDENTITY,
+    id_section INT PRIMARY KEY IDENTITY,
     type VARCHAR(50)
 );
 
 -- seat
 CREATE TABLE football.seat(
-    n{\textunderscore}seat INT NOT NULL,
+    n_seat INT NOT NULL,
     row VARCHAR(1) NOT NULL,
-    id{\textunderscore}section INT NOT NULL,
-    PRIMARY KEY(n{\textunderscore}seat, row, id{\textunderscore}section)
+    id_section INT NOT NULL,
+    PRIMARY KEY(n_seat, row, id_section)
 );
 
 -- ALTER seat
 ALTER TABLE football.seat ADD active BIT DEFAULT 1
 ALTER TABLE football.seat ADD CONSTRAINT FORLISSIS
-FOREIGN KEY (id{\textunderscore}section)  REFERENCES football.section(id{\textunderscore}section)
+FOREIGN KEY (id_section)  REFERENCES football.section(id_section)
 ON UPDATE CASCADE;
 
--- annual{\textunderscore}seat
-CREATE TABLE football.annual{\textunderscore}seat(
-  n{\textunderscore}seat INT NOT NULL,
+-- annual_seat
+CREATE TABLE football.annual_seat(
+  n_seat INT NOT NULL,
   row VARCHAR(1) NOT NULL,
-  id{\textunderscore}section INT NOT NULL,
-  start{\textunderscore}date DATE NOT NULL,
+  id_section INT NOT NULL,
+  start_date DATE NOT NULL,
   duration INT NOT NULL,
   value INT NOT NULL,
   bi INT NOT NULL,
   season INT NOT NULL,
-  PRIMARY KEY(n{\textunderscore}seat, bi, row, id{\textunderscore}section, season)
+  PRIMARY KEY(n_seat, bi, row, id_section, season)
 );
 
--- annual{\textunderscore}seat ALTER's
-ALTER TABLE football.annual{\textunderscore}seat ADD CONSTRAINT FORLAL
-FOREIGN KEY (n{\textunderscore}seat, row, id{\textunderscore}section) REFERENCES football.seat(n{\textunderscore}seat, row, id{\textunderscore}section)
+
+
+-- annual_seat ALTER's
+ALTER TABLE football.annual_seat ADD CONSTRAINT FORLAL
+FOREIGN KEY (n_seat, row, id_section) REFERENCES football.seat(n_seat, row, id_section)
 ON UPDATE CASCADE;
 
-ALTER TABLE football.annual{\textunderscore}seat ADD CONSTRAINT FORLABISBI
+ALTER TABLE football.annual_seat ADD CONSTRAINT FORLABISBI
 FOREIGN KEY (bi) REFERENCES football.members(bi)
 ON UPDATE CASCADE;
 
@@ -942,18 +947,1721 @@ team.sql
 -- use p4g5;
 use p4g5;
 
-INSERT INTO football.team(name, max{\textunderscore}age) VALUES ('Seniores Masculinos', 50);
-INSERT INTO football.team(name, max{\textunderscore}age) VALUES ('Seniores Femininos', 50);
+INSERT INTO football.team(name, max_age) VALUES ('Seniores Masculinos', 50);
+INSERT INTO football.team(name, max_age) VALUES ('Seniores Femininos', 50);
 
 \end{lstlisting}
 
+\newpage
+\subsection*{Indexes}
+seat.sql
+\begin{lstlisting} 
+use p4g5;
 
+go
 
+CREATE NONCLUSTERED INDEX indexactiveseat ON football.seat(active)
+WITH (FILLFACTOR=75,pad_index=ON);
+
+\end{lstlisting}
+
+teams.sql
+\begin{lstlisting} 
+use p4g5;
+
+go
+
+CREATE NONCLUSTERED INDEX indexsalaryinternalpeople ON football.internal_people(salary)
+WITH (FILLFACTOR=75,pad_index=ON);
+
+go
+
+CREATE NONCLUSTERED INDEX indexheightplayer ON football.player(height)
+WITH (FILLFACTOR=75,pad_index=ON);
+
+go
+
+CREATE NONCLUSTERED INDEX indexweigthplayer ON football.player(weight)
+WITH (FILLFACTOR=75,pad_index=ON);
+\end{lstlisting}
 
 \newpage
-\subsection*{Indexs}
-\newpage
-\subsection*{Indexs}
+\subsection*{Store procedures}
+annualSeat.sql
+\begin{lstlisting} 
+use p4g5;
+
+go 
+
+-- DROP PROC football.sp_createAnnualSeat
+
+CREATE PROCEDURE football.sp_createAnnualSeat
+  @bi				INT,  
+  @start_date		DATE, 
+  @n_seat			INT, 
+  @row  			VARCHAR(1), 
+  @value			INT,
+  @id_section       INT,
+  @season	        INT,
+  @duration			INT
+
+WITH ENCRYPTION
+AS 
+	IF @bi is null OR @start_date is null OR @n_seat is null OR @row is null OR @value is null OR 
+		@id_section is null OR @season is null OR @duration is null
+	BEGIN
+		PRINT 'The bi, start_date, n_seat, row, value, id_section, season and duration can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the BI exists
+	SELECT @count = count(bi) FROM football.person WHERE bi = @bi;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The BI that you provided do not exists!', 14, 1)
+		RETURN
+	END
+
+	-- check if the Annual seat is already in use
+	SELECT @count = count(bi) FROM football.annual_seat WHERE n_seat = @n_seat AND row = @row AND bi = @bi AND id_section = @id_section AND season = @season;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The Annual seat is already in use!', 14, 1)
+		RETURN
+	END
+
+	-- check if the Annual seat is already in use
+	SELECT @count = count(n_seat) FROM football.annual_seat WHERE n_seat = @n_seat AND row = @row AND id_section = @id_section AND season = @season;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The Annual seat is already in use!', 14, 1)
+		RETURN
+	END
+
+
+	-- check if the seat exists
+	SELECT @count = count(n_seat) FROM football.seat WHERE n_seat = @n_seat AND row = @row AND id_section = @id_section;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The seat doesnt exist!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRY
+		INSERT INTO football.annual_seat 
+					([n_seat], 
+					 [row], 
+					 [id_section], 
+					 [start_date], 
+					 [duration], 
+					 [value],
+					 [bi],
+					 [season]) 
+		VALUES      ( @n_seat, 
+					  @row, 
+					  @id_section, 
+					  @start_date, 
+					  @duration, 
+					  @value,
+					  @bi,
+					  @season)
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when creating the annual seat!', 14, 1)
+	END CATCH;
+
+
+go 
+
+-- DROP PROC football.sp_modifyAnnualSeat
+
+CREATE PROCEDURE football.sp_modifyAnnualSeat
+  @bi				INT,  
+  @start_date		DATE, 
+  @n_seat			INT, 
+  @row  			VARCHAR(1), 
+  @value			INT,
+  @id_section       INT,
+  @season	        INT,
+  @duration			INT
+
+WITH ENCRYPTION
+AS 
+	IF @bi is null OR @start_date is null OR @n_seat is null OR @row is null OR @value is null OR 
+		@id_section is null OR @season is null OR @duration is null
+	BEGIN
+		PRINT 'The bi, start_date, n_seat, row, value, id_section, season and duration can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the BI exists
+	SELECT @count = count(bi) FROM football.person WHERE bi = @bi;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The BI that you provided do not exists!', 14, 1)
+		RETURN
+	END
+
+	-- check if the seat exists
+	SELECT @count = count(n_seat) FROM football.seat WHERE n_seat = @n_seat AND row = @row AND id_section = @id_section;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The seat doesnt exist!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRY
+		UPDATE  football.annual_seat SET
+				start_date = @start_date,
+				id_section = @id_section,
+				duration = @duration,
+				value = @value
+		WHERE n_seat = @n_seat AND row = @row AND id_section = @id_section AND bi = @bi AND season = @season;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the annual seat!', 14, 1)
+	END CATCH;
+
+go 
+
+-- DROP PROC football.sp_deleteAnnualSeat
+
+CREATE PROCEDURE football.sp_deleteAnnualSeat
+  @n_seat				INT,
+  @row					VARCHAR(1),
+  @id_section			INT,
+  @bi					INT,
+  @season				INT
+WITH ENCRYPTION
+AS 
+	IF @bi is null OR @n_seat is null OR @id_section is null OR @row is null OR @season is null
+	BEGIN
+		PRINT 'The bi, n_seat, id_section, row and season can not be null!'
+		RETURN
+	END
+
+	BEGIN TRY
+		DELETE FROM football.annual_seat WHERE bi = @bi AND n_seat = @n_seat AND id_section = @id_section AND row = @row AND season = @season;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when try delete the annual seat!', 14, 1)
+	END CATCH;
+\end{lstlisting}
+
+coachs.sql
+\begin{lstlisting} 
+use p4g5;
+
+go 
+
+-- DROP PROC football.sp_createCoach
+
+CREATE PROCEDURE football.sp_createCoach
+  @bi				INT, 
+  @name				VARCHAR(75),
+  @address			VARCHAR(75), 
+  @birth_date		DATE, 
+  @nif				INT, 
+  @gender			VARCHAR(1), 
+  @nationality		VARCHAR(75),
+  @salary			MONEY,
+  @federation_id	INT,
+  @role				VARCHAR(50)
+WITH ENCRYPTION
+AS 
+	IF  @bi is null OR @name is null OR @address is null OR @birth_date is null OR @nif is null OR 
+		@gender is null OR @nationality is null OR @salary is null OR @federation_id is null OR
+		@role is null
+	BEGIN
+		PRINT 'The bi, name, address, birth_date, nif, nationality, salary, federation_id and role can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the BI is already in use
+	SELECT @count = count(bi) FROM football.person WHERE bi = @bi;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The BI id is already in use!', 14, 1)
+		RETURN
+	END
+
+	-- check if the federation id is already in use
+	SELECT @count = count(federation_id) FROM football.coach WHERE federation_id = @federation_id;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use!', 14, 1)
+		RETURN
+	END
+
+	-- check if the federation id is already in use
+	SELECT @count = count(federation_id) FROM football.player WHERE federation_id = @federation_id;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use by one player!', 14, 1)
+		RETURN
+	END
+
+	-- check if the NIF is already in use
+	SELECT @count = count(nif) FROM football.person WHERE nif = @nif;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The NIF id is already in use!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		INSERT INTO football.person 
+					([bi], 
+					 [name], 
+					 [address], 
+					 [birth_date], 
+					 [nif], 
+					 [gender],
+					 [nationality]) 
+		VALUES      ( @bi, 
+					  @name, 
+					  @address, 
+					  @birth_date, 
+					  @nif, 
+					  @gender,
+					  @nationality) 
+
+		INSERT INTO football.internal_people 
+					([bi], 
+					 [salary]) 
+		VALUES      ( @bi, 
+					  @salary) 
+
+		INSERT INTO football.coach 
+					([bi], 
+					 [federation_id], 
+					 [role]) 
+		VALUES      ( @bi, 
+					  @federation_id, 
+					  @role)
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when creating the coach!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+
+go 
+
+-- DROP PROC football.sp_deleteCoach
+
+CREATE PROCEDURE football.sp_deleteCoach
+  @bi				INT
+WITH ENCRYPTION
+AS 
+	IF @bi is null
+	BEGIN
+		PRINT 'The bi can not be null!'
+		RETURN
+	END
+	
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		DELETE FROM football.heads WHERE bi = @bi;
+		DELETE FROM football.coach WHERE bi = @bi;
+		DELETE FROM football.internal_people WHERE bi = @bi;
+		DELETE FROM football.person WHERE bi = @bi;
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when try delete the coach!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+
+
+go 
+
+-- DROP PROC football.sp_modifyCoach
+
+CREATE PROCEDURE football.sp_modifyCoach
+  @bi				INT, 
+  @name				VARCHAR(75),
+  @address			VARCHAR(75), 
+  @birth_date		DATE, 
+  @gender			VARCHAR(1), 
+  @nationality		VARCHAR(75),
+  @salary			MONEY,
+  @federation_id	INT,
+  @role				VARCHAR(50)
+WITH ENCRYPTION
+AS 
+	IF @bi is null OR @name is null OR @address is null OR @birth_date is null OR @gender is null
+		OR @nationality is null OR @salary is null OR @federation_id is null OR @role is null
+	BEGIN
+		PRINT 'The bi, name, address, birth_date, nationality, salary, federation_id and role can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the BI exists
+	SELECT @count = count(bi) FROM football.person WHERE bi = @bi;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The BI that you provided do not exists!', 14, 1)
+		RETURN
+	END
+
+	-- check if the federation id is already in use
+	SELECT @count = count(federation_id) FROM football.coach WHERE federation_id = @federation_id AND bi != @bi;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use!', 14, 1)
+		RETURN
+	END
+
+	-- check if the federation id is already in use player
+	SELECT @count = count(federation_id) FROM football.player WHERE federation_id = @federation_id AND bi != @bi;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use by one player!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		UPDATE  football.person SET
+				name = @name, 
+				address = @address, 
+				birth_date = @birth_date,
+				gender = @gender,
+				nationality = @nationality
+		WHERE bi = @bi;
+
+		UPDATE football.internal_people SET
+			   salary = @salary
+		WHERE bi = @bi;
+
+		UPDATE football.coach SET
+			   federation_id = @federation_id, 
+			   role = @role
+		WHERE bi = @bi;
+
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the coach!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+
+-- Coach teams
+go
+-- DROP TYPE football.CoachTeams;
+CREATE TYPE football.CoachTeams
+AS TABLE
+(
+  team_name NVARCHAR(200),
+  bi		INT
+);
+
+go
+
+-- DROP PROC football.sp_sync_coachTeams
+
+CREATE PROCEDURE football.sp_sync_coachTeams
+  @coachTeams as football.CoachTeams READONLY,
+  @bi INT
+WITH ENCRYPTION
+AS 
+BEGIN
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		-- clean coach teams
+		DELETE FROM football.heads WHERE bi = @bi;
+
+		-- insert into coach teams
+		INSERT football.heads(team_name, bi)
+		SELECT team_name, bi
+		FROM @coachTeams
+		
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the coach teams!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+END
+\end{lstlisting}
+
+courts.sql
+\begin{lstlisting} 
+use p4g5;
+
+go 
+
+-- DROP PROC football.sp_createCourt
+
+CREATE PROCEDURE football.sp_createCourt
+  @address			VARCHAR(150)
+WITH ENCRYPTION
+AS 
+	IF @address is null
+	BEGIN
+		PRINT 'The address can not be null!'
+		RETURN
+	END
+	
+	BEGIN TRY
+		INSERT INTO football.court 
+					([address]) 
+		VALUES      ( @address) 
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when creating the court!', 14, 1)
+	END CATCH;
+
+go 
+
+-- DROP PROC football.sp_modifyCourt
+
+CREATE PROCEDURE football.sp_modifyCourt
+  @id_court		INT,
+  @address		VARCHAR(50)
+WITH ENCRYPTION
+AS 
+	IF @id_court is null OR @address is null
+	BEGIN
+		PRINT 'The court id and address can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the court exists
+	SELECT @count = count(id_court) FROM football.court WHERE id_court = @id_court;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The court that you provided do not exists!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRY
+		UPDATE  football.court SET
+				address = @address
+		WHERE id_court = @id_court;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the court!', 14, 1)
+	END CATCH;
+
+go 
+
+-- DROP PROC football.sp_deleteCourt
+
+CREATE PROCEDURE football.sp_deleteCourt
+  @id_court			INT
+WITH ENCRYPTION
+AS 
+	IF @id_court is null
+	BEGIN
+		PRINT 'The court id can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int;
+
+	-- check if the court exists in practices
+	SELECT @count = count(id_court) FROM football.practice WHERE id_court = @id_court;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('Please delete the practices in this court first!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRY
+		DELETE FROM football.court WHERE id_court = @id_court;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when try delete the court!', 14, 1)
+	END CATCH;
+\end{lstlisting}
+
+departments.sql
+\begin{lstlisting} 
+use p4g5;
+
+go 
+
+-- DROP PROC football.sp_createDepartment
+
+CREATE PROCEDURE football.sp_createDepartment
+  @name				VARCHAR(75),
+  @address		    VARCHAR(75)
+WITH ENCRYPTION
+AS 
+	IF @name is null OR @address is null
+	BEGIN
+		PRINT 'The name and address can not be null!'
+		RETURN
+	END
+
+	BEGIN TRY
+		INSERT INTO football.department 
+					([name], 
+					 [address]) 
+		VALUES      ( @name, 
+					  @address)
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when creating the department!', 14, 1)
+	END CATCH;
+
+go 
+
+-- DROP PROC football.sp_modifyDepartment
+
+CREATE PROCEDURE football.sp_modifyDepartment
+  @name				VARCHAR(75),
+  @department_id    INT,
+  @address			VARCHAR(75)
+WITH ENCRYPTION
+AS 
+	IF @name is null OR @department_id is null OR @address is null
+	BEGIN
+		PRINT 'The name, department_id and address can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the department exists
+	SELECT @count = count(department_id) FROM football.department WHERE department_id = @department_id;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The department that you provided do not exists!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRY
+		UPDATE  football.department SET
+				name = @name,
+				address = @address
+		WHERE department_id = @department_id;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the department!', 14, 1)
+	END CATCH;
+
+go 
+
+-- DROP PROC football.sp_deleteDepartment
+
+CREATE PROCEDURE football.sp_deleteDepartment
+  @department_id			INT
+WITH ENCRYPTION
+AS 
+	IF @department_id is null
+	BEGIN
+		PRINT 'The department_id can not be null!'
+		RETURN
+	END
+
+	DECLARE @count int
+
+	-- check if the department has staff
+	SELECT @count = count(department_id) FROM football.staff WHERE department_id = @department_id;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The department that you provided has staff!', 14, 1)
+		RETURN
+	END
+	
+	BEGIN TRY
+		DELETE FROM football.department WHERE department_id = @department_id;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when try delete the department!', 14, 1)
+	END CATCH;
+\end{lstlisting}
+
+members.sql
+\begin{lstlisting} 
+use p4g5;
+
+go 
+
+-- DROP PROC football.sp_createMember
+
+CREATE PROCEDURE football.sp_createMember
+  @bi				INT, 
+  @name				VARCHAR(75),
+  @address			VARCHAR(75), 
+  @birth_date		DATE, 
+  @nif				INT, 
+  @gender			VARCHAR(1), 
+  @nationality		VARCHAR(75),
+  @shares_value		MONEY,
+  @shares_in_day	INT
+ 
+WITH ENCRYPTION
+AS 
+	IF @bi is null OR @name is null OR @address is null OR @birth_date is null OR @nif is null OR 
+		@gender is null OR @nationality is null OR @shares_value is null OR
+		@shares_in_day is null
+	BEGIN
+		PRINT 'The bi, name, address, birth_date, nif, nationality, shares value and shares in day can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the BI is already in use
+	SELECT @count = count(bi) FROM football.person WHERE bi = @bi;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The BI id is already in use!', 14, 1)
+		RETURN
+	END
+
+	-- check if the NIF is already in use
+	SELECT @count = count(nif) FROM football.person WHERE nif = @nif;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The NIF id is already in use!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		INSERT INTO football.person 
+					([bi], 
+					 [name], 
+					 [address], 
+					 [birth_date], 
+					 [nif], 
+					 [gender],
+					 [nationality]) 
+		VALUES      ( @bi, 
+					  @name, 
+					  @address, 
+					  @birth_date, 
+					  @nif, 
+					  @gender,
+					  @nationality) 
+
+		INSERT INTO football.members 
+					([bi], 
+					 [shares_value], 
+					 [shares_in_day]) 
+		VALUES      ( @bi, 
+					  @shares_value, 
+					  @shares_in_day)
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when creating the member!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+
+go
+
+-- DROP PROC football.sp_modifyMember
+
+CREATE PROCEDURE football.sp_modifyMember
+  @bi				INT, 
+  @name				VARCHAR(75),
+  @address			VARCHAR(75), 
+  @birth_date		DATE, 
+  @gender			VARCHAR(1), 
+  @nationality		VARCHAR(75),
+  @shares_value		MONEY,
+  @shares_in_day	INT
+WITH ENCRYPTION
+AS 
+	IF @bi is null OR @name is null OR @address is null OR @birth_date is null OR 
+		@gender is null OR @nationality is null OR @shares_value is null OR
+		@shares_in_day is null
+	BEGIN
+		PRINT 'The bi, name, address, birth_date, nationality, shares value and shares in day can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the BI exists
+	SELECT @count = count(bi) FROM football.person WHERE bi = @bi;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The BI that you provided do not exists!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		UPDATE  football.person SET
+				name = @name, 
+				address = @address, 
+				birth_date = @birth_date,
+				gender = @gender,
+				nationality = @nationality
+		WHERE bi = @bi;
+
+		UPDATE football.members SET
+			   shares_value = @shares_value, 
+			   shares_in_day = @shares_in_day	   
+		WHERE bi = @bi;
+
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the member!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+
+go
+
+CREATE PROCEDURE football.sp_deleteMember
+  @bi				INT
+WITH ENCRYPTION
+AS 
+	IF @bi is null
+	BEGIN
+		PRINT 'The bi can not be null!'
+		RETURN
+	END
+	
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		DELETE FROM football.members WHERE bi = @bi;
+		DELETE FROM football.person WHERE bi = @bi;
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when try delete the member!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+\end{lstlisting}
+
+player.sql
+\begin{lstlisting} 
+use p4g5;
+
+go 
+
+-- DROP PROC football.sp_createPlayer
+
+CREATE PROCEDURE football.sp_createPlayer
+  @bi				INT, 
+  @name				VARCHAR(75),
+  @address			VARCHAR(75), 
+  @birth_date		DATE, 
+  @nif				INT, 
+  @gender			VARCHAR(1), 
+  @nationality		VARCHAR(75),
+  @salary			MONEY,
+  @federation_id	INT,
+  @weight			INT,
+  @height			INT
+WITH ENCRYPTION
+AS 
+	IF @bi is null OR @name is null OR @address is null OR @birth_date is null OR @nif is null OR 
+		@gender is null OR @nationality is null OR @salary is null OR @federation_id is null OR
+		@weight is null OR @height is null
+	BEGIN
+		PRINT 'The bi, name, address, birth_date, nif, nationality, salary, federation_id, weight and height can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the BI is already in use
+	SELECT @count = count(bi) FROM football.person WHERE bi = @bi;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The BI id is already in use!', 14, 1)
+		RETURN
+	END
+
+	-- check if the federation id is already in use
+	SELECT @count = count(federation_id) FROM football.player WHERE federation_id = @federation_id;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use!', 14, 1)
+		RETURN
+	END
+
+	-- check if the federation id is already in use
+	SELECT @count = count(federation_id) FROM football.coach WHERE federation_id = @federation_id;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use by one coach!', 14, 1)
+		RETURN
+	END
+
+	-- check if the NIF is already in use
+	SELECT @count = count(nif) FROM football.person WHERE nif = @nif;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The NIF id is already in use!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		INSERT INTO football.person 
+					([bi], 
+					 [name], 
+					 [address], 
+					 [birth_date], 
+					 [nif], 
+					 [gender],
+					 [nationality]) 
+		VALUES      ( @bi, 
+					  @name, 
+					  @address, 
+					  @birth_date, 
+					  @nif, 
+					  @gender,
+					  @nationality) 
+
+		INSERT INTO football.internal_people 
+					([bi], 
+					 [salary]) 
+		VALUES      ( @bi, 
+					  @salary) 
+
+		INSERT INTO football.player 
+					([bi], 
+					 [federation_id], 
+					 [weight],
+					 [height]) 
+		VALUES      ( @bi, 
+					  @federation_id, 
+					  @weight,
+					  @height)
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when creating the player!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+
+go 
+
+-- DROP PROC football.sp_deletePlayer
+
+CREATE PROCEDURE football.sp_deletePlayer
+  @bi				INT
+WITH ENCRYPTION
+AS 
+	IF @bi is null
+	BEGIN
+		PRINT 'The bi can not be null!'
+		RETURN
+	END
+	
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		DELETE FROM football.play WHERE bi = @bi;
+		DELETE FROM football.player WHERE bi = @bi;
+		DELETE FROM football.internal_people WHERE bi = @bi;
+		DELETE FROM football.person WHERE bi = @bi;
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when try delete the player!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+
+
+go 
+
+-- DROP PROC football.sp_modifyPlayer
+
+CREATE PROCEDURE football.sp_modifyPlayer
+  @bi				INT, 
+  @name				VARCHAR(75),
+  @address			VARCHAR(75), 
+  @birth_date		DATE, 
+  @gender			VARCHAR(1), 
+  @nationality		VARCHAR(75),
+  @salary			MONEY,
+  @federation_id	INT,
+  @weight			INT,
+  @height			INT
+WITH ENCRYPTION
+AS 
+	IF @bi is null OR @name is null OR @address is null OR @birth_date is null OR @gender is null
+		OR @nationality is null OR @salary is null OR @federation_id is null OR @weight is null 
+		OR @height is null
+	BEGIN
+		PRINT 'The bi, name, address, birth_date, nationality, salary, federation_id, weight and height can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the BI exists
+	SELECT @count = count(bi) FROM football.person WHERE bi = @bi;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The BI that you provided do not exists!', 14, 1)
+		RETURN
+	END
+
+	-- check if the federation id is already in use
+	SELECT @count = count(federation_id) FROM football.player WHERE federation_id = @federation_id AND bi != @bi;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use!', 14, 1)
+		RETURN
+	END
+
+	-- check if the federation id is already in use
+	SELECT @count = count(federation_id) FROM football.coach WHERE federation_id = @federation_id;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The federation id is already in use by one coach!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		UPDATE  football.person SET
+				name = @name, 
+				address = @address, 
+				birth_date = @birth_date,
+				gender = @gender,
+				nationality = @nationality
+		WHERE bi = @bi;
+
+		UPDATE football.internal_people SET
+			   salary = @salary
+		WHERE bi = @bi;
+
+		UPDATE football.player SET
+			   federation_id = @federation_id, 
+			   weight = @weight,
+			   height = @height
+		WHERE bi = @bi;
+
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the player!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+
+-- Player teams
+go
+-- DROP TYPE football.PlayerTeams;
+CREATE TYPE football.PlayerTeams
+AS TABLE
+(
+  team_name NVARCHAR(200),
+  bi		INT
+);
+
+go
+
+-- DROP PROC football.sp_sync_playerTeams
+
+CREATE PROCEDURE football.sp_sync_playerTeams
+  @playerTeams as football.PlayerTeams READONLY,
+  @bi INT
+WITH ENCRYPTION
+AS 
+BEGIN
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		-- clean player teams
+		DELETE FROM football.play WHERE bi = @bi;
+
+		-- insert into player teams
+		INSERT football.play(team_name, bi)
+		SELECT team_name, bi
+		FROM @playerTeams
+		
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the player teams!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+END
+\end{lstlisting}
+
+practice.sql
+\begin{lstlisting} 
+use p4g5;
+
+go 
+
+-- DROP PROC football.sp_createPractice
+
+CREATE PROCEDURE football.sp_createPractice
+	@id_court		INT,
+	@date			DATE,
+	@hour			TIME(7),
+	@team_name		VARCHAR(50)
+WITH ENCRYPTION
+AS 
+	IF @id_court is null OR @date is null OR @hour is null
+		OR @team_name is null
+	BEGIN
+		PRINT 'The court id, date, hour or team name can not be null!'
+		RETURN
+	END
+	
+	
+	DECLARE @count int
+
+	-- check if the practice exists
+	SELECT @count = count(id_court) FROM football.practice WHERE id_court = @id_court
+																 AND date = @date
+																 AND hour = @hour;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The practice that you provided already exists!', 14, 1)
+		RETURN
+	END
+
+	-- check if the team exists
+	SELECT @count = count(name) FROM football.team WHERE name = @team_name;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The team that you provided do not exists!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRY
+		INSERT INTO football.practice 
+					([date],
+					 [hour],
+					 [id_court],
+					 [team_name]) 
+		VALUES      ( @date,
+					  @hour,
+					  @id_court,
+					  @team_name)
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when creating the practice!', 14, 1)
+	END CATCH;
+
+go 
+
+-- DROP PROC football.sp_modifyPractice
+
+CREATE PROCEDURE football.sp_modifyPractice
+	@id_court		INT,
+	@date			DATE,
+	@hour			TIME(7),
+	@team_name		VARCHAR(50)
+WITH ENCRYPTION
+AS 
+	IF @id_court is null OR @date is null OR @hour is null
+		OR @team_name is null
+	BEGIN
+		PRINT 'The court id, date, hour or team name can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the practice exists
+	SELECT @count = count(id_court) FROM football.practice WHERE id_court = @id_court
+																 AND date = @date
+																 AND hour = @hour;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The practice that you provided do not exists!', 14, 1)
+		RETURN
+	END
+	
+	-- check if the team exists
+	SELECT @count = count(name) FROM football.team WHERE name = @team_name;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The team that you provided do not exists!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRY
+		UPDATE  football.practice SET
+				team_name = @team_name
+		WHERE id_court = @id_court
+			  AND date = @date
+			  AND hour = @hour;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the practice!', 14, 1)
+	END CATCH;
+
+go 
+
+-- DROP PROC football.sp_deletePractice
+
+CREATE PROCEDURE football.sp_deletePractice
+	@id_court		INT,
+	@date			DATE,
+	@hour			TIME(7)
+WITH ENCRYPTION
+AS 
+	IF @id_court is null
+	BEGIN
+		PRINT 'The court id can not be null!'
+		RETURN
+	END
+	
+	IF @id_court is null OR @date is null OR @hour is null
+	BEGIN
+		PRINT 'The court id, date or hour can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the practice exists
+	SELECT @count = count(id_court) FROM football.practice WHERE id_court = @id_court
+																 AND date = @date
+																 AND hour = @hour;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The practice that you provided do not exists!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRY
+		DELETE FROM football.practice WHERE id_court = @id_court
+											AND date = @date
+											AND hour = @hour;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when try delete the practice!', 14, 1)
+	END CATCH;
+\end{lstlisting}
+
+seats.sql
+\begin{lstlisting} 
+use p4g5;
+
+go 
+
+-- DROP PROC football.sp_createSeat
+
+CREATE PROCEDURE football.sp_createSeat
+  @n_seat			INT, 
+  @row  			VARCHAR(1), 
+  @id_section       INT
+
+WITH ENCRYPTION
+AS 
+	IF @n_seat is null OR @row is null OR @id_section is null
+	BEGIN
+		PRINT 'The n_seat, row and id_section can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the Annual seat is already in use
+	SELECT @count = count(n_seat) FROM football.annual_seat WHERE n_seat = @n_seat AND row = @row AND id_section = @id_section;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The seat already exists!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRY
+		INSERT INTO football.seat
+					([n_seat], 
+					 [row], 
+					 [id_section]) 
+		VALUES      ( @n_seat, 
+					  @row, 
+					  @id_section) 
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when creating the seat!', 14, 1)
+	END CATCH;
+
+
+go 
+
+-- DROP PROC football.sp_deleteSeat
+
+CREATE PROCEDURE football.sp_deleteSeat
+  @n_seat				INT,
+  @row					VARCHAR(1),
+  @id_section			INT
+WITH ENCRYPTION
+AS 
+	IF @n_seat is null OR @id_section is null OR @row is null
+	BEGIN
+		PRINT 'The n_seat, id_section and row can not be null!'
+		RETURN
+	END
+
+	DECLARE @count int
+
+		-- check if the seat is Annual seat
+	SELECT @count = count(n_seat) FROM football.annual_seat WHERE n_seat = @n_seat AND row = @row AND id_section = @id_section;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The seat is Annual seat!', 14, 1)
+		RETURN
+	END
+
+	-- check if the seat exists
+	SELECT @count = count(n_seat) FROM football.seat WHERE n_seat = @n_seat AND row = @row AND id_section = @id_section;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The seat doesnt exists!', 14, 1)
+		RETURN
+	END
+	
+	BEGIN TRY
+		DELETE FROM football.seat WHERE n_seat = @n_seat AND id_section = @id_section AND row = @row;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when try delete the seat!', 14, 1)
+	END CATCH;
+\end{lstlisting}
+
+section.sql
+\begin{lstlisting} 
+use p4g5;
+
+go 
+
+-- DROP PROC football.sp_createSection
+
+CREATE PROCEDURE football.sp_createSection
+  @type				VARCHAR(75)
+WITH ENCRYPTION
+AS 
+	IF @type is null
+	BEGIN
+		PRINT 'The type can not be null!'
+		RETURN
+	END
+
+	BEGIN TRY
+		INSERT INTO football.section 
+					([type]) 
+		VALUES      ( @type)
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when creating the section!', 14, 1)
+	END CATCH;
+
+go 
+
+-- DROP PROC football.sp_modifySection
+
+CREATE PROCEDURE football.sp_modifySection
+  @type  		VARCHAR(75),
+  @id_section   INT
+WITH ENCRYPTION
+AS 
+	IF @type is null
+	BEGIN
+		PRINT 'The type can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the section exists
+	SELECT @count = count(id_section) FROM football.section WHERE id_section = @id_section;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The section that you provided do not exists!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRY
+		UPDATE  football.section SET
+				type = @type
+		WHERE id_section = @id_section;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the section!', 14, 1)
+	END CATCH;
+
+go 
+
+-- DROP PROC football.sp_deleteSection
+
+CREATE PROCEDURE football.sp_deleteSection
+  @id_section			INT
+WITH ENCRYPTION
+AS 
+	IF @id_section is null
+	BEGIN
+		PRINT 'The section ID can not be null!'
+		RETURN
+	END
+
+	DECLARE @count int
+
+	-- check if the section exists
+	SELECT @count = count(id_section) FROM football.section WHERE id_section = @id_section;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The section that you provided do not exists!', 14, 1)
+		RETURN
+	END
+	
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		DELETE FROM football.annual_seat WHERE id_section = @id_section;
+		DELETE FROM football.seat WHERE id_section = @id_section;
+		DELETE FROM football.section WHERE id_section = @id_section;
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when try delete the section!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+\end{lstlisting}
+
+staff.sql
+\begin{lstlisting} 
+use p4g5;
+
+go 
+
+-- DROP PROC football.sp_createStaff
+
+CREATE PROCEDURE football.sp_createStaff
+  @bi				INT, 
+  @name				VARCHAR(75),
+  @address			VARCHAR(75), 
+  @birth_date		DATE, 
+  @nif				INT, 
+  @gender			VARCHAR(1), 
+  @nationality		VARCHAR(75),
+  @salary			MONEY,
+  @department_id    INT,
+  @role	            VARCHAR(50)
+
+WITH ENCRYPTION
+AS 
+	IF @bi is null OR @name is null OR @address is null OR @birth_date is null OR @nif is null OR 
+		@gender is null OR @nationality is null OR @salary is null OR @department_id is null OR @role is null
+	BEGIN
+		PRINT 'The bi, name, address, birth_date, nif, nationality, salary, department id and role can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the BI is already in use
+	SELECT @count = count(bi) FROM football.person WHERE bi = @bi;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The BI id is already in use!', 14, 1)
+		RETURN
+	END
+
+	-- check if the NIF is already in use
+	SELECT @count = count(nif) FROM football.person WHERE nif = @nif;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The NIF id is already in use!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		INSERT INTO football.person 
+					([bi], 
+					 [name], 
+					 [address], 
+					 [birth_date], 
+					 [nif], 
+					 [gender],
+					 [nationality]) 
+		VALUES      ( @bi, 
+					  @name, 
+					  @address, 
+					  @birth_date, 
+					  @nif, 
+					  @gender,
+					  @nationality) 
+
+		INSERT INTO football.internal_people 
+					([bi], 
+					 [salary]) 
+		VALUES      ( @bi, 
+					  @salary) 
+
+		INSERT INTO football.staff 
+					([bi],
+					 [department_id],
+					 [role]) 
+		VALUES      ( @bi, 
+					  @department_id,
+					  @role)
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when creating the staff!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+
+	go 
+
+-- DROP PROC football.sp_modifyStaff
+
+CREATE PROCEDURE football.sp_modifyStaff
+  @bi				INT, 
+  @name				VARCHAR(75),
+  @address			VARCHAR(75), 
+  @birth_date		DATE, 
+  @gender			VARCHAR(1), 
+  @nationality		VARCHAR(75),
+  @salary			MONEY,
+  @department_id	INT,
+  @role				VARCHAR(50)
+
+WITH ENCRYPTION
+AS 
+	IF @bi is null OR @name is null OR @address is null OR @birth_date is null OR @gender is null
+		OR @nationality is null OR @salary is null OR @department_id is null OR @role is null 
+
+	BEGIN
+		PRINT 'The bi, name, address, birth_date, nationality, salary, department_id and role can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the BI exists
+	SELECT @count = count(bi) FROM football.person WHERE bi = @bi;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The BI that you provided do not exists!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		UPDATE  football.person SET
+				name = @name, 
+				address = @address, 
+				birth_date = @birth_date,
+				gender = @gender,
+				nationality = @nationality
+		WHERE bi = @bi;
+
+		UPDATE football.internal_people SET
+			   salary = @salary
+		WHERE bi = @bi;
+
+		UPDATE football.staff SET
+			   department_id = @department_id, 
+			   role = @role
+		WHERE bi = @bi;
+
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the staff!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+
+	go 
+
+-- DROP PROC football.sp_deleteStaff
+
+CREATE PROCEDURE football.sp_deleteStaff
+  @bi				INT
+WITH ENCRYPTION
+AS 
+	IF @bi is null
+	BEGIN
+		PRINT 'The bi can not be null!'
+		RETURN
+	END
+	
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		DELETE FROM football.staff WHERE bi = @bi;
+		DELETE FROM football.internal_people WHERE bi = @bi;
+		DELETE FROM football.person WHERE bi = @bi;
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when try delete the staff!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+\end{lstlisting}
+
+teams.sql
+\begin{lstlisting} 
+use p4g5;
+
+go 
+
+-- DROP PROC football.sp_createTeam
+
+CREATE PROCEDURE football.sp_createTeam
+  @name				VARCHAR(50),
+  @max_age			INT
+WITH ENCRYPTION
+AS 
+	IF @name is null OR @max_age is null
+	BEGIN
+		PRINT 'The name and max_age can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the name is already in use
+	SELECT @count = count(name) FROM football.team WHERE name = @name;
+
+	IF @count != 0
+	BEGIN
+		RAISERROR ('The name is already in use!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRY
+		INSERT INTO football.team 
+					([name], 
+					 [max_age]) 
+		VALUES      ( @name, 
+					  @max_age) 
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when creating the team!', 14, 1)
+	END CATCH;
+
+go 
+
+-- DROP PROC football.sp_modifyTeam
+
+CREATE PROCEDURE football.sp_modifyTeam
+  @name				VARCHAR(50),
+  @max_age			INT
+WITH ENCRYPTION
+AS 
+	IF @name is null OR @max_age is null
+	BEGIN
+		PRINT 'The name and max_age can not be null!'
+		RETURN
+	END
+	
+	DECLARE @count int
+
+	-- check if the team exists
+	SELECT @count = count(name) FROM football.team WHERE name = @name;
+
+	IF @count = 0
+	BEGIN
+		RAISERROR ('The team that you provided do not exists!', 14, 1)
+		RETURN
+	END
+
+	BEGIN TRY
+		UPDATE  football.team SET
+				max_age = @max_age
+		WHERE name = @name;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when updating the team!', 14, 1)
+	END CATCH;
+
+go 
+
+-- DROP PROC football.sp_deleteTeam
+
+CREATE PROCEDURE football.sp_deleteTeam
+  @name			VARCHAR(50)
+WITH ENCRYPTION
+AS 
+	IF @name is null
+	BEGIN
+		PRINT 'The name can not be null!'
+		RETURN
+	END
+	
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		DELETE FROM football.heads WHERE team_name = @name;
+		DELETE FROM football.play WHERE team_name = @name;
+		DELETE FROM football.practice WHERE team_name = @name;
+		DELETE FROM football.team WHERE name = @name;
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		RAISERROR ('An error occurred when try delete the team!', 14, 1)
+		ROLLBACK TRANSACTION;
+	END CATCH;
+\end{lstlisting}
+
 
 
 
