@@ -373,6 +373,45 @@ AS
 
 Restantes stored procedures estão disponíveis em anexo. (ref)
 
+\newpage
+\section{User-defined functions}
+As UDF's no nosso modelo de dados desempenham o papel de vistas dado que não temos nenhuma "View". Uma user defined function representa várias vantagens em relação a uma view, podem ser usadas para incorporar lógica complexa numa pesquisa, podem aceitar parâmetros e usando schema binding previne a alteração ou remoção de objectos utilizados pela função.
+
+Estas apresentam também a mesma característica do que os SPs por serem igualmente compilados e optimizados. Sendo assim o modelo de dados fica muito mais simples de ser usado e rápido.
+
+Na maior parte das triggers optámos por uma lógica de quando os parâmetros de entrada fossem NULL a UDF retornaria todos os resultados da base de dados. Quando não fosse NULL ela retornaria resultados específicos.
+
+
+\begin{lstlisting}
+go
+
+CREATE FUNCTION football.udf_players_data_grid(@team_name VARCHAR(50)=null)
+RETURNS @table TABLE ("internal id" int, "bi" int, "name" varchar(75), "salary" money, "gender" varchar(1), "federation_id" int)
+WITH SCHEMABINDING, ENCRYPTION
+AS
+BEGIN
+	-- Quando @team_name e null mostra todos os jogadores de determinada equipa
+	IF (@team_name is null)
+		BEGIN
+			INSERT @table SELECT	internal_people.internal_id AS 'internal id', person.bi, person.name, internal_people.salary, person.gender, player.federation_id AS 'federation id'
+			FROM	(football.player JOIN (football.internal_people JOIN
+football.person ON internal_people.bi = person.bi) ON player.bi = football.internal_people.bi);
+		END;
+		
+	-- Quando @team_name nao e null entao mostra os detalhes de um jogador de determinada equipa
+	ELSE
+		BEGIN
+			INSERT @table SELECT	internal_people.internal_id AS 'internal id', person.bi, person.name, internal_people.salary, person.gender, player.federation_id AS 'federation id'
+			FROM	(football.play JOIN	(football.player JOIN (football.internal_people JOIN football.person ON internal_people.bi = person.bi) ON player.bi = football.internal_people.bi) ON play.bi = player.bi)
+			WHERE team_name = @team_name;
+		END;
+	RETURN;
+END;
+\end{lstlisting}
+ \vspace{0,5in}
+
+Restantes user defined functions estão disponíveis em anexo. (ref)
+
 \section{Triggers}
 De forma a garantir uma maior consistência e integridade da base de dados, foram utilizados alguns triggers. Estes são funções que são ativadas aquando de um insert, update ou delete numa determinada tabela de dados.
 \\
