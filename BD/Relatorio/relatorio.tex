@@ -232,9 +232,6 @@ CREATE NONCLUSTERED INDEX indexactiveseat ON football.seat(active)
 WITH (FILLFACTOR=75,pad_index=ON);
 \end{lstlisting}
  \vspace{0,5in}
-Restantes índices estão disponíveis em anexo(ref):
-\\
-
 
 \newpage
 
@@ -367,8 +364,6 @@ AS
 \end{lstlisting}
  \vspace{0,5in}
 
-Restantes stored procedures estão disponíveis em anexo. (ref)
-
 \newpage
 
 \section{User-defined functions}
@@ -407,15 +402,14 @@ END;
 \end{lstlisting}
  \vspace{0,5in}
 
-Restantes user defined functions estão disponíveis em anexo. (ref)
-
 \newpage
 \section{Triggers}
 De forma a garantir uma maior consistência e integridade da base de dados, foram utilizados alguns triggers. Estes são funções que são ativadas aquando de um insert, update ou delete numa determinada tabela de dados.
 
-No nosso caso, foi criado, por exemplo, um  trigger que ocorre quando existe um pedido de delete na tabela "seat", este em vez de ser removido, altera o valor da variável "active" para 0 (INSTEAD OF).
+Utilizou-se triggers nos casos em que apenas a validação no Store Procedure não garante que no acesso direto e na manipulação direta da base de dados não seja feito nada inconsistente. Quando o SQL Server garantia a integridade do sistema, através das chaves, neste caso as chaves primárias, únicas e não nulas, não foram utilizados triggers.
+
+Foi criado, por exemplo, um  trigger que ocorre quando existe um pedido de delete na tabela "seat", este em vez de ser removido, altera o valor da variável "active" para 0 (INSTEAD OF).
 O resto dos triggers utilizados resumem-se a verificações, no nosso caso, verificar se determinado "federation{\textunderscore}id" já existe aquando de um create ou de um update nas tabelas "coach" e "player".
-Restantes triggers estão disponíveis em anexo(ref)
 \\
 
 \begin{lstlisting}
