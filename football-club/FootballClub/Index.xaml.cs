@@ -23,22 +23,19 @@ namespace FootballClub
     /// </summary>
     public partial class Index : Page
     {
-        private string ConString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
         private SqlConnection con;
 
         public Index()
         {
             InitializeComponent();
-            using (con = new SqlConnection(ConString))
-            {
-                FillStats(con);
-            }
+            con = ConnectionDB.getConnection();
+            FillStats();
         }
         
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          *  ##########################-----------     STATS    -----------##########################
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-        private void FillStats(SqlConnection con)
+        private void FillStats()
         {
             string CmdString = "SELECT * FROM football.udf_general_stats()";
             SqlCommand cmd = new SqlCommand(CmdString, con);

@@ -23,27 +23,23 @@ namespace FootballClub
     /// </summary>
     public partial class Staff : Page
     {
-        private string ConString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
         private SqlConnection con;
         private string dep_id;
 
         public Staff()
         {
             InitializeComponent();
-            using (con = new SqlConnection(ConString))
-            {
-                FillDataGridStaff(con);
-                FillDataGridDepartments(con);
-                fillStats(con);
-            }
-
+            con = ConnectionDB.getConnection();
+            FillDataGridStaff();
+            FillDataGridDepartments();
+            fillStats();
         }
 
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
        *  ##########################----------- STAFF TAB -----------##########################
        * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-        private void FillDataGridStaff(SqlConnection con)
+        private void FillDataGridStaff()
         {
             string CmdString = "SELECT * FROM football.udf_staff_data_grid()";
             SqlCommand cmd = new SqlCommand(CmdString, con);
@@ -71,320 +67,306 @@ namespace FootballClub
 
         private void staffGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            using (con = new SqlConnection(ConString))
+            DataRowView row = (DataRowView)staffGrid.SelectedItem;
+            string search_bi;
+            try
             {
-                DataRowView row = (DataRowView)staffGrid.SelectedItem;
-                string search_bi;
-                try
-                {
-                    search_bi = row.Row.ItemArray[1].ToString();
-                }
-                catch (Exception)
-                {
-                    return;
-                }
-                staff_bi.Text = search_bi;
-                string CmdString = "SELECT * FROM football.udf_staff(@staff_bi)";
-                SqlCommand cmd = new SqlCommand(CmdString, con);
-                cmd.Parameters.AddWithValue("@staff_bi", Convert.ToInt32(search_bi));
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable("staff");
-                sda.Fill(dt);
-                DataRow r = dt.Rows[0];
+                search_bi = row.Row.ItemArray[1].ToString();
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            staff_bi.Text = search_bi;
+            string CmdString = "SELECT * FROM football.udf_staff(@staff_bi)";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            cmd.Parameters.AddWithValue("@staff_bi", Convert.ToInt32(search_bi));
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("staff");
+            sda.Fill(dt);
+            DataRow r = dt.Rows[0];
 
-                staff_bi.Text = r["bi"].ToString();
-                staff_name.Text = r["name"].ToString();
-                staff_nif.Text = r["nif"].ToString();
-                staff_address.Text = r["address"].ToString();
-                if (r["gender"].ToString() == "F")
-                {
-                    staff_GenderFemale.IsChecked = true;
-                }
-                else
-                {
-                    staff_GenderMale.IsChecked = true;
-                }
-                DateTime date = DateTime.Parse(r["birth date"].ToString());
-                staff_birth_date.Text = date.ToString("yyyy-MM-dd");
-                staff_nationality.Text = r["nationality"].ToString();
-                staff_salary.Value = Convert.ToDouble(r["salary"].ToString());
-                staff_internal_id.Text = r["internal id"].ToString();
-                staff_role.Text = r["role"].ToString();
+            staff_bi.Text = r["bi"].ToString();
+            staff_name.Text = r["name"].ToString();
+            staff_nif.Text = r["nif"].ToString();
+            staff_address.Text = r["address"].ToString();
+            if (r["gender"].ToString() == "F")
+            {
+                staff_GenderFemale.IsChecked = true;
+            }
+            else
+            {
+                staff_GenderMale.IsChecked = true;
+            }
+            DateTime date = DateTime.Parse(r["birth date"].ToString());
+            staff_birth_date.Text = date.ToString("yyyy-MM-dd");
+            staff_nationality.Text = r["nationality"].ToString();
+            staff_salary.Value = Convert.ToDouble(r["salary"].ToString());
+            staff_internal_id.Text = r["internal id"].ToString();
+            staff_role.Text = r["role"].ToString();
 
-                String CmdString1 = "SELECT * FROM football.udf_department_names(@staff_bi)";
-                SqlCommand cmd1 = new SqlCommand(CmdString1, con);
-                cmd1.Parameters.AddWithValue("@staff_bi", Convert.ToInt32(search_bi));
-                SqlDataAdapter sda1 = new SqlDataAdapter(cmd1);
-                DataTable dt1 = new DataTable("department_selected");
-                sda1.Fill(dt1);
+            String CmdString1 = "SELECT * FROM football.udf_department_names(@staff_bi)";
+            SqlCommand cmd1 = new SqlCommand(CmdString1, con);
+            cmd1.Parameters.AddWithValue("@staff_bi", Convert.ToInt32(search_bi));
+            SqlDataAdapter sda1 = new SqlDataAdapter(cmd1);
+            DataTable dt1 = new DataTable("department_selected");
+            sda1.Fill(dt1);
 
-                foreach (ComboBoxItem itm in staff_departments.Items)
+            foreach (ComboBoxItem itm in staff_departments.Items)
+            {
+                itm.IsSelected = false;
+                foreach (DataRow department in dt1.Rows)
                 {
-                    itm.IsSelected = false;
-                    foreach (DataRow department in dt1.Rows)
+                    if (department[0].ToString() == itm.Content.ToString())
                     {
-                        if (department[0].ToString() == itm.Content.ToString())
-                        {
-                            dep_id = department[1].ToString();
-                            itm.IsSelected = true;
-                            break;
-                        }
+                        dep_id = department[1].ToString();
+                        itm.IsSelected = true;
+                        break;
                     }
                 }
             }
-
         }
 
         
         private void Staff_New(object sender, RoutedEventArgs e)
         {
-            using (con = new SqlConnection(ConString))
+            // --> Validations
+            int biInt, nifInt, depInt;
+
+            if (!Int32.TryParse(staff_bi.Text, out biInt))
             {
-                // --> Validations
-                int biInt, nifInt, depInt;
-
-                if (!Int32.TryParse(staff_bi.Text, out biInt))
-                {
-                    MessageBox.Show("The BI must be an Integer!");
-                    return;
-                }
-                if (!Int32.TryParse(staff_nif.Text, out nifInt))
-                {
-                    MessageBox.Show("The NIF must be an Integer!");
-                    return;
-                }
-
-                 if (staff_name.Text.Length == 0)
-                {
-                    MessageBox.Show("The name can't be blank!");
-                    return;
-                }
-                if (staff_address.Text.Length == 0)
-                {
-                    MessageBox.Show("The address can't be blank!");
-                    return;
-                }
-                if (staff_nationality.Text.Length == 0)
-                {
-                    MessageBox.Show("The nationality can't be blank!");
-                    return;
-                }
-
-                DateTime dt;
-                if (!DateTime.TryParse(staff_birth_date.Text, out dt))
-                {
-                    MessageBox.Show("Please insert a valid date!");
-                    return;
-                }
-
-                string gender;
-                if (staff_GenderFemale.IsChecked == true)
-                {
-                    gender = "F";
-                }
-                else if (staff_GenderMale.IsChecked == true)
-                {
-                    gender = "M";
-                }
-                else
-                {
-                    MessageBox.Show("Please select the gender!");
-                    return;
-                }
-
-                string CmdString1 = "SELECT * FROM football.udf_department_names(DEFAULT)";
-                SqlCommand cmd = new SqlCommand(CmdString1, con);
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                DataTable dt1 = new DataTable("department_selected");
-                sda.Fill(dt1);
-                string dep = staff_departments.Text;
-
-                foreach (DataRow department in dt1.Rows)
-                {
-                    if (department[0].ToString() == dep)
-                    {
-                        dep_id = department[1].ToString();
-                        break;
-                    }
-                }
-                
-
-                if (!Int32.TryParse(dep_id, out depInt))
-                {
-                    MessageBox.Show("The Department must be valid!");
-                    return;
-                }
-
-                double salary;
-                if (staff_salary.Value == null)
-                {
-                    salary = 0;
-                }
-                else
-                {
-                    salary = (double)staff_salary.Value;
-                }
-
-                // INSERT STAFF
-
-                string CmdString = "football.sp_createStaff";
-                SqlCommand cmd_staff = new SqlCommand(CmdString, con);
-                cmd_staff.CommandType = CommandType.StoredProcedure;
-                cmd_staff.Parameters.AddWithValue("@bi", biInt);
-                cmd_staff.Parameters.AddWithValue("@name", staff_name.Text);
-                cmd_staff.Parameters.AddWithValue("@address", staff_address.Text);
-                cmd_staff.Parameters.AddWithValue("@birth_date", dt);
-                cmd_staff.Parameters.AddWithValue("@nif", nifInt);
-                cmd_staff.Parameters.AddWithValue("@gender", gender);
-                cmd_staff.Parameters.AddWithValue("@nationality", staff_nationality.Text);
-                cmd_staff.Parameters.AddWithValue("@salary", salary);
-                cmd_staff.Parameters.AddWithValue("@department_id", depInt);
-                cmd_staff.Parameters.AddWithValue("@role", staff_role.Text);
-
-                try
-                {
-                    con.Open();
-                    cmd_staff.ExecuteNonQuery();
-                    FillDataGridDepartments(con);
-                    fillStats(con);
-                    FillDataGridStaff(con);
-
-                    con.Close();
-                    MessageBox.Show("The staff has been inserted successfully!");
-
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show(exc.Message);
-                }
-
+                MessageBox.Show("The BI must be an Integer!");
+                return;
+            }
+            if (!Int32.TryParse(staff_nif.Text, out nifInt))
+            {
+                MessageBox.Show("The NIF must be an Integer!");
+                return;
             }
 
+                if (staff_name.Text.Length == 0)
+            {
+                MessageBox.Show("The name can't be blank!");
+                return;
+            }
+            if (staff_address.Text.Length == 0)
+            {
+                MessageBox.Show("The address can't be blank!");
+                return;
+            }
+            if (staff_nationality.Text.Length == 0)
+            {
+                MessageBox.Show("The nationality can't be blank!");
+                return;
+            }
 
+            DateTime dt;
+            if (!DateTime.TryParse(staff_birth_date.Text, out dt))
+            {
+                MessageBox.Show("Please insert a valid date!");
+                return;
+            }
+
+            string gender;
+            if (staff_GenderFemale.IsChecked == true)
+            {
+                gender = "F";
+            }
+            else if (staff_GenderMale.IsChecked == true)
+            {
+                gender = "M";
+            }
+            else
+            {
+                MessageBox.Show("Please select the gender!");
+                return;
+            }
+
+            string CmdString1 = "SELECT * FROM football.udf_department_names(DEFAULT)";
+            SqlCommand cmd = new SqlCommand(CmdString1, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt1 = new DataTable("department_selected");
+            sda.Fill(dt1);
+            string dep = staff_departments.Text;
+
+            foreach (DataRow department in dt1.Rows)
+            {
+                if (department[0].ToString() == dep)
+                {
+                    dep_id = department[1].ToString();
+                    break;
+                }
+            }
+                
+
+            if (!Int32.TryParse(dep_id, out depInt))
+            {
+                MessageBox.Show("The Department must be valid!");
+                return;
+            }
+
+            double salary;
+            if (staff_salary.Value == null)
+            {
+                salary = 0;
+            }
+            else
+            {
+                salary = (double)staff_salary.Value;
+            }
+
+            // INSERT STAFF
+
+            string CmdString = "football.sp_createStaff";
+            SqlCommand cmd_staff = new SqlCommand(CmdString, con);
+            cmd_staff.CommandType = CommandType.StoredProcedure;
+            cmd_staff.Parameters.AddWithValue("@bi", biInt);
+            cmd_staff.Parameters.AddWithValue("@name", staff_name.Text);
+            cmd_staff.Parameters.AddWithValue("@address", staff_address.Text);
+            cmd_staff.Parameters.AddWithValue("@birth_date", dt);
+            cmd_staff.Parameters.AddWithValue("@nif", nifInt);
+            cmd_staff.Parameters.AddWithValue("@gender", gender);
+            cmd_staff.Parameters.AddWithValue("@nationality", staff_nationality.Text);
+            cmd_staff.Parameters.AddWithValue("@salary", salary);
+            cmd_staff.Parameters.AddWithValue("@department_id", depInt);
+            cmd_staff.Parameters.AddWithValue("@role", staff_role.Text);
+
+            try
+            {
+                con.Open();
+                cmd_staff.ExecuteNonQuery();
+                FillDataGridDepartments();
+                fillStats();
+                FillDataGridStaff();
+
+                con.Close();
+                MessageBox.Show("The staff has been inserted successfully!");
+
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
         }
 
         private void Staff_Update(object sender, RoutedEventArgs e)
         {
-            using (con = new SqlConnection(ConString))
+                // --> Validations
+            int biInt, nifInt, depInt;
+                
+            if (!Int32.TryParse(staff_bi.Text, out biInt))
             {
-                 // --> Validations
-                int biInt, nifInt, depInt;
-                
-                if (!Int32.TryParse(staff_bi.Text, out biInt))
-                {
-                    MessageBox.Show("The BI must be an Integer!");
-                    return;
-                }
-                if (!Int32.TryParse(staff_nif.Text, out nifInt))
-                {
-                    MessageBox.Show("The NIF must be an Integer!");
-                    return;
-                }
+                MessageBox.Show("The BI must be an Integer!");
+                return;
+            }
+            if (!Int32.TryParse(staff_nif.Text, out nifInt))
+            {
+                MessageBox.Show("The NIF must be an Integer!");
+                return;
+            }
 
-                 if (staff_name.Text.Length == 0)
-                {
-                    MessageBox.Show("The name can't be blank!");
-                    return;
-                }
-                if (staff_address.Text.Length == 0)
-                {
-                    MessageBox.Show("The address can't be blank!");
-                    return;
-                }
-                if (staff_nationality.Text.Length == 0)
-                {
-                    MessageBox.Show("The nationality can't be blank!");
-                    return;
-                }
+                if (staff_name.Text.Length == 0)
+            {
+                MessageBox.Show("The name can't be blank!");
+                return;
+            }
+            if (staff_address.Text.Length == 0)
+            {
+                MessageBox.Show("The address can't be blank!");
+                return;
+            }
+            if (staff_nationality.Text.Length == 0)
+            {
+                MessageBox.Show("The nationality can't be blank!");
+                return;
+            }
 
-                DateTime dt;
-                if (!DateTime.TryParse(staff_birth_date.Text, out dt))
-                {
-                    MessageBox.Show("Please insert a valid date!");
-                    return;
-                }
+            DateTime dt;
+            if (!DateTime.TryParse(staff_birth_date.Text, out dt))
+            {
+                MessageBox.Show("Please insert a valid date!");
+                return;
+            }
 
-                string gender;
-                if (staff_GenderFemale.IsChecked == true)
-                {
-                    gender = "F";
-                }
-                else if (staff_GenderMale.IsChecked == true)
-                {
-                    gender = "M";
-                }
-                else
-                {
-                    MessageBox.Show("Please select the gender!");
-                    return;
-                }
-                string CmdString1 = "SELECT * FROM football.udf_department_names(DEFAULT)";
-                SqlCommand cmd = new SqlCommand(CmdString1, con);
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                DataTable dt1 = new DataTable("department_selected");
-                sda.Fill(dt1);
-                string dep = staff_departments.Text;
+            string gender;
+            if (staff_GenderFemale.IsChecked == true)
+            {
+                gender = "F";
+            }
+            else if (staff_GenderMale.IsChecked == true)
+            {
+                gender = "M";
+            }
+            else
+            {
+                MessageBox.Show("Please select the gender!");
+                return;
+            }
+            string CmdString1 = "SELECT * FROM football.udf_department_names(DEFAULT)";
+            SqlCommand cmd = new SqlCommand(CmdString1, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt1 = new DataTable("department_selected");
+            sda.Fill(dt1);
+            string dep = staff_departments.Text;
 
-                foreach (DataRow department in dt1.Rows)
+            foreach (DataRow department in dt1.Rows)
+            {
+                if (department[0].ToString() == dep)
                 {
-                    if (department[0].ToString() == dep)
-                    {
-                        dep_id = department[1].ToString();
-                        break;
-                    }
+                    dep_id = department[1].ToString();
+                    break;
                 }
+            }
                 
 
-                if (!Int32.TryParse(dep_id, out depInt))
-                {
-                    MessageBox.Show("The Dpartment must be Valid!");
-                    return;
-                }
+            if (!Int32.TryParse(dep_id, out depInt))
+            {
+                MessageBox.Show("The Dpartment must be Valid!");
+                return;
+            }
 
-                double salary;
-                if (staff_salary.Value == null)
-                {
-                    salary = 0;
-                }
-                else
-                {
-                    salary = (double)staff_salary.Value;
-                }
-
-
-                // UPDATE STAFF
-
-                string CmdString = "football.sp_modifyStaff";
-                SqlCommand cmd_staff = new SqlCommand(CmdString, con);
-                cmd_staff.CommandType = CommandType.StoredProcedure;
-                cmd_staff.Parameters.AddWithValue("@bi", biInt);
-                cmd_staff.Parameters.AddWithValue("@name", staff_name.Text);
-                cmd_staff.Parameters.AddWithValue("@address", staff_address.Text);
-                cmd_staff.Parameters.AddWithValue("@birth_date", dt);
-                cmd_staff.Parameters.AddWithValue("@gender", gender);
-                cmd_staff.Parameters.AddWithValue("@nationality", staff_nationality.Text);
-                cmd_staff.Parameters.AddWithValue("@salary", salary);
-                cmd_staff.Parameters.AddWithValue("@department_id", depInt);
-                cmd_staff.Parameters.AddWithValue("@role", staff_role.Text);
-
-                try
-                {
-                    con.Open();
-                    cmd_staff.ExecuteNonQuery();
-                    FillDataGridDepartments(con);
-                    fillStats(con);
-                    FillDataGridStaff(con);
+            double salary;
+            if (staff_salary.Value == null)
+            {
+                salary = 0;
+            }
+            else
+            {
+                salary = (double)staff_salary.Value;
+            }
 
 
-                    con.Close();
-                    MessageBox.Show("The staff has been updated successfully!");
+            // UPDATE STAFF
 
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show(exc.Message);
-                }
+            string CmdString = "football.sp_modifyStaff";
+            SqlCommand cmd_staff = new SqlCommand(CmdString, con);
+            cmd_staff.CommandType = CommandType.StoredProcedure;
+            cmd_staff.Parameters.AddWithValue("@bi", biInt);
+            cmd_staff.Parameters.AddWithValue("@name", staff_name.Text);
+            cmd_staff.Parameters.AddWithValue("@address", staff_address.Text);
+            cmd_staff.Parameters.AddWithValue("@birth_date", dt);
+            cmd_staff.Parameters.AddWithValue("@gender", gender);
+            cmd_staff.Parameters.AddWithValue("@nationality", staff_nationality.Text);
+            cmd_staff.Parameters.AddWithValue("@salary", salary);
+            cmd_staff.Parameters.AddWithValue("@department_id", depInt);
+            cmd_staff.Parameters.AddWithValue("@role", staff_role.Text);
 
+            try
+            {
+                con.Open();
+                cmd_staff.ExecuteNonQuery();
+                FillDataGridDepartments();
+                fillStats();
+                FillDataGridStaff();
+
+
+                con.Close();
+                MessageBox.Show("The staff has been updated successfully!");
+
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
             }
         }
 
@@ -393,58 +375,55 @@ namespace FootballClub
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
             {
-                using (con = new SqlConnection(ConString))
+                // --> Validations
+                int biInt;
+
+                // bi is number
+                if (!Int32.TryParse(staff_bi.Text, out biInt))
                 {
-                    // --> Validations
-                    int biInt;
+                    MessageBox.Show("The BI must be an Integer!");
+                    return;
+                }
 
-                    // bi is number
-                    if (!Int32.TryParse(staff_bi.Text, out biInt))
-                    {
-                        MessageBox.Show("The BI must be an Integer!");
-                        return;
-                    }
+                // DELETE THE STAFF
 
-                    // DELETE THE STAFF
+                string CmdString = "football.sp_deleteStaff";
+                SqlCommand cmd_staff = new SqlCommand(CmdString, con);
+                cmd_staff.CommandType = CommandType.StoredProcedure;
+                cmd_staff.Parameters.AddWithValue("@bi", biInt);
 
-                    string CmdString = "football.sp_deleteStaff";
-                    SqlCommand cmd_staff = new SqlCommand(CmdString, con);
-                    cmd_staff.CommandType = CommandType.StoredProcedure;
-                    cmd_staff.Parameters.AddWithValue("@bi", biInt);
-
-                    try
-                    {
-                        con.Open();
-                        cmd_staff.ExecuteNonQuery();
-                        FillDataGridDepartments(con);
-                        fillStats(con);
-                        FillDataGridStaff(con);
+                try
+                {
+                    con.Open();
+                    cmd_staff.ExecuteNonQuery();
+                    FillDataGridDepartments();
+                    fillStats();
+                    FillDataGridStaff();
 
 
-                        con.Close();
+                    con.Close();
 
-                        // limpar as text boxs
-                        staff_name.Text = "";
-                        staff_bi.Text = "";
-                        staff_nif.Text = "";
-                        staff_address.Text = "";
-                        staff_departments.Text = "";
-                        staff_role.Text = "";
-                        staff_birth_date.Text = "";
-                        staff_nationality.Text = "";
-                        staff_GenderMale.IsChecked = false;
-                        staff_GenderFemale.IsChecked = false;
-                        staff_salary.Value = 0;
-                        staff_internal_id.Text = "";
-                        MessageBox.Show("The staff has been deleted successfully!");
-
-                    }
-                    catch (Exception exc)
-                    {
-                        MessageBox.Show(exc.Message);
-                    }
+                    // limpar as text boxs
+                    staff_name.Text = "";
+                    staff_bi.Text = "";
+                    staff_nif.Text = "";
+                    staff_address.Text = "";
+                    staff_departments.Text = "";
+                    staff_role.Text = "";
+                    staff_birth_date.Text = "";
+                    staff_nationality.Text = "";
+                    staff_GenderMale.IsChecked = false;
+                    staff_GenderFemale.IsChecked = false;
+                    staff_salary.Value = 0;
+                    staff_internal_id.Text = "";
+                    MessageBox.Show("The staff has been deleted successfully!");
 
                 }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                }
+
             }
         }
 
@@ -468,7 +447,7 @@ namespace FootballClub
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          *  ##########################----------- DEPARTMENT TAB -----------#############################
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-        private void FillDataGridDepartments(SqlConnection con)
+        private void FillDataGridDepartments()
         {
             string CmdString = "SELECT * FROM football.udf_departments(DEFAULT)";
             SqlCommand cmd = new SqlCommand(CmdString, con);
@@ -480,156 +459,141 @@ namespace FootballClub
 
         private void departmentGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            using (con = new SqlConnection(ConString))
+            DataRowView row = (DataRowView)departmentGrid.SelectedItem;
+            string search_id;
+            try
             {
-                DataRowView row = (DataRowView)departmentGrid.SelectedItem;
-                string search_id;
-                try
-                {
-                    search_id = row.Row.ItemArray[1].ToString();
-                }
-                catch(Exception)
-                {
-                    return;
-                }
-                department_id.Text = search_id;
-                string CmdString = "SELECT * FROM football.udf_departments(@department_id)";
-                SqlCommand cmd = new SqlCommand(CmdString, con);
-                cmd.Parameters.AddWithValue("@department_id", search_id);
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable("department");
-                sda.Fill(dt);
-                DataRow r = dt.Rows[0];
-
-                department_id.Text = r["department_id"].ToString();
-                department_name.Text = r["department_name"].ToString();
-                department_address.Text = r["address"].ToString();
-
+                search_id = row.Row.ItemArray[1].ToString();
             }
+            catch(Exception)
+            {
+                return;
+            }
+            department_id.Text = search_id;
+            string CmdString = "SELECT * FROM football.udf_departments(@department_id)";
+            SqlCommand cmd = new SqlCommand(CmdString, con);
+            cmd.Parameters.AddWithValue("@department_id", search_id);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("department");
+            sda.Fill(dt);
+            DataRow r = dt.Rows[0];
 
+            department_id.Text = r["department_id"].ToString();
+            department_name.Text = r["department_name"].ToString();
+            department_address.Text = r["address"].ToString();
         }
 
         private void Department_New(object sender, RoutedEventArgs e)
         {
-            using (con = new SqlConnection(ConString))
+            // validation: name and address can't not be lenght = 0
+            if (department_name.Text.Length == 0)
             {
+                MessageBox.Show("The department name can't be blank!");
+                return;
+            }
 
-                // validation: name and address can't not be lenght = 0
-                if (department_name.Text.Length == 0)
-                {
-                    MessageBox.Show("The department name can't be blank!");
-                    return;
-                }
+            if (department_address.Text.Length == 0)
+            {
+                MessageBox.Show("The department address can't be blank!");
+                return;
+            }
 
-                if (department_address.Text.Length == 0)
-                {
-                    MessageBox.Show("The department address can't be blank!");
-                    return;
-                }
+            string CmdString = "football.sp_createDepartment";
+            SqlCommand cmd_department = new SqlCommand(CmdString, con);
+            cmd_department.CommandType = CommandType.StoredProcedure;
+            cmd_department.Parameters.AddWithValue("@name", department_name.Text);
+            cmd_department.Parameters.AddWithValue("@address", department_address.Text);
 
-                string CmdString = "football.sp_createDepartment";
-                SqlCommand cmd_department = new SqlCommand(CmdString, con);
-                cmd_department.CommandType = CommandType.StoredProcedure;
-                cmd_department.Parameters.AddWithValue("@name", department_name.Text);
-                cmd_department.Parameters.AddWithValue("@address", department_address.Text);
-
-                try
-                {
-                    con.Open();
-                    cmd_department.ExecuteNonQuery();
-                    FillDataGridStaff(con);
-                    fillStats(con);
-                    FillDataGridDepartments(con);
+            try
+            {
+                con.Open();
+                cmd_department.ExecuteNonQuery();
+                FillDataGridStaff();
+                fillStats();
+                FillDataGridDepartments();
 
 
-                    con.Close();
-                    MessageBox.Show("The department has been inserted successfully!");
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show(exc.Message);
-                }
+                con.Close();
+                MessageBox.Show("The department has been inserted successfully!");
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
             }
         }
 
         private void Department_Update(object sender, RoutedEventArgs e)
         {
-            using (con = new SqlConnection(ConString))
+            // --> Validations
+            int idInt;
+
+            // id is number
+            if (!Int32.TryParse(department_id.Text, out idInt))
             {
-                // --> Validations
-                int idInt;
+                MessageBox.Show("The Department ID must be an Integer!");
+                return;
+            }
 
-                // id is number
-                if (!Int32.TryParse(department_id.Text, out idInt))
-                {
-                    MessageBox.Show("The Department ID must be an Integer!");
-                    return;
-                }
+            string CmdString = "football.sp_modifyDepartment";
+            SqlCommand cmd_department = new SqlCommand(CmdString, con);
+            cmd_department.CommandType = CommandType.StoredProcedure;
+            cmd_department.Parameters.AddWithValue("@name", department_name.Text);
+            cmd_department.Parameters.AddWithValue("@department_id", idInt);
 
-                string CmdString = "football.sp_modifyDepartment";
-                SqlCommand cmd_department = new SqlCommand(CmdString, con);
-                cmd_department.CommandType = CommandType.StoredProcedure;
-                cmd_department.Parameters.AddWithValue("@name", department_name.Text);
-                cmd_department.Parameters.AddWithValue("@department_id", idInt);
+            cmd_department.Parameters.AddWithValue("@address", department_address.Text);
 
-                cmd_department.Parameters.AddWithValue("@address", department_address.Text);
-
-                try
-                {
-                    con.Open();
-                    cmd_department.ExecuteNonQuery();
-                    FillDataGridStaff(con);
-                    fillStats(con);
-                    FillDataGridDepartments(con);
+            try
+            {
+                con.Open();
+                cmd_department.ExecuteNonQuery();
+                FillDataGridStaff();
+                fillStats();
+                FillDataGridDepartments();
 
 
-                    con.Close();
-                    MessageBox.Show("The department has been updated successfully!");
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show(exc.Message);
-                }
+                con.Close();
+                MessageBox.Show("The department has been updated successfully!");
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
             }
         }
 
         private void Department_Delete(object sender, RoutedEventArgs e)
         {
-            using (con = new SqlConnection(ConString))
+            // --> Validations
+            int idInt;
+
+            // id is number
+            if (!Int32.TryParse(department_id.Text, out idInt))
             {
-                // --> Validations
-                int idInt;
+                MessageBox.Show("The Department ID must be an Integer!");
+                return;
+            }
+            string CmdString = "football.sp_deleteDepartment";
+            SqlCommand cmd_department = new SqlCommand(CmdString, con);
+            cmd_department.CommandType = CommandType.StoredProcedure;
+            cmd_department.Parameters.AddWithValue("@department_id", idInt);
 
-                // id is number
-                if (!Int32.TryParse(department_id.Text, out idInt))
-                {
-                    MessageBox.Show("The Department ID must be an Integer!");
-                    return;
-                }
-                string CmdString = "football.sp_deleteDepartment";
-                SqlCommand cmd_department = new SqlCommand(CmdString, con);
-                cmd_department.CommandType = CommandType.StoredProcedure;
-                cmd_department.Parameters.AddWithValue("@department_id", idInt);
+            try
+            {
+                con.Open();
+                cmd_department.ExecuteNonQuery();
+                FillDataGridStaff();
+                fillStats();
+                FillDataGridDepartments();
 
-                try
-                {
-                    con.Open();
-                    cmd_department.ExecuteNonQuery();
-                    FillDataGridStaff(con);
-                    fillStats(con);
-                    FillDataGridDepartments(con);
+                department_address.Text = "";
+                department_name.Text = "";
+                department_id.Text = "";
 
-                    department_address.Text = "";
-                    department_name.Text = "";
-                    department_id.Text = "";
-
-                    con.Close();
-                    MessageBox.Show("The department has been deleted successfully!");
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show(exc.Message);
-                }
+                con.Close();
+                MessageBox.Show("The department has been deleted successfully!");
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
             }
         }
 
@@ -643,7 +607,7 @@ namespace FootballClub
         /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          *  ##########################----------- STATS  TAB -----------############################
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-        private void fillStats(SqlConnection con)
+        private void fillStats()
         {
             string CmdString = "SELECT * FROM football.udf_staff_department_stats()";
             SqlCommand cmd = new SqlCommand(CmdString, con);
