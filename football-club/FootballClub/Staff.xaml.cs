@@ -127,7 +127,7 @@ namespace FootballClub
             }
         }
 
-        
+
         private void Staff_New(object sender, RoutedEventArgs e)
         {
             // --> Validations
@@ -197,7 +197,7 @@ namespace FootballClub
                     break;
                 }
             }
-                
+
 
             if (!Int32.TryParse(dep_id, out depInt))
             {
@@ -245,6 +245,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -253,7 +254,7 @@ namespace FootballClub
         {
                 // --> Validations
             int biInt, nifInt, depInt;
-                
+
             if (!Int32.TryParse(staff_bi.Text, out biInt))
             {
                 MessageBox.Show("The BI must be an Integer!");
@@ -317,7 +318,7 @@ namespace FootballClub
                     break;
                 }
             }
-                
+
 
             if (!Int32.TryParse(dep_id, out depInt))
             {
@@ -366,6 +367,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -421,6 +423,7 @@ namespace FootballClub
                 }
                 catch (Exception exc)
                 {
+                    con.Close();
                     MessageBox.Show(exc.Message);
                 }
 
@@ -518,6 +521,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -556,6 +560,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -593,6 +598,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -633,7 +639,7 @@ namespace FootballClub
                 {
                     average_age.Text = counts["result"].ToString();
                 }
-              
+
             }
 
             // number_staff_per_department

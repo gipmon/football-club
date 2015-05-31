@@ -90,7 +90,7 @@ namespace FootballClub
                 TeamsComboBox.Text = row.Row.ItemArray[3].ToString();
 
                 string search_id = row.Row.ItemArray[2].ToString();
-                    
+
                 String CmdString1 = "SELECT * FROM football.udf_courts(@id_court)";
                 SqlCommand cmd1 = new SqlCommand(CmdString1, con);
                 cmd1.Parameters.AddWithValue("@id_court", Convert.ToInt32(search_id));
@@ -186,12 +186,13 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
         private void Practice_Update(object sender, RoutedEventArgs e)
         {
-            
+
             // validation: team_name, id_court can't not be lenght = 0
             if (TeamsComboBox.Text.Length == 0)
             {
@@ -261,12 +262,13 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
         private void Practice_Delete(object sender, RoutedEventArgs e)
         {
-            
+
             if (CourtsComboBox.Text.Length == 0)
             {
                 MessageBox.Show("The court can't be blank!");
@@ -331,6 +333,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -355,7 +358,7 @@ namespace FootballClub
         }
         private void courtsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
             DataRowView row = (DataRowView)courts_grid.SelectedItem;
             string search_id;
             try
@@ -383,7 +386,7 @@ namespace FootballClub
         }
         private void Court_New(object sender, RoutedEventArgs e)
         {
-            
+
             // validation: address can't not be lenght = 0
             if (courts_address.Text.Length == 0)
             {
@@ -408,6 +411,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -439,6 +443,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -479,6 +484,7 @@ namespace FootballClub
                 }
                 catch (Exception exc)
                 {
+                    con.Close();
                     MessageBox.Show(exc.Message);
                 }
             }

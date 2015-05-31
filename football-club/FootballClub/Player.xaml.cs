@@ -87,7 +87,7 @@ namespace FootballClub
                     dt_playerTeams.Rows.Add(workRow);
                 }
             }
-             
+
             // SYNC TEAMS PLAYER
             string CmdString = "football.sp_sync_playerTeams";
             SqlCommand cmd_player = new SqlCommand(CmdString, con);
@@ -283,13 +283,14 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
 
         private void Player_Update(object sender, RoutedEventArgs e)
         {
-            
+
             // --> Validations
             int biInt, fedInt, weightInt, heightInt;
 
@@ -390,6 +391,7 @@ namespace FootballClub
             }
                 catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -442,6 +444,7 @@ namespace FootballClub
                 }
                 catch (Exception exc)
                 {
+                    con.Close();
                     MessageBox.Show(exc.Message);
                 }
 
@@ -680,6 +683,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -780,6 +784,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -831,6 +836,7 @@ namespace FootballClub
                 }
                 catch (Exception exc)
                 {
+                    con.Close();
                     MessageBox.Show(exc.Message);
                 }
             }
@@ -901,7 +907,7 @@ namespace FootballClub
 
         private void teamsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!team_select_enable) 
+            if (!team_select_enable)
             {
                 return;
             }
@@ -931,7 +937,7 @@ namespace FootballClub
             DataTable dt = new DataTable("team");
             sda.Fill(dt);
             DataRow r = dt.Rows[0];
-                
+
             teamName.Text = r["name"].ToString();
             max_age.Value = Convert.ToDouble(r["max_age"].ToString());
         }
@@ -966,6 +972,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -993,6 +1000,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -1022,6 +1030,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -1032,7 +1041,7 @@ namespace FootballClub
             max_age.Value = 0;
         }
 
-        private void ListTeams(object sender, RoutedEventArgs e) 
+        private void ListTeams(object sender, RoutedEventArgs e)
         {
             team_select_enable = true;
             ListTeamsBtn.Visibility = System.Windows.Visibility.Hidden;

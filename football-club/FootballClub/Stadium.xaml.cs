@@ -204,13 +204,14 @@ namespace FootballClub
                 fillStats();
                 FillDataGridSeats();
 
-                    
+
                 con.Close();
                 MessageBox.Show("The seat has been inserted successfully!");
 
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -225,7 +226,7 @@ namespace FootballClub
                 int nSeatInt, sectionidInt;
 
                 // seat number and section id are number
-                    
+
                 if (!Int32.TryParse(seat_number.Text, out nSeatInt))
                 {
                     MessageBox.Show("The Seat Number must be an Integer!");
@@ -292,6 +293,7 @@ namespace FootballClub
                 }
                 catch (Exception exc)
                 {
+                    con.Close();
                     MessageBox.Show(exc.Message);
                 }
             }
@@ -316,7 +318,7 @@ namespace FootballClub
             sda.Fill(dt);
             sectionsGrid.ItemsSource = dt.DefaultView;
         }
-        
+
         private void sectionsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataRowView row = (DataRowView)sectionsGrid.SelectedItem;
@@ -347,7 +349,7 @@ namespace FootballClub
             sections_type.Text = r["section name"].ToString();
         }
 
-        
+
         private void Section_New(object sender, RoutedEventArgs e)
         {
             if (sections_type.Text.Length == 0)
@@ -356,7 +358,7 @@ namespace FootballClub
                 return;
             }
 
-            // INSERT SECTION 
+            // INSERT SECTION
 
             string CmdString = "football.sp_createSection";
             SqlCommand cmd_section = new SqlCommand(CmdString, con);
@@ -377,6 +379,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -422,13 +425,14 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
 
 
         private void Section_Clear(object sender, RoutedEventArgs e)
-        {  
+        {
             // limpar as text boxs
             sections_id.Text = "";
             sections_type.Text = "";
@@ -451,7 +455,7 @@ namespace FootballClub
                     return;
                 }
 
-            
+
                 // DELETE THE SECTION
 
                 string CmdString = "football.sp_deleteSection";
@@ -478,6 +482,7 @@ namespace FootballClub
                 }
                 catch (Exception exc)
                 {
+                    con.Close();
                     MessageBox.Show(exc.Message);
                 }
 
@@ -505,7 +510,7 @@ namespace FootballClub
                 {
                     total_seats.Text = counts["result"].ToString();
                 }
-              
+
             }
 
             // number of seats per section
@@ -524,6 +529,6 @@ namespace FootballClub
             sda.Fill(dt);
             number_of_annual_seats_per_section.ItemsSource = dt.DefaultView;
         }
-        
+
     }
 }

@@ -186,6 +186,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -206,7 +207,7 @@ namespace FootballClub
                 MessageBox.Show("The Shares In Day must be an Integer!");
                 return;
             }
-              
+
             DateTime dt;
             if (!DateTime.TryParse(member_birth_date.Text, out dt))
             {
@@ -258,7 +259,7 @@ namespace FootballClub
             cmd_member.Parameters.AddWithValue("@nationality", member_nationality.Text);
             cmd_member.Parameters.AddWithValue("@shares_value", (double)member_shares_value.Value);
             cmd_member.Parameters.AddWithValue("@shares_in_day", shares_in_dayInt);
-                
+
             try
             {
                 con.Open();
@@ -272,6 +273,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -305,7 +307,7 @@ namespace FootballClub
                     FillDataGridAnnualSeats();
                     fillStats();
                     FillDataGridMembers();
-                        
+
                     con.Close();
 
                     // limpar as text boxs
@@ -324,6 +326,7 @@ namespace FootballClub
                 }
                 catch (Exception exc)
                 {
+                    con.Close();
                     MessageBox.Show(exc.Message);
                 }
             }
@@ -356,7 +359,7 @@ namespace FootballClub
             sda.Fill(dt);
             annualSeatsGrid.ItemsSource = dt.DefaultView;
 
-            
+
             // fill the sections of the stadium
             CmdString = "SELECT * FROM football.udf_sections(DEFAULT)";
             cmd = new SqlCommand(CmdString, con);
@@ -494,7 +497,7 @@ namespace FootballClub
 
         private void AnnualSeat_New(object sender, RoutedEventArgs e)
         {
-            
+
             // --> Validations
             int biInt, nSeatInt, sectionidInt, seasonInt, durationInt;
 
@@ -585,6 +588,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -681,6 +685,7 @@ namespace FootballClub
             }
             catch (Exception exc)
             {
+                con.Close();
                 MessageBox.Show(exc.Message);
             }
         }
@@ -777,6 +782,7 @@ namespace FootballClub
                 }
                 catch (Exception exc)
                 {
+                    con.Close();
                     MessageBox.Show(exc.Message);
                 }
             }
@@ -807,7 +813,7 @@ namespace FootballClub
 
             foreach (DataRow counts in dt.Rows)
             {
-                
+
                 if (counts["name"].ToString() == "average_shares")
                 {
                     average_shares_value.Text = counts["result"].ToString() + "$";
@@ -820,7 +826,7 @@ namespace FootballClub
                 {
                     number_of_annual_seats.Text = counts["result"].ToString();
                 }
-              
+
             }
 
             // number annual seats per season
