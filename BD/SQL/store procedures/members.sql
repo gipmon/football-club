@@ -150,6 +150,7 @@ AS
 	BEGIN TRANSACTION;
 
 	BEGIN TRY
+		DELETE FROM football.annual_seat WHERE bi = @bi;
 		DELETE FROM football.members WHERE bi = @bi;
 		DELETE FROM football.person WHERE bi = @bi;
 		COMMIT TRANSACTION;
