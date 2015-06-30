@@ -9,8 +9,6 @@ Developed by [Rafael Ferreira](mailto:rafael.ferreira@ua.pt) and [Rodrigo Cunha]
 
 ![Football club](https://lh4.googleusercontent.com/WuLqAO7JzWnDnTjNfqheX6SFRXv5QYPDM7z4iUA4xtEI_zNWUVLrtUQo0N1w3GxziRcgP_SRY6ZoVYk=w1256-h509-rw)
 
-Exercícios de preparação para as avaliações, AIP e AF.
-
 ***Deliverables:***
 
 [Football Club - Data Base, Report](https://drive.google.com/file/d/0B2Sn48YZzH0OSjZremRJWERqLXM/view?usp=sharing)
